@@ -1,0 +1,18 @@
+.swiper-pagination {
+  position: absolute;
+  bottom: 200px !important; /* Adjust this value to move closer or further from the bottom */
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.swiper-pagination-bullet {
+  color: white;
+  background: white;
+  opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+  color: #fff;
+  background: #f9703e;
+}
