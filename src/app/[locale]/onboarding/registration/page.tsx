@@ -29,12 +29,11 @@ const formSchema = z.object({
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
   birthDate: z.date(),
-  placeOfBirth: z.string(),
   gender: z.enum(["male", "female"], {
     required_error: "You need to select a notification type.",
   }),
-  weight: z.number(),
-  height: z.number(),
+  weight: z.coerce.number(),
+  height: z.coerce.number(),
 });
 
 export default function Page() {
@@ -44,10 +43,9 @@ export default function Page() {
       firstName: "",
       lastName: "",
       birthDate: new Date(),
-      placeOfBirth: "",
-      gender: "",
+      gender: "male",
       weight: 70,
-      height: 188,
+      height: 170,
     },
   });
 
@@ -58,27 +56,25 @@ export default function Page() {
   }
 
   return (
-    <div className="h-full flex flex-col container mx-auto mt-16">
+    <div className="h-full flex flex-col container max-w-[600px] mx-auto mt-16">
       <h2>Inscription</h2>
       <p className="text-gray-700">
         Partagez vos infos pour un suivi personnalisé.
       </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div className="flex gap-4 mt-16">
+          <div className="flex gap-4 mt-12">
             <div className="w-1/2">
               <FormField
                 control={form.control}
                 name="firstName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>First name</FormLabel>
+                    <FormLabel>
+                      First name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="First name"
-                        className="bg-white"
-                        {...field}
-                      />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -91,9 +87,11 @@ export default function Page() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last name</FormLabel>
+                    <FormLabel>
+                      Last name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="First name" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,13 +100,16 @@ export default function Page() {
             </div>
           </div>
           <div className="flex gap-4 mt-16">
+            {/* birthDate  */}
             <div className="w-1/2">
               <FormField
                 control={form.control}
                 name="birthDate"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="mb-2.5">Date of birth</FormLabel>
+                    <FormLabel className="mb-1">
+                      Date of birth <span className="text-red-500">*</span>
+                    </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -145,17 +146,58 @@ export default function Page() {
                 )}
               />
             </div>
+            {/* gender  */}
             <div className="w-1/2">
               <FormField
                 control={form.control}
-                name="placeOfBirth"
+                name="gender"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>
+                      Genre <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-row space-x-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="male" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Homme</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="female" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Femme</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-4 mt-16">
+            <div className="w-1/2">
+              {/* weight  */}
+              <FormField
+                control={form.control}
+                name="weight"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Place of birth</FormLabel>
+                    <FormLabel>
+                      Weight (kg) <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        className="bg-white"
-                        placeholder="Place of birth"
+                        placeholder="Weight (kg)"
+                        type="number"
                         {...field}
                       />
                     </FormControl>
@@ -164,39 +206,32 @@ export default function Page() {
                 )}
               />
             </div>
+            <div className="w-1/2">
+              {/* height  */}
+              <FormField
+                control={form.control}
+                name="height"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Height (cm) <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormLabel>Genre</FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-row space-x-1"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="all" />
-                      </FormControl>
-                      <FormLabel className="font-normal">Homme</FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
-                      <FormControl>
-                        <RadioGroupItem value="mentions" />
-                      </FormControl>
-                      <FormLabel className="font-normal">Femme</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="w-full flex  justify-end">
+            <Button type="submit" className="w-1/3">
+              Suivant
+            </Button>
+          </div>
 
-          <Button type="submit">Submit</Button>
+          <div></div>
         </form>
       </Form>
     </div>

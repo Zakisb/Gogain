@@ -7,7 +7,7 @@ import OnboardingFooter from "./_components/OnboardingFooter";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="h-screen flex  bg-slate-100 ">
+    <div className="h-screen flex">
       <div className="w-1/2 flex flex-col h-screen">
         <OnboardingHeader />
         <div className="grow">{children}</div>
