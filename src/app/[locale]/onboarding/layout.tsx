@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode } from "react";
 import OnboardingSwiper from "./_components/OnboardingSwiper";
 import OnboardingHeader from "./_components/OnboardingHeader";
