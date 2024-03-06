@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Be_Vietnam_Pro } from "next/font/google";
 import i18nConfig from "../../i18nConfig";
 import { unstable_setRequestLocale } from "next-intl/server";
+import { NextIntlClientProvider, useMessages } from "next-intl";
 
 const BeVietnamPro = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700"],
@@ -28,9 +29,15 @@ export default function RootLayout({
   params: { locale: string };
 }>) {
   unstable_setRequestLocale(locale);
+  const messages = useMessages();
+
   return (
     <html lang={locale}>
-      <body className={BeVietnamPro.className}>{children}</body>
+      <body className={BeVietnamPro.className}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
+      </body>
     </html>
   );
 }

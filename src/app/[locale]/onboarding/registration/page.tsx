@@ -1,6 +1,8 @@
 "use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter, usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
@@ -24,21 +26,33 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const formSchema = z.object({
-  firstName: z.string().min(2).max(50),
-  lastName: z.string().min(2).max(50),
-  birthDate: z.date(),
-  gender: z.enum(["male", "female"], {
-    required_error: "You need to select a notification type.",
-  }),
-  weight: z.coerce.number(),
-  height: z.coerce.number(),
-});
+import { locales } from "@/constants/locales.constant";
 
 export default function Page() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const t = useTranslations("Onboarding.Registration");
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1];
+
+  const formSchema = yup.object({
+    firstName: yup.string().required(t("form.fields.firstName.required")),
+    lastName: yup.string().required(t("form.fields.lastName.required")),
+    birthDate: yup.date().required(t("form.fields.birthDate.required")),
+    gender: yup.string(),
+    weight: yup
+      .number()
+      .positive(t("form.fields.weight.positive"))
+      .typeError(t("form.fields.weight.invalid"))
+      .required(t("form.fields.weight.required")),
+    height: yup
+      .number()
+      .positive(t("form.fields.height.positive"))
+      .typeError(t("form.fields.height.invalid"))
+      .required(t("form.fields.height.required")),
+  });
+
+  const form = useForm({
+    resolver: yupResolver(formSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -49,18 +63,25 @@ export default function Page() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  type LoginFormFields = yup.InferType<typeof formSchema>;
+
+  const onSubmit = async (values: LoginFormFields) => {
     console.log(values);
-  }
+    const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+
+    router.push("/onboarding/goal");
+  };
 
   return (
-    <div className="h-full flex flex-col container max-w-[600px] mx-auto mt-16">
-      <h2>Inscription</h2>
-      <p className="text-gray-700">
-        Partagez vos infos pour un suivi personnalisé.
-      </p>
+    <div className="flex flex-col container  mx-auto mt-16">
+      <h2>{t("title")}</h2>
+      <p className="text-gray-700">{t("description")}</p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="flex gap-4 mt-12">
@@ -71,7 +92,8 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      First name <span className="text-red-500">*</span>
+                      {t("form.fields.firstName.label")}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input {...field} />
@@ -88,7 +110,8 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Last name <span className="text-red-500">*</span>
+                      {t("form.fields.lastName.label")}{" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input {...field} />
@@ -108,7 +131,8 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="mb-1">
-                      Date of birth <span className="text-red-500">*</span>
+                      {t("form.fields.birthDate.label")}{" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
@@ -121,9 +145,14 @@ export default function Page() {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(field.value, "PPP", {
+                                locale: locales[locale],
+                              })
                             ) : (
-                              <span>Pick a date</span>
+                              <span>
+                                {" "}
+                                {t("form.fields.birthDate.placeholder")}
+                              </span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -132,12 +161,12 @@ export default function Page() {
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
+                          captionLayout="dropdown-buttons"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          initialFocus
+                          fromYear={1930}
+                          toYear={new Date().getFullYear()}
+                          locale={locales[locale]}
                         />
                       </PopoverContent>
                     </Popover>
@@ -154,7 +183,8 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel>
-                      Genre <span className="text-red-500">*</span>
+                      {t("form.fields.gender.label")}{" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
@@ -166,13 +196,19 @@ export default function Page() {
                           <FormControl>
                             <RadioGroupItem value="male" />
                           </FormControl>
-                          <FormLabel className="font-normal">Homme</FormLabel>
+                          <FormLabel className="font-normal">
+                            {" "}
+                            {t("form.fields.gender.options.male")}{" "}
+                          </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="female" />
                           </FormControl>
-                          <FormLabel className="font-normal">Femme</FormLabel>
+                          <FormLabel className="font-normal">
+                            {" "}
+                            {t("form.fields.gender.options.female")}{" "}
+                          </FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -192,14 +228,11 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Weight (kg) <span className="text-red-500">*</span>
+                      {t("form.fields.weight.label")} (kg){" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Weight (kg)"
-                        type="number"
-                        {...field}
-                      />
+                      <Input type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -214,7 +247,8 @@ export default function Page() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Height (cm) <span className="text-red-500">*</span>
+                      {t("form.fields.height.label")} (cm){" "}
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
@@ -227,7 +261,7 @@ export default function Page() {
           </div>
           <div className="w-full flex  justify-end">
             <Button type="submit" className="w-1/3">
-              Suivant
+              {t("form.submission.submit")}
             </Button>
           </div>
 

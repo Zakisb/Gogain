@@ -12,7 +12,7 @@ import "@/styles/custom.css";
 
 const OnboardingFooter = () => {
   return (
-    <div className="px-16 py-8 borde ">
+    <div className="px-16 py-6 borde ">
       <p className="text-gray-400">© 2024 GoGain. Tous droits réservés</p>
     </div>
   );

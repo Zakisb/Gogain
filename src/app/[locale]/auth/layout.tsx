@@ -1,5 +1,3 @@
-"use client";
-
 import { ReactNode } from "react";
 
 // import 'react-toastify/dist/ReactToastify.min.css'

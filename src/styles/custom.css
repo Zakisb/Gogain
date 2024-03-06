@@ -16,3 +16,18 @@
   color: #fff;
   background: #f9703e;
 }
+
+/* auth swiper  */
+.auth-swiper .swiper-pagination {
+  bottom: 0px !important; /* Adjust this value to move closer or further from the bottom */
+}
+
+.auth-swiper .swiper-pagination-bullet {
+  background: black;
+  opacity: 0.2;
+}
+
+.auth-swiper .swiper-pagination-bullet-active {
+  background: red;
+  opacity: 1;
+}

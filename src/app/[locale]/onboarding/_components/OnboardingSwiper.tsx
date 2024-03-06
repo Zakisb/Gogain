@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-
+import { useTranslations } from "next-intl";
 import misc from "/public/assets/images/misc/pattern.png";
 
 // styles
@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 import "@/styles/custom.css";
 
 const OnboardingSwiper = () => {
+  const t = useTranslations("Onboarding.Swiper");
   return (
     <div className="h-full relative">
       <Image
@@ -33,22 +34,17 @@ const OnboardingSwiper = () => {
         <SwiperSlide className="onboarding-swiper-1">
           <div className="flex flex-col justify-end h-full">
             <div className="bg-black w-full  text-white h-44 px-40 py-10">
-              <h3 className="mx-auto">
-                Débloquez votre potentiel bien-être au travail.
-              </h3>
+              <h3 className="mx-auto">{t("slideOne")}</h3>
             </div>
           </div>
         </SwiperSlide>
         <SwiperSlide className="onboarding-swiper-2">
           <div className="flex flex-col justify-end h-full">
             <div className="bg-black w-full  text-white h-44 px-40 py-10">
-              <h3 className="mx-auto">
-                Votre vers une meilleure santé commence ici.
-              </h3>
+              <h3 className="mx-auto">{t("slideTwo")}</h3>
             </div>
           </div>
         </SwiperSlide>
-        {/* <SwiperSlide className="onboarding-swiper-2"></SwiperSlide> */}
         <div className="swiper-pagination" />
       </Swiper>
     </div>

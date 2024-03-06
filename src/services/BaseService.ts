@@ -16,7 +16,6 @@ const BaseService = async (url: string, options: any = {}) => {
   if (!response.ok) {
     throw new Error(`Fetch request failed: ${response.status}`);
   }
-
   return response.json();
 };
 

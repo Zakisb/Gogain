@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
-import { cn } from "@/helpers";
+import { cn } from "@/lib/utils";
 const AuthSwiper = dynamic(() => import("./_components/AuthSwiper"));
 
 //images

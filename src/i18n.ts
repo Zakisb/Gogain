@@ -7,6 +7,10 @@ export default getRequestConfig(async ({ locale }) => {
   if (!i18nConfig.locales.includes(locale as any)) notFound();
 
   return {
-    messages: (await import(`./locales/${locale}/translation.json`)).default,
+    messages: {
+      ...(await import(`./locales/${locale}/translation.json`)).default,
+      ...(await import(`./locales/${locale}/onboarding.json`)).default,
+      ...(await import(`./locales/${locale}/auth.json`)).default,
+    },
   };
 });

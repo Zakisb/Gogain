@@ -1,0 +1,40 @@
+{
+  "Registration": {
+    "title": "Registration",
+    "description": "Share your information for personalized tracking.",
+    "form": {
+      "fields": {
+        "firstName": {
+          "label": "Username",
+          "placeholder": "Username"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Last Name"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Email"
+        },
+        "birthDate": {
+          "label": "Date of Birth",
+          "placeholder": "Date of Birth"
+        },
+        "gender": {
+          "label": "Gender"
+        },
+        "weight": {
+          "label": "Weight",
+          "placeholder": "Weight"
+        },
+        "height": {
+          "label": "Height",
+          "placeholder": "Height"
+        }
+      },
+      "submission": {
+        "cta": "Next"
+      }
+    }
+  }
+}

@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import { useTranslations } from "next-intl";
 
 import sass1 from "/public/assets/images/hero/saas1.jpg";
 import sass2 from "/public/assets/images/hero/saas2.jpg";
@@ -10,8 +11,10 @@ import sass3 from "/public/assets/images/hero/saas3.jpg";
 // styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "@/styles/custom.css";
 
 const AuthSwiper = () => {
+  const t = useTranslations("AuthSwiper");
   return (
     <Swiper
       modules={[Autoplay, Pagination]}
@@ -19,10 +22,11 @@ const AuthSwiper = () => {
         clickable: true,
       }}
       autoplay={{
-        delay: 2500,
+        delay: 9500,
         disableOnInteraction: false,
       }}
-      loop
+      loop={false}
+      className="auth-swiper"
     >
       <SwiperSlide>
         <div className="swiper-slide-content">
@@ -37,11 +41,10 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              Manage your saas business with ease
+              {t("slideOne.title")}
             </h5>
             <p className="text-sm/[1.6] text-gray-500 mb-4">
-              Make your saas application stand out with high-quality landing
-              page designed and developed by professional.
+              {t("slideOne.description")}
             </p>
           </div>
         </div>
@@ -59,11 +62,10 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              The best way to showcase your mobile app
+              {t("slideTwo.title")}
             </h5>
             <p className="text-sm/[1.6] text-gray-500">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium.
+              {t("slideTwo.description")}
             </p>
           </div>
         </div>
@@ -81,16 +83,15 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              Smart Solution that convert Lead to Customer
+              {t("slideThree.title")}
             </h5>
             <p className="text-sm/[1.6] text-gray-500">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium.
+              {t("slideThree.description")}
             </p>
           </div>
         </div>
       </SwiperSlide>
-      <div className="swiper-pagination !bottom-0" />
+      <div className="swiper-pagination-auth bg-red-500" />
     </Swiper>
   );
 };

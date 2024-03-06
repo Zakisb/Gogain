@@ -1,0 +1,253 @@
+{
+  "Onboarding": {
+    "Registration": {
+      "title": "Inscription",
+      "description": "Partagez vos infos pour un suivi personnalisé.",
+      "form": {
+        "fields": {
+          "firstName": {
+            "label": "Prénom",
+            "placeholder": "Prénom",
+            "required": "Le prénom est obligatoire"
+          },
+          "lastName": {
+            "label": "Nom",
+            "placeholder": "Nom",
+            "required": "Le nom est obligatoire"
+          },
+          "email": {
+            "label": "Email",
+            "placeholder": "Email",
+            "required": "L'adresse email est requise",
+            "invalid": "Addresse mail invalide"
+          },
+          "birthDate": {
+            "label": "Date de naissance",
+            "placeholder": "Date de naissance",
+            "required": "La date de naissance est requise"
+          },
+          "gender": {
+            "label": "Sexe",
+            "required": "Le genre est requis",
+            "options": {
+              "male": "Homme",
+              "female": "Femme"
+            }
+          },
+          "weight": {
+            "label": "Poids",
+            "placeholder": "Poids",
+            "required": "Votre poids est requise",
+            "invalid": "Veuillez saisir un poids valide",
+            "positive": "Le poids doit être un nombre positive"
+          },
+          "height": {
+            "label": "Taille",
+            "placeholder": "Taille",
+            "required": "Votre taille est requise",
+            "invalid": "Veuillez saisir une taille valide",
+            "positive": "La taille doit être un nombre positive"
+          }
+        },
+        "submission": {
+          "submit": "Suivant"
+        }
+      }
+    },
+    "Goal": {
+      "title": "Quel est votre objectif ?",
+      "description": "Choisissez un objectif pour personnaliser votre programme.",
+      "form": {
+        "fields": {
+          "type": {
+            "label": "Je voudrais...",
+            "required": "L'objectif est requis",
+            "options": {
+              "weightLoss": "Perdre du poids",
+              "muscleGain": "Prendre du muscle"
+            }
+          },
+          "duration": {
+            "label": "Je voudrais atteindre mon objectif en...",
+            "required": "La durée est requise",
+            "options": {
+              "1": "1 mois",
+              "2": "2 mois",
+              "3": "3 mois",
+              "6": "6 mois",
+              "12": "12 mois"
+            },
+            "description": "à noter que ces durées sont des estimations et peuvent varier selon l'individualité de chacun."
+          }
+        },
+        "submission": {
+          "submit": "Suivant"
+        }
+      }
+    },
+    "GeneralHabits": {
+      "title": "Habitudes générales",
+      "description": "Partagez vos habitudes pour un suivi personnalisé.",
+      "form": {
+        "fields": {
+          "activityLevel": {
+            "label": "Niveau d'activité",
+            "required": "Le niveau d'activité est requis",
+            "options": {
+              "sedentary": "Sédentaire",
+              "light": "Légère",
+              "moderate": "Modérée",
+              "active": "Active",
+              "veryActive": "Très active"
+            }
+          },
+          "sleepDuration": {
+            "label": "Combien d’heure en moyenne dormez-vous par nuit ?",
+            "required": "La durée de sommeil est requise",
+            "options": {
+              "lessThan5": "Moins de 5 heures",
+              "between5And7": "Entre 5 et 7 heures",
+              "between7And9": "Entre 7 et 9 heures",
+              "moreThan9": "Plus de 9 heures"
+            }
+          },
+          "stressLevel": {
+            "label": "Niveau de stress",
+            "required": "Le niveau de stress est requis",
+            "options": {
+              "low": "Faible",
+              "moderate": "Modéré",
+              "high": "Élevé"
+            }
+          },
+          "alcoholConsumption": {
+            "label": "Consommation d'alcool",
+            "required": "La consommation d'alcool est requise",
+            "options": {
+              "never": "Jamais",
+              "rarely": "Rarement",
+              "sometimes": "Parfois",
+              "often": "Souvent"
+            }
+          },
+          "smokingHabit": {
+            "label": "Tabagisme",
+            "required": "Le tabagisme est requis",
+            "options": {
+              "never": "Jamais",
+              "rarely": "Rarement",
+              "sometimes": "Parfois",
+              "often": "Souvent"
+            }
+          }
+        },
+        "submission": {
+          "submit": "Suivant"
+        }
+      }
+    },
+    "LifeStyleHabits": {
+      "title": "Habitudes de vie",
+      "description": "Partagez vos habitudes quotidiennes pour un suivi personnalisé.",
+      "form": {
+        "fields": {
+          "screenTime": {
+            "label": "Combien de temps passez-vous devant un écran par jour ?",
+            "required": "La durée devant un écran est requise",
+            "options": {
+              "lessThan2": "Moins de 2 heures",
+              "between2And4": "Entre 2 et 4 heures",
+              "between4And6": "Entre 4 et 6 heures",
+              "moreThan6": "Plus de 6 heures"
+            }
+          },
+          "sittingHours": {
+            "label": "Combien d’heure en moyenne êtes-vous assis par jour ?",
+            "required": "La durée est requise",
+            "options": {
+              "lessThan4": "Moins de 4 heures",
+              "between4And8": "Entre 4 et 8 heures",
+              "between8And12": "Entre 8 et 12 heures",
+              "moreThan12": "Plus de 12 heures"
+            }
+          },
+          "smoking": {
+            "label": "Êtes-vous fumeur ?",
+            "options": {
+              "yes": "Oui",
+              "no": "Non"
+            }
+          },
+          "alcohol": {
+            "label": "Combien de fois buvez-vous de l'alcool par semaine ?",
+            "required": "La fréquence de consommation d'alcool est requise",
+            "options": {
+              "onceAWeek": "Une fois par semaine",
+              "twiceAWeek": "Deux fois par semaine",
+              "threeTimesAWeek": "Trois fois par semaine",
+              "fourTimesAWeek": "Quatre fois par semaine"
+            }
+          }
+        },
+        "submission": {
+          "submit": "Suivant"
+        }
+      }
+    },
+    "HealthHistory": {
+      "title": "Antécédents et Santé Actuelle",
+      "description": "Partagez vos antécédents médicaux pour un suivi personnalisé.",
+      "form": {
+        "fields": {
+          "surgery": {
+            "label": "Avez-vous déjà été opéré ?",
+            "required": "Les antécédents familiaux sont requis",
+            "zone": {
+              "label": "Zone",
+              "placeholder": "Veuillez mentionner la zone"
+            },
+            "options": {
+              "yes": "Oui",
+              "no": "Non"
+            }
+          },
+          "injury": {
+            "label": "Avez-vous déjà été blessé de manière significative?",
+            "zone": {
+              "label": "Zone",
+              "placeholder": "Veuillez mentionner la zone"
+            },
+            "options": {
+              "yes": "Oui",
+              "no": "Non"
+            }
+          },
+          "medication": {
+            "label": "Prenez-vous des médicaments ?",
+            "required": "Les médicaments sont requis",
+            "zone": {
+              "label": "Médicament",
+              "placeholder": "Veuillez mentionner les médicaments"
+            },
+            "options": {
+              "yes": "Oui",
+              "no": "Non"
+            }
+          }
+        },
+        "submission": {
+          "submit": "Suivant"
+        }
+      }
+    },
+    "Congratulations": {
+      "title": "Félicitations !",
+      "description": "Notre IA analyse vos données pour personnaliser votre programme de santé. Votre parcours personnalisé est sur le point de débuter....."
+    },
+    "Swiper": {
+      "slideOne": "Débloquez votre potentiel bien-être au travail.",
+      "slideTwo": "Votre vers une meilleure santé commence ici.",
+      "slideThree": "Habitudes générales"
+    }
+  }
+}
