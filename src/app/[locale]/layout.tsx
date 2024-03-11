@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/sonner";
 
 import { Be_Vietnam_Pro } from "next/font/google";
 import i18nConfig from "../../i18nConfig";
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className={BeVietnamPro.className}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <Toaster position="top-right" />
         </NextIntlClientProvider>
       </body>
     </html>

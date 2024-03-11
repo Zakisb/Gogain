@@ -30,5 +30,40 @@ model User {
   generalLifestyleHealthHabits  Json?
   dailyEnvironmentHabits  Json?
   historyCurrentHealth  Json?
+  role      Role    @default(EMPLOYEE)
+  organizationId                Int?          // Links to the Organization model
+  organization                  Organization? @relation(fields: [organizationId], references: [id])
 }
 
+model LicenseType {
+  id              Int       @id @default(autoincrement())
+  name            String
+  numberOfUsers   Int
+  licenses        License[]
+  price           Float
+}
+
+model License {
+  id              Int           @id @default(autoincrement())
+  licenseKeyId    Int
+  licenseType     LicenseType   @relation(fields: [licenseKeyId], references: [id])
+  organizationId  Int
+  organization    Organization  @relation(fields: [organizationId], references: [id])
+  createdAt       DateTime      @default(now())
+  validUntil      DateTime
+}
+
+model Organization {
+  id        Int    @id @default(autoincrement())
+  name      String
+  licenses  License[]
+  users     User[]
+}
+
+
+// Define the Role enum
+enum Role {
+  ADMIN
+  HR_REPRESENTATIVE
+  EMPLOYEE
+}

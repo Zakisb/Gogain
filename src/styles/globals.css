@@ -94,6 +94,13 @@
   background-size: cover;
   background-position: center;
 }
+
+.onboarding-swiper-3 {
+  background-image: url("/assets/images/onboarding/bg-3.png");
+  background-size: cover;
+  background-position: center top;
+}
+
 .rdp-vhidden {
   @apply hidden;
 }

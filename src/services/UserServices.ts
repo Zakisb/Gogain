@@ -1,8 +1,8 @@
-import ApiService from "./ApiService";
+import FetchService from "./FetchService";
+import { ApiResponse } from "@/types/baseService";
 
-export async function apiUpdateUser<T>() {
-  return ApiService.fetchData<T>({
-    url: "/project/scrum-board/boards",
-    method: "post",
-  });
-}
+export const apiGetNotificationCount = async (): Promise<
+  ApiResponse<{ count: number }>
+> => {
+  return FetchService("/notification/count", { method: "GET" });
+};

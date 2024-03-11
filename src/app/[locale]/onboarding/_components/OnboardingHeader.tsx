@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 
-import logo from "/public/assets/images/logo-dark.png";
+import logo from "@/assets/images/logo/logo-dark.png";
 
 // styles
 import "swiper/css";

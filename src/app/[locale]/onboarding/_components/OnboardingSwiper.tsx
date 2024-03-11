@@ -45,6 +45,13 @@ const OnboardingSwiper = () => {
             </div>
           </div>
         </SwiperSlide>
+        <SwiperSlide className="onboarding-swiper-3">
+          <div className="flex flex-col justify-end h-full">
+            <div className="bg-black w-full  text-white h-44 px-40 py-10">
+              <h3 className="mx-auto">{t("slideThree")}</h3>
+            </div>
+          </div>
+        </SwiperSlide>
         <div className="swiper-pagination" />
       </Swiper>
     </div>
