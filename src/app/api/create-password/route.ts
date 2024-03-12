@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
+import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -21,10 +22,18 @@ export async function POST(request: NextRequest) {
 // generate PUT request
 export async function PUT(request: NextRequest) {
   const body = await request.json();
+  // add function later to verify token
+
+  console.log(body);
+  const hashedPassword = await bcrypt.hash(body.password, 10);
+
   const user = await prisma.user.update({
-    where: { id: 1 },
-    data: { ...body },
+    where: { resetToken: body.resetToken },
+    data: { password: hashedPassword },
   });
 
-  return NextResponse.json(user, { status: 201 });
+  return NextResponse.json(
+    { message: "successfully updated" },
+    { status: 201 }
+  );
 }

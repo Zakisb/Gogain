@@ -21,7 +21,7 @@ export default function GeneralHealthHabits() {
 
   const redirectToAnotherPage = () => {
     setTimeout(() => {
-      //   router.push("/another-page");
+      router.push("/licenses");
     }, 5000); // Redirects after 5 seconds
   };
 

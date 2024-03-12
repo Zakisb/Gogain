@@ -9,7 +9,6 @@ import { SignInCredential } from "@/types/auth";
 // import { toast } from "react-toastify";
 
 export default function useAuth() {
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const login = async (values: SignInCredential) => {
@@ -32,5 +31,19 @@ export default function useAuth() {
     // setLoading(false);
   };
 
-  return { loading, login };
+  const register = async (values: any) => {
+    try {
+    } catch (error) {
+      console.log(error);
+    }
+    return await fetch(`/api/users/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
+  };
+
+  return { login, register };
 }

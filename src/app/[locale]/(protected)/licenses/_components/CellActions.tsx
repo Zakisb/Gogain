@@ -1,19 +1,19 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import toast from "react-hot-toast";
-// import { api } from "@/utils/api";
 import { Button } from "@/components/ui/button";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import { apiDeleteLicense } from "@/services/LicenseServices";
 import { Pencil, Trash2 } from "lucide-react";
-// import { AlertModal } from "@/components/common/alert-modal";
+import { AlertModal } from "@/components/shared/AlertModal";
 import { type LicenseColumn } from "@/lib/validators";
+import { toast } from "sonner";
 
 interface CellActionProps {
   data: LicenseColumn;
@@ -23,20 +23,20 @@ export default function CellActions({ data }: CellActionProps) {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState(false);
 
-  //   const { refetch } = api.employee.getAll.useQuery(undefined, {
-  //     enabled: false,
-  //   });
-
-  //   const { mutate: deleteEmployee, isLoading: deleteEmployeeIsLoading } =
-  //     api.employee.delete.useMutation({
-  //       onError: (err) => {
-  //         toast.error(err.message);
-  //       },
-  //       onSuccess: async (data) => {
-  //         toast.success("Delete Employee success");
-  //         await refetch();
-  //       },
-  //     });
+  const deleteEmployee = async (id: string) => {
+    toast.promise(apiDeleteLicense(id), {
+      loading: "Loading",
+      success: (data) => {
+        setAlertModalOpen(false);
+        router.refresh();
+        return `Success! License has been updated.`;
+      },
+      error: (data) => {
+        return "error";
+      },
+    });
+    router.refresh();
+  };
 
   return (
     <div className="flex justify-center space-x-2">
@@ -75,20 +75,19 @@ export default function CellActions({ data }: CellActionProps) {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Delete employee</p>
+            <p>Delete license</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
 
-      {/* <AlertModal
+      <AlertModal
         title="Are you sure?"
         description="This action cannot be undone."
-        name={data.firstName}
+        name={data.name}
         isOpen={alertModalOpen}
         onClose={() => setAlertModalOpen(false)}
-        onConfirm={() => deleteEmployee(data.id)}
-        loading={deleteEmployeeIsLoading}
-      /> */}
+        onConfirm={() => deleteEmployee(data.id.toString())}
+      />
     </div>
   );
 }

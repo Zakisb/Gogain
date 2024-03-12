@@ -16,8 +16,8 @@ datasource db {
 
 model User {
   id            Int           @id @default(autoincrement())
-  firstName     String
-  lastName      String
+  firstName     String?
+  lastName      String?
   email         String        @unique
   password      String?
   birthDate     DateTime?
@@ -33,7 +33,12 @@ model User {
   role      Role    @default(EMPLOYEE)
   organizationId                Int?          // Links to the Organization model
   organization                  Organization? @relation(fields: [organizationId], references: [id])
+  deleted        Boolean   @default(false)
+  resetToken     String? @unique
+  resetTokenExpiry BigInt?
 }
+
+
 
 model LicenseType {
   id              Int       @id @default(autoincrement())
@@ -41,6 +46,8 @@ model LicenseType {
   numberOfUsers   Int
   licenses        License[]
   price           Float
+  deleted        Boolean   @default(false)
+  
 }
 
 model License {
@@ -51,6 +58,8 @@ model License {
   organization    Organization  @relation(fields: [organizationId], references: [id])
   createdAt       DateTime      @default(now())
   validUntil      DateTime
+  deleted        Boolean   @default(false)
+  status      Status    @default(PENDING) 
 }
 
 model Organization {
@@ -58,6 +67,8 @@ model Organization {
   name      String
   licenses  License[]
   users     User[]
+  deleted        Boolean   @default(false)
+  industry        String
 }
 
 
@@ -66,4 +77,14 @@ enum Role {
   ADMIN
   HR_REPRESENTATIVE
   EMPLOYEE
+}
+
+// Define the Status enum
+
+enum Status {
+  ACTIVE
+  PENDING
+  INACTIVE
+  SUSPENDED
+  EXPIRED
 }

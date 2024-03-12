@@ -18,12 +18,9 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { ErrorMessage } from "@/components/ui/error-message";
 import { Button } from "@/components/ui/button";
-import { apiCreateLicense } from "@/services/LicenseServices";
+import { apiCreateLicense, apiUpdateLicense } from "@/services/LicenseServices";
 import { toast } from "sonner";
 import useTimeOutMessage from "@/hooks/useTimeOutMessage";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { set } from "date-fns";
 
 interface NewLicenseType extends Omit<LicenseType, "id"> {}
 
@@ -57,6 +54,21 @@ const LicensesForm = ({ initialData }: EmployeeFormProps) => {
   const onSubmit = async (values: LicenseFormFields) => {
     setSubmitting(true);
     if (initialData) {
+      toast.promise(apiUpdateLicense(values), {
+        loading: "Loading",
+        success: (data) => {
+          router.back();
+          router.refresh();
+          return `Success! License has been updated.`;
+        },
+        error: (data) => {
+          setError(data?.message);
+          return "error";
+        },
+        finally: () => {
+          setSubmitting(false);
+        },
+      });
     } else {
       toast.promise(apiCreateLicense(values), {
         loading: "Loading",

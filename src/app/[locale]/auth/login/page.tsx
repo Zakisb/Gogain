@@ -7,7 +7,7 @@ import { EnterIcon } from "@radix-ui/react-icons";
 
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import AuthLayout from "../AuthLayout";
+import AuthLayout from "../_components/AuthLayout";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -22,7 +22,7 @@ import useAuth from "@/hooks/useAuth";
 
 export default function Login() {
   const t = useTranslations("Login");
-  const { login, loading } = useAuth();
+  const { login } = useAuth();
 
   const loginFormSchema = z.object({
     email: z

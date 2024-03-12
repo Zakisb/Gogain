@@ -1,5 +1,3 @@
-// generate post request for apiUpdateUser for the user route in my api route handlers
-
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 
@@ -24,7 +22,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const licenses = await prisma.licenseType.findMany();
+    const licenses = await prisma.licenseType.findMany({
+      where: {
+        deleted: false,
+      },
+    });
     return NextResponse.json(licenses, { status: 201 });
   } catch (error) {
     return NextResponse.json(

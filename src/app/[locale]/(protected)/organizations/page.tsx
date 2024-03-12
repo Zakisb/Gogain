@@ -5,6 +5,7 @@ import { DataTable } from "@/components/ui/data-table/data-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type EmployeeColumn } from "@/lib/validators";
+import OrganizationsActions from "./_components/OrganizationsActions";
 // import { CellAction } from "./cell-action";
 
 const columns: ColumnDef<EmployeeColumn>[] = [
@@ -62,13 +63,7 @@ const columns: ColumnDef<EmployeeColumn>[] = [
 export default function Page() {
   return (
     <>
-      <div className="flex items-center justify-between">
-        <SectionHeading
-          title="Organizations"
-          description="Manage organizations' licenses and permissions."
-        />
-        <Button>Assign New</Button>
-      </div>
+      <OrganizationsActions />
       <Separator />
       <div>
         <DataTable columns={columns} data={[]} />

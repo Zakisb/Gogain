@@ -3,10 +3,10 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-const AuthSwiper = dynamic(() => import("./_components/AuthSwiper"));
+const AuthSwiper = dynamic(() => import("./AuthSwiper"));
 
 //images
-import logoDark from "/public/assets/images/logo-dark.png";
+import logoDark from "@/assets/images/logo/logo-dark.png";
 
 type AccountLayoutProps = {
   authTitle?: string;
