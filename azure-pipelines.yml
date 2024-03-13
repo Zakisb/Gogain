@@ -12,7 +12,7 @@ steps:
 
 - task: vercel-deployment-task@1
   inputs:
-    vercelProjectId: 'prj_ZqHjA8BG6gG2XV6x2QiqX4RFTovU'
+    vercelProjectId: 'prj_QDoHobTNU0iH9ynJURF0DE8GpcAx'
     vercelOrgId: 'yMTJOTaXUwAyspJVmFJTXBa0' 
     vercelToken: $(VERCEL_TOKEN)
     production: true
