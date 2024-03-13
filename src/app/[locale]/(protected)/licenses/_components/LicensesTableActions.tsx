@@ -7,7 +7,7 @@ export const LicensesTableActions = () => {
   return (
     <div className="flex items-center justify-between">
       <SectionHeading title="Licenses" description="Manage licenses" />
-      <Link href="/licenses/new" passHref>
+      <Link href="/licenses/new" passHref legacyBehavior>
         <Button>Create New</Button>
       </Link>
     </div>

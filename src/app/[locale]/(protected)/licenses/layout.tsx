@@ -9,7 +9,7 @@ const Layout: FC<LayoutProps> = ({ children, newLicense }) => {
   return (
     <>
       {children}
-      {newLicense}
+      {/* {newLicense} */}
     </>
   );
 };
