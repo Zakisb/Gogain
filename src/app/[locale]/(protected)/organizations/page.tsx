@@ -11,7 +11,7 @@ import { Organization } from "@prisma/client";
 // import { CellAction } from "./cell-action";
 
 async function getOrganizations() {
-  const res = await fetch(`http://localhost:3000/api/organizations`);
+  const res = await fetch(`http://127.0.0.1:3000/api/organizations`);
   return res.json();
 }
 
@@ -26,3 +26,5 @@ export default async function Page() {
     </>
   );
 }
+
+export const runtime = "edge";

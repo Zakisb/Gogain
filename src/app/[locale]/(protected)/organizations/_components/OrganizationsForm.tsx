@@ -207,7 +207,7 @@ const OrganizationsForm = ({
               name="industry"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel> Organization's Industry</FormLabel>
+                  <FormLabel> Organization&apos;s Industry</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}

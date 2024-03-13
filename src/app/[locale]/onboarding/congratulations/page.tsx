@@ -2,9 +2,6 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import Lottie from "react-lottie";
-import congratsAnimationData from "/public/assets/animations/congratulations-animation.json";
-import dotsAnimationData from "/public/assets/animations/dots-animations.json";
 
 const defaultOptions = {
   loop: true,
@@ -32,13 +29,13 @@ export default function GeneralHealthHabits() {
       <h3>{t("title")}</h3>
       <p className="text-gray-500 text-md mt-3">{t("description")}</p>
       <div className="flex flex-col justify-center mt-7">
-        <Lottie
+        {/* <Lottie
           options={{ ...defaultOptions, animationData: congratsAnimationData }}
         />
         <Lottie
           options={{ ...defaultOptions, animationData: dotsAnimationData }}
           height={80}
-        />
+        /> */}
       </div>
     </div>
   );

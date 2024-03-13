@@ -4,7 +4,7 @@ import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { type ColumnDef } from "@tanstack/react-table";
-import { type LicenseColumn } from "@/lib/validators";
+import { type LicensePurchasedColumn } from "@/lib/validators";
 import { type LicenseType } from "@prisma/client";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -14,7 +14,7 @@ interface TableProps<TData> {
   data: TData[];
 }
 
-const columns: ColumnDef<LicenseColumn>[] = [
+const columns: ColumnDef<LicensePurchasedColumn>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -77,7 +77,7 @@ const columns: ColumnDef<LicenseColumn>[] = [
   {
     id: "actions",
     enableSorting: false,
-    cell: ({ row }) => <CellActions data={row.original} />,
+    cell: ({ row }) => <CellActions data={row.original.licenseType} />,
   },
 ];
 

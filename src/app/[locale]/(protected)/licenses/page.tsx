@@ -17,7 +17,7 @@ async function getLicenses() {
 }
 
 async function getPurchasedLicenses() {
-  const res = await fetch(`http://localhost:3000/api/licenses/purchased`);
+  const res = await fetch(`http://0.0.0.0:3000/api/licenses/purchased`);
   return res.json();
 }
 
@@ -50,3 +50,5 @@ export default async function Page() {
     </>
   );
 }
+
+export const runtime = "edge";

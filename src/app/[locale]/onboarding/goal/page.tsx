@@ -143,7 +143,7 @@ export default function Goal() {
                   </Select>
                   <FormDescription>
                     à noter que ces durées sont des estimations et peuvent
-                    varier selon l'individualité de chacun.
+                    varier selon l&apos;individualité de chacun.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

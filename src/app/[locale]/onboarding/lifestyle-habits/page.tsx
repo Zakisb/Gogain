@@ -161,7 +161,7 @@ export default function LifestyleHabits() {
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
-                      defaultValue={field.value.toString()}
+                      defaultValue={field.value?.toString()}
                       className="flex flex-row space-x-1"
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">

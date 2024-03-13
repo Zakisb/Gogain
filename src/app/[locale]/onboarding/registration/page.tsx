@@ -32,7 +32,7 @@ export default function Page() {
   const t = useTranslations("Onboarding.Registration");
   const router = useRouter();
   const pathname = usePathname();
-  const locale = pathname.split("/")[1];
+  const locale = pathname.split("/")[1] || "fr";
 
   const formSchema = yup.object({
     firstName: yup.string().required(t("form.fields.firstName.required")),

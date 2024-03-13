@@ -38,11 +38,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const OPTIONS: Option[] = [
-  { label: "nextjs", value: "Nextjs" },
-  { label: "Remix", value: "remix" },
-  { label: "React", value: "react" },
-];
+const OPTIONS: Option[] = [];
 
 export default function GeneralHealthHabits() {
   const t = useTranslations("Onboarding.GeneralHabits");
@@ -166,14 +162,14 @@ export default function GeneralHealthHabits() {
                     creatable
                     placeholder="Saissisez une ou plusieurs réponses et appuyer sur entrée"
                     hidePlaceholderWhenSelected
-                    options={[]}
-                    value={field.value.map((el: string) => ({
+                    options={OPTIONS}
+                    value={(field.value as string[]).map((el: string) => ({
                       label: el,
                       value: el,
                     }))}
                     onChange={(values) => {
                       form.setValue(
-                        "generalLifestyleHealthHabits.pain",
+                        "pain",
                         values.map((el) => el.value)
                       );
                     }}
@@ -185,7 +181,7 @@ export default function GeneralHealthHabits() {
             {/* stress level  */}
             <FormField
               control={form.control}
-              name="generalLifestyleHealthHabits.stressLevel"
+              name="stressLevel"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>

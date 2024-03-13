@@ -36,11 +36,25 @@ export const licenseColumn = z.object({
 
 export type LicenseColumn = z.infer<typeof licenseColumn>;
 
-export const licensePurchasedColumn = z.object({
+export const licensesTypeColumn = z.object({
   id: z.number(),
   name: z.string().min(1),
   price: z.number().min(1),
   numberOfUsers: z.number().min(1),
+});
+
+export type LicensesTypeColumn = z.infer<typeof licensesTypeColumn>;
+
+export const licensePurchasedColumn = z.object({
+  licenseKeyId: z.number(),
+  licenseType: licensesTypeColumn, // Adjust this if you have a specific schema for LicenseType
+  organizationId: z.number(),
+  organization: z.string(), // Adjust this if you have a specific schema for Organization
+  createdAt: z.date(),
+  validUntil: z.date(),
+  deleted: z.boolean(),
+  price: z.number(),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED"]),
 });
 
 export type LicensePurchasedColumn = z.infer<typeof licensePurchasedColumn>;
