@@ -2,10 +2,16 @@ import type { ReactNode, FC } from "react";
 
 interface LayoutProps {
   children: ReactNode;
+  newLicense: ReactNode;
 }
 
-const Layout: FC<LayoutProps> = ({ children }) => {
-  return <>{children}</>;
+const Layout: FC<LayoutProps> = ({ children, newLicense }) => {
+  return (
+    <>
+      {children}
+      {newLicense}
+    </>
+  );
 };
 
 export default Layout;
