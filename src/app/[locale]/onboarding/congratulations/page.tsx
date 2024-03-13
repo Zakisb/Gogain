@@ -29,6 +29,13 @@ export default function GeneralHealthHabits() {
       <h3>{t("title")}</h3>
       <p className="text-gray-500 text-md mt-3">{t("description")}</p>
       <div className="flex flex-col justify-center mt-7">
+        <Image
+          src="/assets/images/onboarding/congrats.svg"
+          alt="Congratulations"
+          width={300}
+          height={300}
+        />
+
         {/* <Lottie
           options={{ ...defaultOptions, animationData: congratsAnimationData }}
         />
