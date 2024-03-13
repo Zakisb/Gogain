@@ -47,7 +47,6 @@ model LicenseType {
   licenses        License[]
   price           Float
   deleted        Boolean   @default(false)
-  
 }
 
 model License {
@@ -69,6 +68,7 @@ model Organization {
   users     User[]
   deleted        Boolean   @default(false)
   industry        String
+  createdAt       DateTime      @default(now())
 }
 
 

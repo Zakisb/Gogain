@@ -6,68 +6,23 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type EmployeeColumn } from "@/lib/validators";
 import OrganizationsActions from "./_components/OrganizationsActions";
+import OrganizationsTable from "./_components/OrganizationsTable";
+import { Organization } from "@prisma/client";
 // import { CellAction } from "./cell-action";
 
-const columns: ColumnDef<EmployeeColumn>[] = [
-  //   {
-  //     id: "select",
-  //     header: ({ table }) => (
-  //       <Checkbox
-  //         checked={
-  //           table.getIsAllPageRowsSelected() ||
-  //           (table.getIsSomePageRowsSelected() && "indeterminate")
-  //         }
-  //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //         aria-label="Select all"
-  //         className="translate-y-[2px]"
-  //       />
-  //     ),
-  //     cell: ({ row }) => (
-  //       <Checkbox
-  //         checked={row.getIsSelected()}
-  //         onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //         aria-label="Select row"
-  //         className="translate-y-[2px]"
-  //       />
-  //     ),
-  //     enableSorting: false,
-  //     enableHiding: false,
-  //   },
-  {
-    accessorKey: "firstName",
-    header: "First Name",
-  },
-  {
-    accessorKey: "lastName",
-    header: "Last Name",
-  },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
-  {
-    accessorKey: "createAt",
-    header: "Create Time",
-  },
-  {
-    accessorKey: "updateAt",
-    header: "Update Time",
-  },
-  //   {
-  //     id: "actions",
-  //     enableSorting: false,
-  //     cell: ({ row }) => <CellAction data={row.original} />,
-  //   },
-];
+async function getOrganizations() {
+  const res = await fetch(`http://localhost:3000/api/organizations`);
+  return res.json();
+}
 
-export default function Page() {
+export default async function Page() {
+  const organizations = await getOrganizations();
+
   return (
     <>
       <OrganizationsActions />
       <Separator />
-      <div>
-        <DataTable columns={columns} data={[]} />
-      </div>
+      <OrganizationsTable organizations={organizations} />
     </>
   );
 }

@@ -4,18 +4,15 @@ import React from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { type ColumnDef } from "@tanstack/react-table";
-import { type OrganizationsColumn } from "@/lib/validators";
-import { type Organization } from "@prisma/client";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
+import { type LicenseColumn } from "@/lib/validators";
+import { type LicenseType } from "@prisma/client";
 import CellActions from "./CellActions";
-import { Badge } from "@/components/ui/badge";
 
-interface TableProps {
-  organizations: Organization[];
+interface TableProps<TData> {
+  data: TData[];
 }
 
-const columns: ColumnDef<OrganizationsColumn>[] = [
+const columns: ColumnDef<LicenseColumn>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -41,32 +38,16 @@ const columns: ColumnDef<OrganizationsColumn>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "id",
-    header: "ID",
-  },
-  {
     accessorKey: "name",
     header: "Name",
   },
   {
-    accessorKey: "industry",
-    header: "Industry",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="capitalize">
-        {row.original.industry}
-      </Badge>
-    ),
+    accessorKey: "price",
+    header: "Price",
   },
   {
-    accessorKey: "createdAt",
-    header: "Joined on",
-    cell: ({ row }) => (
-      <span className="capitalize">
-        {format(new Date(row.original.createdAt), "MMM d, yyyy", {
-          locale: fr,
-        })}
-      </span>
-    ),
+    accessorKey: "numberOfUsers",
+    header: "Number of users",
   },
   {
     id: "actions",
@@ -75,10 +56,10 @@ const columns: ColumnDef<OrganizationsColumn>[] = [
   },
 ];
 
-export default function OrganizationsTable({ organizations }: TableProps) {
+export default function LicensesManagementTable({ data }) {
   return (
     <div>
-      <DataTable columns={columns} data={organizations} />
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }

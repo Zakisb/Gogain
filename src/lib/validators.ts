@@ -35,3 +35,22 @@ export const licenseColumn = z.object({
 });
 
 export type LicenseColumn = z.infer<typeof licenseColumn>;
+
+export const licensePurchasedColumn = z.object({
+  id: z.number(),
+  name: z.string().min(1),
+  price: z.number().min(1),
+  numberOfUsers: z.number().min(1),
+});
+
+export type LicensePurchasedColumn = z.infer<typeof licensePurchasedColumn>;
+
+export const organizationsColumn = z.object({
+  id: z.number(),
+  name: z.string().min(1),
+  deleted: z.boolean(),
+  industry: z.string().min(1),
+  createdAt: z.date(),
+});
+
+export type OrganizationsColumn = z.infer<typeof organizationsColumn>;

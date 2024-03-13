@@ -30,7 +30,7 @@ export default async function OrganizationsActions() {
     <div className="flex items-center justify-between">
       <SectionHeading
         title="Organizations"
-        description="Manage organizations' licenses"
+        description="Manage organizations"
       />
       <Sheet>
         <SheetTrigger asChild>
@@ -38,10 +38,8 @@ export default async function OrganizationsActions() {
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Add an organization</SheetTitle>
-            <SheetDescription>
-              <OrganizationsForm licenses={licenses as LicenseType[]} />
-            </SheetDescription>
+            <SheetTitle className="mb-5">Add an organization</SheetTitle>
+            <OrganizationsForm licenses={licenses as LicenseType[]} />
           </SheetHeader>
         </SheetContent>
       </Sheet>

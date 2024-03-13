@@ -92,3 +92,35 @@ export async function POST(request: NextRequest) {
     }
   }
 }
+
+export async function GET(request: NextRequest) {
+  try {
+    const organizations = await prisma.organization.findMany({
+      where: {
+        deleted: false,
+      },
+      orderBy: {
+        id: "asc",
+      },
+    });
+    return NextResponse.json(organizations, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}
+
+// generate PUT request
+export async function PUT(request: NextRequest) {
+  const body = await request.json();
+
+  const organization = await prisma.organization.update({
+    where: { id: body.id },
+    data: { ...body },
+  });
+  console.log({ organization });
+
+  return NextResponse.json(organization, { status: 201 });
+}
