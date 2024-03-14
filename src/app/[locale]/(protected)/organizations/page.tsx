@@ -1,19 +1,7 @@
-import { SectionHeading } from "../_components/SectionHeading";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { DataTable } from "@/components/ui/data-table/data-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import { type ColumnDef } from "@tanstack/react-table";
-import { type EmployeeColumn } from "@/lib/validators";
+import { getOrganizations } from "@/services/OrganizationServices";
 import OrganizationsActions from "./_components/OrganizationsActions";
 import OrganizationsTable from "./_components/OrganizationsTable";
-import { Organization } from "@prisma/client";
-// import { CellAction } from "./cell-action";
-
-async function getOrganizations() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/organizations`);
-  return res.json();
-}
 
 export default async function Page() {
   const organizations = await getOrganizations();
@@ -26,5 +14,3 @@ export default async function Page() {
     </>
   );
 }
-
-export const runtime = "edge";

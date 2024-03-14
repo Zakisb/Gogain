@@ -16,11 +16,11 @@ import { apiGetLicenses } from "@/services/LicenseServices";
 
 async function getLicenses() {
   try {
-    const res = await apiGetLicenses();
+    const res = await apiGetLicenses({});
     return res.data;
   } catch (error) {
     console.log(error);
-    throw error;
+    // throw error;
   }
 }
 

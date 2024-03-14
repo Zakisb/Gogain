@@ -13,6 +13,7 @@ export default function useAuth() {
 
   const login = async (values: SignInCredential) => {
     router.push("/onboarding/registration");
+    // router.push("/onboarding/registration");
     // setLoading(true);
     // signIn("credentials", {
     //   redirect: false,

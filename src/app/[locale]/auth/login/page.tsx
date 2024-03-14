@@ -4,7 +4,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnterIcon } from "@radix-ui/react-icons";
-
+import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import AuthLayout from "../_components/AuthLayout";
@@ -82,22 +82,23 @@ export default function Login() {
                 )}
               />
             </div>
-            <div className="flex items-center justify-end my-6">
+            {/* <div className="flex items-center justify-end my-6">
               <Link
                 className="text-sm text-gray-500 border-b border-dashed border-gray-500"
                 href="/auth/forgot-password"
               >
                 {t("form.forgotPassword")}
               </Link>
-            </div>
-            <div className="flex justify-center mb-6">
-              <button
+            </div> */}
+            <div className="flex justify-center mb-6 ">
+              <Button
                 type="submit"
-                className="relative inline-flex items-center justify-center px-6 py-2 hover:bg-primary-600 rounded-md text-base bg-primary text-white capitalize transition-all w-full"
+                className="w-full"
+                loading={form.formState.isSubmitting}
               >
                 <EnterIcon className="h-4 w-4 me-2" />{" "}
                 {t("form.submission.login")}
-              </button>
+              </Button>
             </div>
           </form>
         </Form>

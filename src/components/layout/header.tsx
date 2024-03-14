@@ -8,7 +8,7 @@ import { UserNav } from "@/components/layout/user-nav";
 import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/shared/Logo";
-
+import { Calendar } from "lucide-react";
 export default function Header() {
   const { data: sessionData } = useSession();
   return (
@@ -32,11 +32,12 @@ export default function Header() {
           ) : (
             <Button
               size="sm"
-              onClick={() => {
-                void signIn();
-              }}
+              // onClick={() => {
+              //   void signIn();
+              // }}
             >
-              Sign In
+              <Calendar className="h-3.5 w-3.5 mr-1" />
+              Book training session
             </Button>
           )}
         </div>

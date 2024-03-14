@@ -5,37 +5,16 @@ import LicensesPurchasedTable from "./_components/LicensesPurchasedTable";
 import LicensesManagementTable from "./_components/LicensesManagementTable";
 import { LicensesTableActions } from "./_components/LicensesTableActions";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-
-async function getLicenses() {
-  try {
-    const res = await apiGetLicenses({});
-    return res.data;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
-
-async function getPurchasedLicenses() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/licenses/purchased`
-  );
-  return res.json();
-}
+import prisma from "@prisma/client";
+import { getLicenses, getPurchasedLicenses } from "@/services/LicenseServices";
 
 export default async function Page() {
-  const managementLicensesData = getLicenses();
-  const purchasedLicensesData = getPurchasedLicenses();
-  // Wait for the promises to resolve
-  const [managementLicenses, purchasedLicenses] = await Promise.all([
-    managementLicensesData,
-    purchasedLicensesData,
-  ]);
+  const managementLicenses = await getLicenses();
+  const purchasedLicenses = await getPurchasedLicenses();
 
   return (
     <>
       <LicensesTableActions />
-
       <Tabs defaultValue="purchased" className="space-y-4">
         <TabsList>
           <TabsTrigger value="purchased">Purchased</TabsTrigger>
@@ -52,5 +31,3 @@ export default async function Page() {
     </>
   );
 }
-
-export const runtime = "edge";

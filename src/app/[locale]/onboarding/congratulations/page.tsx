@@ -2,15 +2,10 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  //   animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid",
-  },
-};
+import dynamic from "next/dynamic";
+import congratsAnimationData from "@/assets/animations/congratulations-animation.json";
+import dotsAnimationData from "@/assets/animations/dots-animations.json";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 export default function GeneralHealthHabits() {
   const t = useTranslations("Onboarding.Congratulations");
@@ -28,21 +23,16 @@ export default function GeneralHealthHabits() {
     <div className="flex flex-col container max-w-[760px] mx-auto mt-16">
       <h3>{t("title")}</h3>
       <p className="text-gray-500 text-md mt-3">{t("description")}</p>
-      <div className="flex flex-col justify-center mt-7">
-        <Image
-          src="/assets/images/onboarding/congrats.svg"
-          alt="Congratulations"
-          width={300}
-          height={300}
-        />
-
-        {/* <Lottie
-          options={{ ...defaultOptions, animationData: congratsAnimationData }}
-        />
+      <div className="flex flex-col items-center mt-7">
+        <Lottie animationData={congratsAnimationData} loop={true} />
         <Lottie
-          options={{ ...defaultOptions, animationData: dotsAnimationData }}
-          height={80}
-        /> */}
+          animationData={dotsAnimationData}
+          style={{
+            height: "80px",
+            width: "80px",
+          }}
+          loop={true}
+        />
       </div>
     </div>
   );

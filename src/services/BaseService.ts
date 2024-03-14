@@ -39,7 +39,7 @@ const BaseService = async <T>(
       // Handle HTTP errors
       return Promise.reject({ ...response });
     }
-
+    // console.log(response);
     const data = await response.json();
 
     return { data }; // Assuming success
