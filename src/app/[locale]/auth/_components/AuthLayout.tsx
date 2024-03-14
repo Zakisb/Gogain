@@ -49,8 +49,8 @@ const AuthLayout = ({
                 <Link href="/">
                   <Image
                     src={logoDark}
-                    width={127}
-                    height={32}
+                    // width={127}
+                    height={44}
                     unoptimized
                     alt="logo-img"
                     className={cn("h-8", pageImage ? "mx-auto" : "")}
