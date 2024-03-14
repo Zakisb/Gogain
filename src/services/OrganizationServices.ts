@@ -5,6 +5,8 @@ import prisma from "@/prisma/client";
 
 const endpoint = "/organizations";
 
+export const dynamic = "force-dynamic";
+
 export const apiDeleteOrganization = async (
   id: string
 ): Promise<ApiResponse<{ count: number }>> => {

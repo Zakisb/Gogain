@@ -5,6 +5,8 @@ import prisma from "@/prisma/client";
 
 const endpoint = "/licenses";
 
+export const dynamic = "force-dynamic";
+
 export const apiCreateLicense = async <U extends Record<string, unknown>>(
   data: U
 ): Promise<ApiResponse<{ count: number }>> => {

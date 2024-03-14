@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { apiCreateLicense, apiUpdateLicense } from "@/services/LicenseServices";
 import { toast } from "sonner";
 import useTimeOutMessage from "@/hooks/useTimeOutMessage";
-import { revalidatePath } from "next/cache";
 
 interface NewLicenseType extends Omit<LicenseType, "id"> {}
 
@@ -58,7 +57,6 @@ const LicensesForm = ({ initialData }: EmployeeFormProps) => {
       toast.promise(apiUpdateLicense(values), {
         loading: "Loading",
         success: (data) => {
-          revalidatePath("/licenses");
           router.back();
           return `Success! License has been updated.`;
         },
