@@ -57,8 +57,8 @@ const LicensesForm = ({ initialData }: EmployeeFormProps) => {
       toast.promise(apiUpdateLicense(values), {
         loading: "Loading",
         success: (data) => {
-          router.back();
           router.refresh();
+          router.back();
           return `Success! License has been updated.`;
         },
         error: (data) => {
