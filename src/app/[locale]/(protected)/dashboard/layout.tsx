@@ -8,7 +8,7 @@ export default function Layout({
   return (
     <div className="">
       {admin}
-      {hr}
+      {/* {hr} */}
     </div>
   );
 }
