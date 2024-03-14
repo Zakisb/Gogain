@@ -8,8 +8,6 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import prisma from "@prisma/client";
 import { getLicenses, getPurchasedLicenses } from "@/services/LicenseServices";
 
-export const revalidate = 1;
-
 export default async function Page() {
   const managementLicenses = await getLicenses();
   const purchasedLicenses = await getPurchasedLicenses();
@@ -33,3 +31,5 @@ export default async function Page() {
     </>
   );
 }
+
+export const dynamic = "force-dynamic";

@@ -18,4 +18,4 @@ export default function Page() {
   );
 }
 
-export const revalidate = 1;
+export const dynamic = "force-dynamic";
