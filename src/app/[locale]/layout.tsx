@@ -6,6 +6,7 @@ import { Be_Vietnam_Pro } from "next/font/google";
 import i18nConfig from "../../i18nConfig";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider, useMessages } from "next-intl";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const BeVietnamPro = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700"],

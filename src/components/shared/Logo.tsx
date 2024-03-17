@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/constants/app.constant";
 import type { CommonProps } from "@/types/common";
@@ -35,7 +36,8 @@ const Logo = (props: LogoProps) => {
       }}
     >
       <Image
-        src={theme === "light" ? DarkLogo : LightLogo}
+        // src={theme === "light" ? DarkLogo : LightLogo}
+        src={DarkLogo}
         alt={`${APP_NAME} logo`}
         className={imgClass}
         height={40}

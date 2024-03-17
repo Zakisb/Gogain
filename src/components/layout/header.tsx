@@ -17,6 +17,7 @@ export default function Header() {
         <Link
           href={"/"}
           className="hidden items-center justify-between gap-2 md:flex"
+          passHref
         >
           <Logo />
           {/* <h1 className="text-lg font-semibold">T3 app template</h1> */}

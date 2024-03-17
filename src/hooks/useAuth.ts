@@ -10,7 +10,6 @@ import { SignInCredential } from "@/types/auth";
 
 export default function useAuth() {
   const router = useRouter();
-
   const login = async (values: SignInCredential) => {
     router.push("/onboarding/registration");
     // router.push("/onboarding/registration");

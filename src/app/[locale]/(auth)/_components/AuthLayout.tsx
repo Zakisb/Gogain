@@ -4,6 +4,9 @@ import dynamic from "next/dynamic";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 const AuthSwiper = dynamic(() => import("./AuthSwiper"));
+import Logo from "@/components/shared/Logo";
+import DarkLogo from "@/assets/images/logo/logo-dark.png";
+import { APP_NAME } from "@/constants/app.constant";
 
 //images
 import logoDark from "@/assets/images/logo/logo-dark.png";
@@ -47,14 +50,21 @@ const AuthLayout = ({
             >
               <div className="mb-12">
                 <Link href="/">
+                  {/* <Logo /> */}
                   <Image
+                    // src={theme === "light" ? DarkLogo : LightLogo}
+                    src={DarkLogo}
+                    alt={`${APP_NAME} logo`}
+                    height={40}
+                  />
+                  {/* <Image
                     src={logoDark}
                     // width={127}
                     height={44}
                     unoptimized
                     alt="logo-img"
                     className={cn("h-8", pageImage ? "mx-auto" : "")}
-                  />
+                  /> */}
                 </Link>
               </div>
               <h6 className="text-base/[1.6] font-semibold text-gray-600 mb-0 mt-4">

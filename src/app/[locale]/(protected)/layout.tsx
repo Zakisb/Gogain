@@ -1,7 +1,7 @@
 "use client";
 import { Layout } from "@/components/layout";
-import Providers from "@/providers/ThemeProvider";
 import AuthContext from "@/providers/AuthProvider";
+import ThemeProvider from "@/providers/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -10,13 +10,18 @@ export default function RootLayout({
 }>) {
   return (
     <AuthContext>
-      <Providers>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
         <Layout>
           <div className="flex h-full flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
           </div>
         </Layout>
-      </Providers>
+      </ThemeProvider>
     </AuthContext>
   );
 }

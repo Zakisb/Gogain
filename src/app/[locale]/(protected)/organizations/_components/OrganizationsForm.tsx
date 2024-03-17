@@ -29,6 +29,7 @@ import { Button } from "@/components/ui/button";
 import { apiCreateLicense, apiUpdateLicense } from "@/services/LicenseServices";
 import { toast } from "sonner";
 import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { useSignUp } from "@clerk/nextjs";
 
 interface ExtendedOrganization extends Organization {
   hrEmail?: string;

@@ -63,7 +63,7 @@ export const options: NextAuthOptions = {
   ],
   secret: "kvwLrfri/MBznUCofIoRH9+NvGu6GqvVdqO3mor1GuA=",
   pages: {
-    signIn: "/auth/login",
+    signIn: "/login",
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
