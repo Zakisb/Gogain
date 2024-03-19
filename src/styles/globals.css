@@ -111,3 +111,29 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Hides the scrollbar by default and shows it on hover for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px; /* Adjust based on your preference */
+  background-color: transparent; /* Makes scrollbar background transparent */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Makes scrollbar thumb transparent */
+}
+
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scroll thumb color on hover */
+  border-radius: 6px;
+  border: 3px solid transparent; /* Adjust or remove border as needed */
+}
+
+/* For Firefox: hide scrollbar unless container is hovered */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent; /* Makes scrollbar transparent */
+}
+
+.custom-scrollbar:hover {
+  scrollbar-color: #888 transparent; /* Scrollbar color on hover */
+}

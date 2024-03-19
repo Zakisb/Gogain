@@ -36,6 +36,7 @@ model User {
   deleted        Boolean   @default(false)
   resetToken     String? @unique
   resetTokenExpiry BigInt?
+  dietPlans DietPlan[]
 }
 
 
@@ -87,4 +88,40 @@ enum Status {
   INACTIVE
   SUSPENDED
   EXPIRED
+}
+
+
+// Fitness related
+
+
+model DietPlan {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  meals       Meal[]
+}
+
+model Meal {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  calories    Int?
+  dietPlanId  Int
+  dietPlan    DietPlan @relation(fields: [dietPlanId], references: [id])
+  foods  Food[]
+}
+
+model Food {
+  id          Int        @id @default(autoincrement())
+  name        String
+  quantity    Int 
+  unit        String     // Example: 'grams', 'ml', 'cups', etc.
+  calories    Int
+  protein     Float
+  carbohydrates Float
+  fats        Float
+  meal        Meal       @relation(fields: [mealId], references: [id])
+  mealId      Int
 }

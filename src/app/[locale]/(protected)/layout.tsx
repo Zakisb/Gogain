@@ -18,7 +18,7 @@ export default function RootLayout({
       >
         <Layout>
           <div className="flex h-full flex-col">
-            <div className="flex-1 space-y-4 p-8 pt-6">{children}</div>
+            <div className="flex-1 space-y-4 p-8 pt-6 h-full">{children}</div>
           </div>
         </Layout>
       </ThemeProvider>
