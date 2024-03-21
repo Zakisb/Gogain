@@ -31,3 +31,10 @@
   background: red;
   opacity: 1;
 }
+
+.rc-slider-handle {
+  transition: left 0.4s ease;
+}
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  box-shadow: 0 0 0 5px hsl(25, 100%, 82%);
+}

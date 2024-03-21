@@ -9,7 +9,9 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
-
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
+import "@/styles/custom.css";
 import {
   Select,
   SelectContent,
@@ -17,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
+// import { Slider } from "@/components/ui/slider";
 
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -39,6 +41,15 @@ import {
 } from "@/components/ui/popover";
 
 const OPTIONS: Option[] = [];
+
+const marks = {
+  0: <strong>0</strong>,
+  1: <strong>1</strong>,
+  2: <strong>2</strong>,
+  3: <strong>3</strong>,
+  4: <strong>4</strong>,
+  5: <strong>5</strong>,
+};
 
 export default function HealthHabits({ handleProgress }) {
   const t = useTranslations("Onboarding.GeneralHabits");
@@ -188,7 +199,25 @@ export default function HealthHabits({ handleProgress }) {
                     Quel est votre niveau de stress habituel sur une échelle de
                     1 à 10?
                   </FormLabel>
-                  <Slider defaultValue={[0]} step={0.01} min={0} max={5} />
+                  <Slider
+                    defaultValue={2}
+                    marks={marks}
+                    step={1}
+                    min={0}
+                    styles={{
+                      track: {
+                        backgroundColor: "hsl(24.6, 95%, 53.1%)", // Directly using the HSL value
+                      },
+                      handle: {
+                        borderColor: "hsl(24.6, 95%, 53.1%)",
+                      },
+                      // Include other styles if needed
+                    }}
+                    activeDotStyle={{
+                      borderColor: "hsl(24.6, 95%, 53.1%)",
+                    }}
+                    max={5}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
