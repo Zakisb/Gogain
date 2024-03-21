@@ -46,7 +46,7 @@ const OnboardingHeader = () => {
   return (
     <div className="flex flex-row gap-x-5 justify-between px-16 py-4 border-b border-gray-200 ">
       {steps.map((step, index) => (
-        <div className="flex flex-row gap-6 items-center mt-2">
+        <div key={index} className="flex flex-row gap-6 items-center mt-2">
           <div
             key={index}
             className="relative cursor-pointer"

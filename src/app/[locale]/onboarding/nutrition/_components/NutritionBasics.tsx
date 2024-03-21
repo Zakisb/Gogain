@@ -47,17 +47,11 @@ const OPTIONS: Option[] = [
   { label: "React", value: "react" },
 ];
 
-const NutritionBasics = forwardRef(({ handleProgress }, ref) => {
+export default function NutritionBasics({ handleProgress }) {
   const [step, setStep] = useState(0);
 
   const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
-
-  useImperativeHandle(ref, () => ({
-    submit() {
-      onSubmit(form.getValues());
-    },
-  }));
 
   const formSchema = yup.object({
     regime: yup.string().required("Ce champ est requis"),
@@ -244,6 +238,4 @@ const NutritionBasics = forwardRef(({ handleProgress }, ref) => {
       </form>
     </Form>
   );
-});
-
-export default NutritionBasics;
+}

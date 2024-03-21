@@ -1,9 +1,8 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useSignIn } from "@clerk/nextjs";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -20,59 +19,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import useAuth from "@/hooks/useAuth";
-import { useClerk } from "@clerk/clerk-react";
 
 export default function Login() {
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const { signOut } = useClerk();
-
   const t = useTranslations("Login");
   const { login } = useAuth();
 
-  const loginFormSchema = yup.object({
-    email: yup
-      .string()
-      .required(t("form.fields.email.required"))
-      .email(t("form.fields.email.invalid")),
-    password: yup
+  const loginFormSchema = z.object({
+    email: z
+      .string({ required_error: t("form.fields.email.required") })
+      .email({ message: t("form.fields.email.invalid") }),
+    password: z
       .string()
       .min(1, { message: t("form.fields.password.required") }),
   });
 
   const form = useForm({
-    resolver: yupResolver(loginFormSchema),
+    resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
-
-  type LoginFormFields = yup.InferType<typeof loginFormSchema>;
-
-  const onSubmit = async (values: LoginFormFields) => {
-    if (!isLoaded) {
-      return;
-    }
-    // signOut();
-    try {
-      const result = await signIn.create({
-        identifier: values.email,
-        password: values.password,
-      });
-
-      if (result.status === "complete") {
-        console.log(result);
-        await setActive({ session: result.createdSessionId });
-
-        // router.push("/");
-      } else {
-        /*Investigate why the sign-in hasn't completed */
-        console.log(result);
-      }
-    } catch (err: any) {
-      console.log(err.errors[0]);
-    }
-  };
 
   return (
     <AuthLayout
@@ -86,7 +53,7 @@ export default function Login() {
       </p>
       <div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(login)} className="space-y-8">
             <div className="flex flex-col space-y-5">
               <FormField
                 control={form.control}

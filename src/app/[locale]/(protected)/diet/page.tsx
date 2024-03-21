@@ -109,7 +109,7 @@ export default function Page() {
                       {/* <Wand2 className=" z-50 fill-orange-200 mx-auto " /> */}
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Générer un autre avec l'IA</p>
+                      <p>Générer un autre avec l&apos;IA</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -303,15 +303,15 @@ export default function Page() {
                 <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
                   2
                 </span>{" "}
-                Pelez et coupez la patate douce en cubes, enrobez-les d'huile,
-                de sel et de poivre, et faites-les rôtir.
+                Pelez et coupez la patate douce en cubes, enrobez-les
+                d&apos;huile, de sel et de poivre, et faites-les rôtir.
               </li>
               <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
                 <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
                   3
                 </span>{" "}
-                Faites sauter les asperges dans une poêle avec de l'ail et de
-                l'huile d'olive.
+                Faites sauter les asperges dans une poêle avec de l&apos;ail et
+                de l&apos;huile d&apos;olive.
               </li>
               <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
                 <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">

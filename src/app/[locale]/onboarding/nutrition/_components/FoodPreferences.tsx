@@ -188,7 +188,7 @@ const fatOptions: Option[] = [
   },
 ];
 
-const FoodPreferences = forwardRef(({ handleProgress }, ref) => {
+export default function FoodPreferences({ handleProgress }) {
   const [step, setStep] = useState(0);
 
   const t = useTranslations("Onboarding.HealthHistory");
@@ -238,8 +238,8 @@ const FoodPreferences = forwardRef(({ handleProgress }, ref) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>
-                Combien de litre(s) d'eau consommez vous en moyenne à la journée
-                ?
+                Combien de litre(s) d&apos;eau consommez vous en moyenne à la
+                journée ?
               </FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -248,7 +248,7 @@ const FoodPreferences = forwardRef(({ handleProgress }, ref) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="less_1l">Mois d'1L</SelectItem>
+                  <SelectItem value="less_1l">Mois d&apos;1L</SelectItem>
                   <SelectItem value="between_1l_1.5l">
                     Entre 1 L et 1,5L
                   </SelectItem>
@@ -384,6 +384,4 @@ const FoodPreferences = forwardRef(({ handleProgress }, ref) => {
       </form>
     </Form>
   );
-});
-
-export default FoodPreferences;
+}
