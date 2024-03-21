@@ -79,8 +79,8 @@ const meals = [
 
 export default function Page() {
   return (
-    <div className="flex flex-1 overflow-hidden max-h-full flex-row gap-8">
-      <div className="w-[340px] shrink-0 h-full">
+    <div className="flex flex-1 overflow-hidden max-h-full h-full flex-row gap-8">
+      <div className="w-[340px] shrink-0 h-full pb-36">
         <div className="flex flex-row items-center justify-between mb-6">
           <p className="font-semibold">Repas du jour</p>
           <DietCalendar />

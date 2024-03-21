@@ -71,7 +71,7 @@ export default function Goal() {
   };
 
   return (
-    <div className="flex flex-col  max-w-[800px] mx-auto mt-14">
+    <div className="flex flex-col container max-w-[800px] mx-auto mt-14">
       <div className="mt-10 space-y-3">
         <div className="flex flex-row gap-x-8 items-center">
           <h2>{t("title")}</h2>
