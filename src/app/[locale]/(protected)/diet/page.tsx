@@ -8,8 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { IoCheckbox } from "react-icons/io5";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BreakFastImg from "@/assets/images/food/breakfast.jpg";
 import LunchImg from "@/assets/images/food/lunch.jpg";
 import DinnerImg from "@/assets/images/food/dinner.jpg";
@@ -21,11 +27,16 @@ import CollationIcon from "@/assets/images/icons/snack.png";
 import ProteinIcon from "@/assets/images/icons/protein.png";
 import CarbsIcon from "@/assets/images/icons/rice.png";
 import LipidesIcon from "@/assets/images/icons/lipid.png";
-
+import MagicwandIcon from "@/assets/images/icons/magic-wand.png";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Clock2 } from "lucide-react";
-import { LapTimerIcon, CheckboxIcon } from "@radix-ui/react-icons";
+import { Clock2, Wand2 } from "lucide-react";
+import DietCalendar from "./_components/DietCalendar";
+import {
+  LapTimerIcon,
+  CheckboxIcon,
+  MagicWandIcon,
+} from "@radix-ui/react-icons";
 
 const meals = [
   {
@@ -69,13 +80,41 @@ const meals = [
 export default function Page() {
   return (
     <div className="flex flex-1 overflow-hidden max-h-full flex-row gap-8">
-      <ScrollArea className="w-[340px] shrink-0">
-        <Card className="rounded-xl">
-          <div className="border-b p-4">
-            {/* <h4>Plan Nutritionnel</h4> */}
-            <div className="">
-              <h4 className="text-center">Plan Nutritionnel</h4>
-              <div className="flex flex-row justify-around mt-4 w-full">
+      <div className="w-[340px] shrink-0 h-full">
+        <div className="flex flex-row items-center justify-between mb-6">
+          <p className="font-semibold">Repas du jour</p>
+          <DietCalendar />
+        </div>{" "}
+        <Tabs defaultValue="account" className="mb-6 ">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="account">Diet 1</TabsTrigger>
+            <TabsTrigger value="password">Diet 2</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <ScrollArea className="shrink-0 h-full z-30">
+          <Card className="rounded-xl  mb-4 relative z-30">
+            <div className="border-b p-4">
+              <div className="flex flex-row items-center justify-center gap-x-3">
+                <h4 className="text-center">Plan Nutritionnel</h4>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Image
+                        src={MagicwandIcon}
+                        alt="Breakfast icon"
+                        height={25}
+                        width={25}
+                        className="shrink-0"
+                      />
+                      {/* <Wand2 className=" z-50 fill-orange-200 mx-auto " /> */}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Générer un autre avec l'IA</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+              <div className="flex flex-row justify-around  w-full mt-4">
                 <div>
                   <p className="text-indigo-500 font-semibold ">1,456cal</p>
                   <p className="text-gray-400 font-semibold text-xs">
@@ -98,71 +137,75 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </div>
-        </Card>
-        <Card className="rounded-xl mt-6">
-          <div className="p-6 space-y-5">
-            {meals.map((meal, index) => (
-              <div className="pb-6 border-b" key={index}>
-                <div className="flex flex-row justify-between">
-                  <p className="text-gray-400 font-bold text-sm">{meal.type}</p>
-                  <div className="flex flex-row items-center gap-1">
-                    <LapTimerIcon className="h-3 w-3 text-gray-400" />
+          </Card>
+
+          <Card className="rounded-xl mt-6">
+            <div className="p-6 space-y-5">
+              {meals.map((meal, index) => (
+                <div className="pb-6 border-b" key={index}>
+                  <div className="flex flex-row justify-between">
                     <p className="text-gray-400 font-bold text-sm">
-                      {meal.time}
+                      {meal.type}
                     </p>
-                  </div>
-                </div>
-                {/* Header  */}
-                <div className=" my-3">
-                  <h1 className="text-xl">{meal.name}</h1>
-                </div>
-                {/* footer  */}
-                <div className="flex flex-row gap-8">
-                  <Image
-                    src={meal.icon}
-                    alt="Breakfast icon"
-                    height={35}
-                    width={35}
-                    className="shrink-0"
-                  />
-
-                  <div className="flex flex-row justify-between w-full">
-                    <div>
-                      <p className="text-green-500 font-semibold ">
-                        {meal.proteins}
-                      </p>
-                      <p className="text-gray-400 font-semibold text-xs">
-                        PROTEINS
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-red-500 font-semibold ">
-                        {meal.carbs}
-                      </p>
-                      <p className="text-gray-400 font-semibold text-xs">
-                        CARBS
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-orange-500 font-semibold ">
-                        {meal.lipides}
-                      </p>
-                      <p className="text-gray-400 font-semibold text-xs">
-                        LIPIDES
+                    <div className="flex flex-row items-center gap-1">
+                      <LapTimerIcon className="h-3 w-3 text-gray-400" />
+                      <p className="text-gray-400 font-bold text-sm">
+                        {meal.time}
                       </p>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                  {/* Header  */}
+                  <div className=" my-3">
+                    <h1 className="text-xl">{meal.name}</h1>
+                  </div>
+                  {/* footer  */}
+                  <div className="flex flex-row gap-8">
+                    <Image
+                      src={meal.icon}
+                      alt="Breakfast icon"
+                      height={35}
+                      width={35}
+                      className="shrink-0"
+                    />
 
-            {/* Meal 1  */}
-          </div>
-        </Card>
-      </ScrollArea>
-      <div className="grow space-y-6">
-        <Card className="p-6">
+                    <div className="flex flex-row justify-between w-full">
+                      <div>
+                        <p className="text-green-500 font-semibold ">
+                          {meal.proteins}
+                        </p>
+                        <p className="text-gray-400 font-semibold text-xs">
+                          PROTEINS
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-red-500 font-semibold ">
+                          {meal.carbs}
+                        </p>
+                        <p className="text-gray-400 font-semibold text-xs">
+                          CARBS
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-orange-500 font-semibold ">
+                          {meal.lipides}
+                        </p>
+                        <p className="text-gray-400 font-semibold text-xs">
+                          LIPIDES
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {/* Meal 1  */}
+            </div>
+          </Card>
+        </ScrollArea>
+      </div>
+
+      <div className="grow max-h-full space-y-6">
+        <Card className="p-6 h-full">
           <div className="flex flex-row gap-5">
             <div className="w-auto">
               <Image
@@ -171,7 +214,6 @@ export default function Page() {
                 className="rounded-xl object-cover"
               />
             </div>
-
             <div className="space-y-5">
               <h4>Yaourt, 10gr Amandes, 50gr Baies</h4>
               <CardDescription className="leading-relaxed">
@@ -180,8 +222,8 @@ export default function Page() {
                 have in the pantry, these waffles are sure to please.{" "}
               </CardDescription>
 
-              <div className="flex flex-row justify-between w-full">
-                <div className="flex flex-row gap-1">
+              <div className="flex flex-row gap-x-10 w-full">
+                {/* <div className="flex flex-row gap-1">
                   <div className="">
                     <Image alt="" height={25} src={KcalImg} />
                   </div>
@@ -189,7 +231,7 @@ export default function Page() {
                     <p className="text-gray-400 text-sm font-bold">Kcals</p>
                     <p className=" font-bold">300</p>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex flex-row gap-1">
                   <div className="">
                     <Image alt="" height={25} src={ProteinIcon} />
@@ -222,87 +264,8 @@ export default function Page() {
               </div>
             </div>
           </div>
-        </Card>
-        <div className="flex flex-row gap-2">
-          {/* <Card className="w-auto">
-            <h4 className="p-6">Ingredients</h4>
-            <Separator className="" />
-            <ul className="mt-2 space-y-2 p-6">
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" /> 1 cup rolled
-                oats
-              </li>
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" /> 1 cup soya
-                yogurt
-              </li>
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" />
-                10g chia seeds
-              </li>
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" /> 50g cocoa
-                powder
-              </li>
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" /> 150ml
-                unsweetened almond milk
-              </li>
-              <li className="flex flex-row gap-1.5 items-start">
-                <IoCheckbox className="text-green-500 h-5 w-5" /> 1 tsp ground
-                cinnamon
-              </li>
-            </ul>
-          </Card> */}
-          {/* <Card className="grow gap-4">
-            <div>
-              <h4 className="p-6">Comment préparer </h4>
-              <Separator className="" />
-              <ul className="mt-2 space-y-2 p-5">
-                <li className="flex flex-row gap-1.5 items-start">
-                  <div className=" h-9 w-9 items-center flex justify-center rounded-xl bg-orange-200">
-                    1
-                  </div>
-                  <span>
-                    Assaisonnez les filets de saumon et faites-les cuire au
-                    four.
-                  </span>
-                </li>
-                <li className="flex flex-row gap-1.5 items-start">
-                  <IoCheckbox className="text-green-500 h-5 w-5" /> 1 cup soya
-                  yogurt
-                </li>
-                <li className="flex flex-row gap-1.5 items-start">
-                  <IoCheckbox className="text-green-500 h-5 w-5" />
-                  10g chia seeds
-                </li>
-                <li className="flex flex-row gap-1.5 items-start">
-                  <IoCheckbox className="text-green-500 h-5 w-5" /> 50g cocoa
-                  powder
-                </li>
-                <li className="flex flex-row gap-1.5 items-start">
-                  <IoCheckbox className="text-green-500 h-5 w-5" /> 150ml
-                  unsweetened almond milk
-                </li>
-                <li className="flex flex-row gap-1.5 items-start">
-                  <IoCheckbox className="text-green-500 h-5 w-5" /> 1 tsp ground
-                  cinnamon
-                </li>
-              </ul>
-            </div>
-          </Card> */}
-        </div>
-      </div>
-      {/* <Card className="">
-        <Image
-          src={BreakFastImg}
-          alt="breakfast image"
-          className="rounded-xl object-cover"
-        />
-        <div className="">
-          <h4 className="py-6 px-4">Ingredients</h4>
-          <Separator />
-          <ul className="mt-2 space-y-4 p-5">
+          <h4 className="mt-7">Ingredients</h4>
+          <ul className="mt-5 gap-4 flex flex-row flex-wrap">
             <li className="flex flex-row gap-1.5 items-start font-semibold text-gray-600 text-sm">
               <IoCheckbox className="text-green-500 h-5 w-5" /> 1 cup rolled
               oats
@@ -327,8 +290,40 @@ export default function Page() {
               cinnamon
             </li>
           </ul>
-        </div>
-      </Card> */}
+          <h4 className="mt-9">Préparation</h4>
+          <div>
+            <ul className="mt-5 gap-4 flex flex-col flex-wrap">
+              <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
+                <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
+                  1
+                </span>{" "}
+                Assaisonnez les filets de saumon et faites-les cuire au four.
+              </li>
+              <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
+                <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
+                  2
+                </span>{" "}
+                Pelez et coupez la patate douce en cubes, enrobez-les d'huile,
+                de sel et de poivre, et faites-les rôtir.
+              </li>
+              <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
+                <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
+                  3
+                </span>{" "}
+                Faites sauter les asperges dans une poêle avec de l'ail et de
+                l'huile d'olive.
+              </li>
+              <li className="flex flex-row gap-3 items-center font-semibold text-gray-600 text-sm ">
+                <span className="w-9 h-9 rounded-xl bg-orange-100 text-orange-500 shrink-0 flex items-center justify-center">
+                  4
+                </span>{" "}
+                Servez le saumon, la patate douce rôtie et les asperges sautées
+                ensemble.
+              </li>
+            </ul>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

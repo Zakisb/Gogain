@@ -59,7 +59,7 @@ export default function Goal() {
 
   const onSubmit = async (values: GoalFormFields) => {
     console.log(values);
-    router.push("/onboarding/general-habits-health");
+    router.push("/onboarding/nutrition");
     // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
     //   method: "PUT",
     //   headers: {
