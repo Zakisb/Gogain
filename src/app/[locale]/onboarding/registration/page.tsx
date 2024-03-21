@@ -79,7 +79,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col container  mx-auto mt-16">
+    <div className="flex flex-col   max-w-[800px] mx-auto mt-16">
       <h2>{t("title")}</h2>
       <p className="text-gray-700">{t("description")}</p>
       <Form {...form}>
