@@ -52,7 +52,7 @@ export default function Login() {
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
       email: "asichaib@skyops.ai",
-      password: "djalil123",
+      password: "asichaib",
     },
   });
 
