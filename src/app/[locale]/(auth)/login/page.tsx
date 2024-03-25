@@ -1,14 +1,18 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useSignIn } from "@clerk/nextjs";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import AuthLayout from "../_components/AuthLayout";
 import { Input } from "@/components/ui/input";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
 import {
   Form,
   FormControl,
@@ -19,27 +23,71 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import useAuth from "@/hooks/useAuth";
+import { useClerk } from "@clerk/clerk-react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Login() {
+  const { isLoaded, signIn, setActive } = useSignIn();
+  const searchParams = useSearchParams();
+
+  const redirectUrl = searchParams.get("redirect_url");
+  const [error, setError] = useTimeOutMessage();
+
+  const { signOut } = useClerk();
+  const router = useRouter();
   const t = useTranslations("Login");
   const { login } = useAuth();
 
-  const loginFormSchema = z.object({
-    email: z
-      .string({ required_error: t("form.fields.email.required") })
-      .email({ message: t("form.fields.email.invalid") }),
-    password: z
+  const loginFormSchema = yup.object({
+    email: yup
+      .string()
+      .required(t("form.fields.email.required"))
+      .email(t("form.fields.email.invalid")),
+    password: yup
       .string()
       .min(1, { message: t("form.fields.password.required") }),
   });
 
   const form = useForm({
-    resolver: zodResolver(loginFormSchema),
+    resolver: yupResolver(loginFormSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "asichaib@skyops.ai",
+      password: "djalil123",
     },
   });
+
+  type LoginFormFields = yup.InferType<typeof loginFormSchema>;
+
+  const onSubmit = async (values: LoginFormFields) => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const result = await signIn.create({
+        identifier: values.email,
+        password: values.password,
+      });
+      console.log(result);
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        } else {
+          router.push("/dashboard");
+        }
+      } else {
+        setError("Une erreur s'est produite");
+      }
+    } catch (err: any) {
+      console.log(err.errors[0]);
+      if (err.errors[0].code === "form_password_incorrect")
+        setError("Mot de passe incorrect");
+      else if (err.errors[0].code === "form_identifier_not_found")
+        setError("Address email incorrecte ou inexistante");
+    }
+    // matcher: ["/((?!api|_next|.*\\..*).*)"],
+  };
 
   return (
     <AuthLayout
@@ -53,7 +101,7 @@ export default function Login() {
       </p>
       <div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(login)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="flex flex-col space-y-5">
               <FormField
                 control={form.control}
@@ -82,14 +130,8 @@ export default function Login() {
                 )}
               />
             </div>
-            {/* <div className="flex items-center justify-end my-6">
-              <Link
-                className="text-sm text-gray-500 border-b border-dashed border-gray-500"
-                href="/auth/forgot-password"
-              >
-                {t("form.forgotPassword")}
-              </Link>
-            </div> */}
+            {error && <ErrorMessage description={error} />}
+
             <div className="flex justify-center mb-6 ">
               <Button
                 type="submit"

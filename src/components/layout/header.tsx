@@ -9,8 +9,11 @@ import { signIn, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/shared/Logo";
 import { Calendar } from "lucide-react";
-export default function Header() {
-  const { data: sessionData } = useSession();
+import { currentUser } from "@clerk/nextjs";
+
+export default async function Header() {
+  const user = await currentUser();
+
   return (
     <div className="supports-backdrop-blur:bg-background/60 fixed left-0 right-0 top-0 z-20 border-b bg-background/95 backdrop-blur">
       <nav className="flex h-16 items-center justify-between px-4">
@@ -28,9 +31,10 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {sessionData?.user ? (
-            <UserNav user={sessionData.user} />
+          {user ? (
+            <UserNav user={JSON.parse(JSON.stringify(user))} />
           ) : (
+            //
             <Button
               size="sm"
               // onClick={() => {

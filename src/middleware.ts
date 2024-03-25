@@ -2,7 +2,8 @@ import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest } from "next/server";
 import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
-import { authMiddleware } from "@clerk/nextjs";
+import { NextResponse } from "next/server";
+import { authMiddleware, redirectToSignIn } from "@clerk/nextjs";
 
 let locales = ["en", "fr"];
 let defaultLocale = "fr";
@@ -34,19 +35,30 @@ const intlMiddleware = async (request: NextRequest) => {
 
   return response;
 };
-// export default async function middleware
 
 export default authMiddleware({
-  beforeAuth: (req) => {
-    // Execute next-intl middleware before Clerk's auth middleware
-    return intlMiddleware(req);
+  beforeAuth(request) {
+    return intlMiddleware(request);
   },
+  // debug: true,
+  // ignoredRoutes: ["/:locale/create-account"],
+  // Ensure that locale-specific sign in pages are public
+  publicRoutes: ["/:locale", "/:locale/login"],
+  afterAuth(auth, req, evt) {
+    // Handle users who aren't authenticated
+    // console.log("auth", auth);
+    if (!auth.userId && !auth.isPublicRoute) {
+      console.log("req.url", req.url);
 
-  // Ensure that locale specific sign-in pages are public
-  // publicRoutes: ["/", "/:locale", "/:locale/sign-in", "/:locale/login"],
-  ignoredRoutes: ["/"],
+      return redirectToSignIn({ returnBackUrl: req.url });
+    }
+
+    return NextResponse.next();
+  },
 });
 
 export const config = {
+  // Skip all paths that should not be internationalized. This example skips the
+  // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };

@@ -14,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { auth } from "@clerk/nextjs";
 import { IoCheckbox } from "react-icons/io5";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import BreakFastImg from "@/assets/images/food/breakfast.jpg";
@@ -78,6 +79,8 @@ const meals = [
 ];
 
 export default function Page() {
+  const { userId }: { userId: string | null } = auth();
+  console.log(userId);
   return (
     <div className="flex flex-1 overflow-hidden max-h-full h-full flex-row gap-8">
       <div className="w-[340px] shrink-0 h-full pb-36">

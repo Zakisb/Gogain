@@ -7,6 +7,7 @@ import i18nConfig from "../../i18nConfig";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { NextIntlClientProvider, useMessages } from "next-intl";
 import { ClerkProvider } from "@clerk/nextjs";
+import ThemeProvider from "@/providers/ThemeProvider";
 
 const BeVietnamPro = Be_Vietnam_Pro({
   weight: ["300", "400", "500", "600", "700"],
@@ -36,10 +37,19 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <body className={BeVietnamPro.className}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-          <Toaster position="top-right" />
-        </NextIntlClientProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClerkProvider>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              {children}
+              <Toaster position="top-right" />
+            </NextIntlClientProvider>
+          </ClerkProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

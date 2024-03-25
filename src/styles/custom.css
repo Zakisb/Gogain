@@ -38,3 +38,36 @@
 .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
   box-shadow: 0 0 0 5px hsl(25, 100%, 82%);
 }
+
+.gg-dropdownmenu-content {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  -webkit-tap-highlight-color: transparent;
+  color-scheme: light;
+  line-height: inherit;
+  color: black;
+  font-family: inherit;
+  font-style: normal;
+  box-sizing: inherit;
+  display: flex;
+  flex-flow: column;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  will-change: transform, opacity, height;
+  border-radius: 1rem;
+  background-color: white;
+  transition-property: background-color, border-color, color, fill, stroke,
+    opacity, box-shadow, transform;
+  transition-duration: 200ms;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 24px 48px;
+  border: 1px solid transparent;
+  padding: 1.5rem 0rem;
+  width: 23.5rem;
+  max-width: calc(-2rem + 100vw);
+  z-index: 10000;
+  animation: 140ms ease 0s 1 normal none running animation-f2u89x;
+}
