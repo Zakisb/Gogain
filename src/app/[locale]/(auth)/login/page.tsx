@@ -74,7 +74,7 @@ export default function Login() {
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
-          router.push("/dashboard");
+          router.push("/onboarding/registration");
         }
       } else {
         setError("Une erreur s'est produite");
