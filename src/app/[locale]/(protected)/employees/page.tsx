@@ -5,6 +5,7 @@ import { DataTable } from "@/components/ui/data-table/data-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type EmployeeColumn } from "@/lib/validators";
+import EmployeesActions from "./_components/EmployeesActions";
 // import { CellAction } from "./cell-action";
 
 const columns: ColumnDef<EmployeeColumn>[] = [
@@ -62,13 +63,7 @@ const columns: ColumnDef<EmployeeColumn>[] = [
 export default function Page() {
   return (
     <>
-      <div className="flex items-center justify-between">
-        <SectionHeading
-          title="Employees"
-          description="Manage employees's accounts"
-        />
-        <Button>Add New</Button>
-      </div>
+      <EmployeesActions />
       <Separator />
       <div>
         <DataTable columns={columns} data={[]} />

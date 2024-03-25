@@ -41,24 +41,13 @@ export default authMiddleware({
     return intlMiddleware(request);
   },
   // debug: true,
-  // ignoredRoutes: ["/:locale/create-account"],
+  ignoredRoutes: ["/:locale/create-account", "/api/webhooks(.*)"],
   // Ensure that locale-specific sign in pages are public
-  publicRoutes: ["/:locale", "/:locale/login"],
-  afterAuth(auth, req, evt) {
-    // Handle users who aren't authenticated
-    // console.log("auth", auth);
-    if (!auth.userId && !auth.isPublicRoute) {
-      console.log("req.url", req.url);
-
-      return redirectToSignIn({ returnBackUrl: req.url });
-    }
-
-    return NextResponse.next();
-  },
+  publicRoutes: ["/:locale", "/:locale/login", "/api/webhooks(.*)"],
 });
 
 export const config = {
   // Skip all paths that should not be internationalized. This example skips the
   // folders "api", "_next" and all files with an extension (e.g. favicon.ico)
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ["/", "/((?!api|_next|.*\\..*).*)"],
 };
