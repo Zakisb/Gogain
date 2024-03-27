@@ -1,21 +1,15 @@
-import Congratulations from "./_components/Congratulations";
-import { currentUser } from "@clerk/nextjs";
+"use client";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import congratsAnimationData from "@/assets/animations/congratulations-animation.json";
+import dotsAnimationData from "@/assets/animations/dots-animations.json";
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
-export const dynamic = "force-dynamic";
-
-export default async function Page() {
-  const generateDietPlan = await fetch(
-    `${process.env.NEXT_PUBLIC_URL}/api/meal-plan`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        externalId: user?.id,
-      }),
-    }
-  );
+export default function Congratulations() {
+  const t = useTranslations("Onboarding.Congratulations");
+  const router = useRouter();
 
   // const redirectToAnotherPage = () => {
   //   setTimeout(() => {
@@ -26,8 +20,20 @@ export default async function Page() {
   // redirectToAnotherPage();
 
   return (
-    <>
-      <Congratulations />
-    </>
+    <div className="flex flex-col container max-w-[760px] mx-auto mt-16">
+      <h3>{t("title")}</h3>
+      <p className="text-gray-500 text-md mt-3">{t("description")}</p>
+      <div className="flex flex-col items-center mt-7">
+        <Lottie animationData={congratsAnimationData} loop={true} />
+        <Lottie
+          animationData={dotsAnimationData}
+          style={{
+            height: "80px",
+            width: "80px",
+          }}
+          loop={true}
+        />
+      </div>
+    </div>
   );
 }
