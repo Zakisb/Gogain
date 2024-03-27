@@ -87,7 +87,7 @@ const ChatInput: FC<ChatInputProps> = ({ className, ...props }) => {
       {...props}
       className={cn("border-t p-4 mt-4  border-zinc-300", className)}
     >
-      <div className="relative flex-1 overflow-hidden rounded-lg ">
+      <div className="relative flex-1 overflow-hidden rounded-lg">
         <TextareaAutosize
           ref={textareaRef}
           onKeyDown={(e) => {
