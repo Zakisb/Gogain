@@ -11,13 +11,13 @@ export default function Congratulations() {
   const t = useTranslations("Onboarding.Congratulations");
   const router = useRouter();
 
-  // const redirectToAnotherPage = () => {
-  //   setTimeout(() => {
-  //     router.push("/licenses");
-  //   }, 5000); // Redirects after 5 seconds
-  // };
+  const redirectToAnotherPage = () => {
+    setTimeout(() => {
+      router.push("/licenses");
+    }, 5000); // Redirects after 5 seconds
+  };
 
-  // redirectToAnotherPage();
+  redirectToAnotherPage();
 
   return (
     <div className="flex flex-col container max-w-[760px] mx-auto mt-16">
