@@ -5,13 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
-import { Progress } from "@/components/ui/progress";
-
 import {
   Select,
   SelectContent,
@@ -19,12 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-
-import { Label } from "@/components/ui/label";
+import { useUser } from "@clerk/clerk-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { ErrorMessage } from "@/components/ui/error-message";
+
 import {
   Form,
   FormControl,
@@ -39,74 +31,67 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { on } from "events";
 
-const OPTIONS: Option[] = [
-  { label: "nextjs", value: "Nextjs" },
-  { label: "Remix", value: "remix" },
-  { label: "React", value: "react" },
-];
+import { type User } from "@prisma/client";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
 
-export default function NutritionBasics({ handleProgress }) {
+interface NutritionBasicsFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "nutrition" | "externalId"> | null;
+}
+
+export default function NutritionBasics({
+  handleProgress,
+  data,
+}: NutritionBasicsFormProps) {
   const [step, setStep] = useState(0);
-
+  const { user } = useUser();
   const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
+  const [error, setError] = useTimeOutMessage();
 
   const formSchema = yup.object({
-    regime: yup.string().required("Ce champ est requis"),
-    surgery: yup.object({
-      done: yup.boolean(),
-      zone: yup.string(),
-    }),
-    injury: yup.object({
-      done: yup.boolean(),
-      zone: yup.string(),
-    }),
-    isTakingMedication: yup.object({
-      taking: yup.boolean(),
-      medicaments: yup.array(),
-    }),
-    isPregnant: yup.boolean(),
-    hasBeenHospitalized: yup.boolean(),
+    dietary_restrictions: yup.string().required("Ce champ est requis"),
+    do_you_like_cooking: yup.boolean(),
+    number_of_daily_meals: yup.string().required("Ce champ est requis"),
+    preferred_beverages: yup.string().required("Ce champ est requis"),
   });
 
   const form = useForm({
     resolver: yupResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      regime: "no_regime",
-      meals_per_day: "3_meals",
-      surgery: {
-        done: false,
-        zone: "",
-      },
-      injury: {
-        done: false,
-        zone: "",
-      },
-      isTakingMedication: {
-        taking: false,
-        medicaments: [],
-      },
-      isPregnant: false,
-      hasBeenHospitalized: false,
+      dietary_restrictions:
+        data?.nutrition?.dietary_restrictions || "no_regime",
+      do_you_like_cooking: data?.nutrition?.do_you_like_cooking || false,
+      number_of_daily_meals:
+        data?.nutrition?.number_of_daily_meals || "3_meals",
+      preferred_beverages: data?.nutrition?.preferred_beverages || "water",
     },
   });
 
   type HealthHistoryFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: HealthHistoryFields) => {
-    console.log("shit");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/nutrition`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nutrition: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     handleProgress("next");
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
-    // router.push("/onboarding/congratulations");
   };
 
   return (
@@ -114,7 +99,7 @@ export default function NutritionBasics({ handleProgress }) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="surgery.done"
+          name="do_you_like_cooking"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Aimez-vous cuisiner ?</FormLabel>
@@ -151,7 +136,7 @@ export default function NutritionBasics({ handleProgress }) {
         />
         <FormField
           control={form.control}
-          name="regime"
+          name="dietary_restrictions"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -179,7 +164,7 @@ export default function NutritionBasics({ handleProgress }) {
         />
         <FormField
           control={form.control}
-          name="meals_per_day"
+          name="number_of_daily_meals"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -204,7 +189,7 @@ export default function NutritionBasics({ handleProgress }) {
         />
         <FormField
           control={form.control}
-          name="meals_per_day"
+          name="preferred_beverages"
           render={({ field }) => (
             <FormItem>
               <FormLabel>
@@ -217,21 +202,28 @@ export default function NutritionBasics({ handleProgress }) {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="2_meals">Eau</SelectItem>
-                  <SelectItem value="3_meals">
+                  <SelectItem value="water">Eau</SelectItem>
+                  <SelectItem value="sugary_drinks">
                     Boissons sucrés (soda, jus de fruit, sirop)
                   </SelectItem>
-                  <SelectItem value="4_meals">Café, thé</SelectItem>
-                  <SelectItem value="5_meals">Boissons énergisantes</SelectItem>
+                  <SelectItem value="coffee_tea">Café, thé</SelectItem>
+                  <SelectItem value="energy_drink">
+                    Boissons énergisantes
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+        {error && <ErrorMessage description={error} />}
 
         <div className="w-full flex  justify-end ">
-          <Button type="submit" className="w-1/3">
+          <Button
+            type="submit"
+            className="w-1/3"
+            loading={form.formState.isSubmitting}
+          >
             {t("form.submission.submit")}
           </Button>
         </div>

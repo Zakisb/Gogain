@@ -31,6 +31,8 @@ model User {
   gender        String?
   goal         Json?
   generalLifestyleHealthHabits  Json?
+  nutrition  Json?
+  lifestyle  Json?
   dailyEnvironmentHabits  Json?
   historyCurrentHealth  Json?
   role      Role    @default(EMPLOYEE)
@@ -111,18 +113,6 @@ model Meal {
   calories    Int?
   dietPlanId  Int
   dietPlan    DietPlan @relation(fields: [dietPlanId], references: [id])
-  foods  Food[]
+  foods     Json[]
 }
 
-model Food {
-  id          Int        @id @default(autoincrement())
-  name        String
-  quantity    Int 
-  unit        String     // Example: 'grams', 'ml', 'cups', etc.
-  calories    Int
-  protein     Float
-  carbohydrates Float
-  fats        Float
-  meal        Meal       @relation(fields: [mealId], references: [id])
-  mealId      Int
-}

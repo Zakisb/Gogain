@@ -65,7 +65,11 @@ export async function POST(req: Request) {
           email: attributes.email_addresses[0]?.email_address as string,
           imageUrl: attributes.image_url as string,
         },
-        update: { role: attributes.private_metadata.role },
+        update: {
+          role: attributes.private_metadata.role,
+          firstName: attributes.first_name,
+          lastName: attributes.last_name,
+        },
       });
     } else if (eventType === "user.deleted") {
       const { id } = evt.data;

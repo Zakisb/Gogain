@@ -39,6 +39,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { type User } from "@prisma/client";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
+import { useUser } from "@clerk/clerk-react";
 
 const OPTIONS: Option[] = [];
 
@@ -51,38 +55,59 @@ const marks = {
   5: <strong>5</strong>,
 };
 
-export default function HealthHabits({ handleProgress }) {
+interface LifestyleFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "lifestyle" | "externalId"> | null;
+}
+
+export default function HealthHabits({
+  handleProgress,
+  data,
+}: LifestyleFormProps) {
   const t = useTranslations("Onboarding.GeneralHabits");
   const router = useRouter();
+  const [error, setError] = useTimeOutMessage();
+  const { user } = useUser();
 
   const formSchema = yup.object({
-    sleepHours: yup.string().required(t("form.fields.sleepDuration.required")),
-    sportsHours: yup.string().required(t("form.fields.activityLevel.required")),
+    sleepHours: yup.string().required("Ce champs est requis"),
+    sportsHoursPerWeek: yup.string().required("Ce champs est requis"),
     pain: yup.array().of(yup.string()),
-    stressLevel: yup.number().required(t("form.fields.duration.required")),
+    stressLevel_5_scale: yup.number().required("Ce champs est requis"),
   });
 
   const form = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      sleepHours: "",
-      sportsHours: "",
-      pain: [],
-      stressLevel: 0,
+      sleepHours: data?.lifestyle?.sleepHours || "0-5",
+      sportsHoursPerWeek: data?.lifestyle?.sportsHoursPerWeek || "4",
+      pain: data?.lifestyle?.pain || [],
+      stressLevel_5_scale: data?.lifestyle?.stressLevel_5_scale || 2,
     },
   });
 
   type GeneralHealthHabitsFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: GeneralHealthHabitsFields) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/lifestyle`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lifestyle: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     handleProgress("next");
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
   };
 
   return (
@@ -130,7 +155,7 @@ export default function HealthHabits({ handleProgress }) {
             {/* sports hours  */}
             <FormField
               control={form.control}
-              name="sportsHours"
+              name="sportsHoursPerWeek"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -192,7 +217,7 @@ export default function HealthHabits({ handleProgress }) {
             {/* stress level  */}
             <FormField
               control={form.control}
-              name="stressLevel"
+              name="stressLevel_5_scale"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -200,10 +225,14 @@ export default function HealthHabits({ handleProgress }) {
                     1 à 10?
                   </FormLabel>
                   <Slider
-                    defaultValue={2}
+                    defaultValue={field.value}
                     marks={marks}
                     step={1}
                     min={0}
+                    onChange={(value) => {
+                      console.log(value);
+                      form.setValue("stressLevel_5_scale", value);
+                    }}
                     styles={{
                       track: {
                         backgroundColor: "hsl(24.6, 95%, 53.1%)", // Directly using the HSL value
@@ -223,8 +252,14 @@ export default function HealthHabits({ handleProgress }) {
               )}
             />
           </div>
+          {error && <ErrorMessage description={error} />}
+
           <div className="w-full flex  justify-end gap-5">
-            <Button type="submit" className="w-1/3">
+            <Button
+              type="submit"
+              className="w-1/3"
+              loading={form.formState.isSubmitting}
+            >
               {t("form.submission.submit")}
             </Button>
           </div>

@@ -37,11 +37,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { type User } from "@prisma/client";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
+import { useUser } from "@clerk/clerk-react";
 
-export default function LifestyleHabits({ handleProgress }) {
+interface LifestyleFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "lifestyle" | "externalId"> | null;
+}
+
+export default function LifestyleHabits({
+  handleProgress,
+  data,
+}: LifestyleFormProps) {
   const t = useTranslations("Onboarding.LifeStyleHabits");
   const router = useRouter();
-
+  const [error, setError] = useTimeOutMessage();
+  const { user } = useUser();
   const formSchema = yup.object({
     sittingHours: yup.string().required(t("form.fields.sittingHours.required")),
     screenTime: yup.string().required(t("form.fields.screenTime.required")),
@@ -54,24 +67,35 @@ export default function LifestyleHabits({ handleProgress }) {
   const form = useForm({
     resolver: yupResolver(formSchema),
     defaultValues: {
-      sittingHours: "",
-      screenTime: "",
-      isSmoker: false,
-      alcoholConsumption: "",
+      sittingHours: data?.lifestyle?.sittingHours || "1-2",
+      screenTime: data?.lifestyle?.screenTime || "0-2",
+      isSmoker: data?.lifestyle?.isSmoker || false,
+      alcoholConsumption: data?.lifestyle?.alcoholConsumption || "once",
     },
   });
 
   type DailyEnvironmentHabitsFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: DailyEnvironmentHabitsFields) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/lifestyle`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lifestyle: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     handleProgress("next");
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
   };
 
   return (
@@ -205,6 +229,7 @@ export default function LifestyleHabits({ handleProgress }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="zero">Jamais</SelectItem>
                       <SelectItem value="once">
                         {t("form.fields.alcohol.options.onceAWeek")}
                       </SelectItem>
@@ -224,6 +249,8 @@ export default function LifestyleHabits({ handleProgress }) {
               )}
             />
           </div>
+          {error && <ErrorMessage description={error} />}
+
           <div className="w-full flex  justify-end gap-5">
             <Button
               type="submit"
@@ -233,7 +260,11 @@ export default function LifestyleHabits({ handleProgress }) {
             >
               Revenir
             </Button>
-            <Button type="submit" className="w-1/3">
+            <Button
+              type="submit"
+              className="w-1/3"
+              loading={form.formState.isSubmitting}
+            >
               {t("form.submission.submit")}
             </Button>
           </div>

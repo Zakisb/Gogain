@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-
+import { useUser } from "@clerk/clerk-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Calendar } from "@/components/ui/calendar";
@@ -39,19 +39,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { on } from "events";
+import { type User } from "@prisma/client";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
 
-const OPTIONS: Option[] = [
-  { label: "nextjs", value: "Nextjs" },
-  { label: "Remix", value: "remix" },
-  { label: "React", value: "react" },
-];
+interface NutritionPreferencesFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "nutrition" | "externalId"> | null;
+}
 
-export default function NutritionPreferences({ handleProgress }) {
+export default function NutritionPreferences({
+  handleProgress,
+  data,
+}: NutritionPreferencesFormProps) {
   const [step, setStep] = useState(0);
-
+  const { user } = useUser();
   const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
+  const [error, setError] = useTimeOutMessage();
 
   const formSchema = yup.object({
     isTakingSupplements: yup.object({
@@ -69,31 +74,40 @@ export default function NutritionPreferences({ handleProgress }) {
     resolver: yupResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      isTakingSupplements: {
+      isTakingSupplements: data?.nutrition?.isTakingSupplements || {
         taking: false,
         supplements: [],
       },
-      isIntolerant: {
+      isIntolerant: data?.nutrition?.isIntolerant || {
         tolerance: false,
         list: [],
       },
-      flavor_preference: "no_preference",
+      flavor_preference: data?.nutrition?.flavor_preference || "no_preference",
     },
   });
 
   type HealthHistoryFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: HealthHistoryFields) => {
-    console.log("shit");
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/nutrition`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nutrition: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     handleProgress("next");
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
-    // router.push("/onboarding/congratulations");
   };
 
   return (
@@ -264,11 +278,14 @@ export default function NutritionPreferences({ handleProgress }) {
           )}
         />
 
+        {error && <ErrorMessage description={error} />}
+
         <div className="w-full flex  justify-end gap-5">
           <Button
             type="submit"
             variant={"outline"}
             className="w-1/3"
+            loading={form.formState.isSubmitting}
             onClick={() => handleProgress("previous")}
           >
             Revenir

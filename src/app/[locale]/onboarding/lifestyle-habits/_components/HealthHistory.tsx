@@ -37,16 +37,24 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
+import { useUser } from "@clerk/clerk-react";
+import { type User } from "@prisma/client";
 
-const OPTIONS: Option[] = [
-  { label: "nextjs", value: "Nextjs" },
-  { label: "Remix", value: "remix" },
-  { label: "React", value: "react" },
-];
+interface LifestyleFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "lifestyle" | "externalId"> | null;
+}
 
-export default function HealthHistory({ handleProgress }) {
+export default function HealthHistory({
+  handleProgress,
+  data,
+}: LifestyleFormProps) {
   const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
+  const [error, setError] = useTimeOutMessage();
+  const { user } = useUser();
 
   const formSchema = yup.object({
     surgery: yup.object({
@@ -67,34 +75,45 @@ export default function HealthHistory({ handleProgress }) {
 
   const form = useForm({
     resolver: yupResolver(formSchema),
-    defaultValues: {
+    defaultValues: data?.lifestyle?.surgery || {
       surgery: {
         done: false,
         zone: "",
       },
-      injury: {
+      injury: data?.lifestyle?.injury || {
         done: false,
         zone: "",
       },
-      isTakingMedication: {
+      isTakingMedication: data?.lifestyle?.isTakingMedication || {
         taking: false,
         medicaments: [],
       },
-      isPregnant: false,
-      hasBeenHospitalized: false,
+      isPregnant: data?.lifestyle?.isPregnant || false,
+      hasBeenHospitalized: data?.lifestyle?.hasBeenHospitalized || false,
     },
   });
 
   type HealthHistoryFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: HealthHistoryFields) => {
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/lifestyle`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lifestyle: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     router.push("/onboarding/congratulations");
   };
 
@@ -350,6 +369,7 @@ export default function HealthHistory({ handleProgress }) {
               )}
             />
           </div>
+          {error && <ErrorMessage description={error} />}
 
           <div className="w-full flex  justify-end gap-5">
             <Button
@@ -360,7 +380,11 @@ export default function HealthHistory({ handleProgress }) {
             >
               Revenir
             </Button>
-            <Button type="submit" className="w-1/3">
+            <Button
+              type="submit"
+              className="w-1/3"
+              loading={form.formState.isSubmitting}
+            >
               {t("form.submission.submit")}
             </Button>
           </div>

@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
+import useTimeOutMessage from "@/hooks/useTimeOutMessage";
+import { ErrorMessage } from "@/components/ui/error-message";
 
 import {
   Select,
@@ -20,12 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
+import { useUser } from "@clerk/clerk-react";
 import {
   Form,
   FormControl,
@@ -35,12 +32,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { on } from "events";
+import { type User } from "@prisma/client";
 
 const proteinOptions: Option[] = [
   { label: "Œufs", value: "Œufs" },
@@ -188,11 +180,17 @@ const fatOptions: Option[] = [
   },
 ];
 
-export default function FoodPreferences({ handleProgress }) {
-  const [step, setStep] = useState(0);
+interface NutritionBasicsFormProps {
+  handleProgress: (value: string) => void;
+  data: Pick<User, "nutrition" | "externalId"> | null;
+}
 
+export default function FoodPreferences({ handleProgress, data }) {
+  const [step, setStep] = useState(0);
+  const { user } = useUser();
   const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
+  const [error, setError] = useTimeOutMessage();
 
   const formSchema = yup.object({
     proteinPreferences: yup
@@ -208,24 +206,33 @@ export default function FoodPreferences({ handleProgress }) {
     resolver: yupResolver(formSchema),
     mode: "onChange",
     defaultValues: {
-      proteinPreferences: [],
-      carbsPreferences: [],
-      fatPreferences: [],
-      waterIntake: "less_1l",
+      proteinPreferences: data?.nutrition?.proteinPreferences || [],
+      carbsPreferences: data?.nutrition?.carbsPreferences || [],
+      fatPreferences: data?.nutrition?.fatPreferences || [],
+      waterIntake: data?.nutrition?.waterIntake || "less_1l",
     },
   });
 
   type HealthHistoryFields = yup.InferType<typeof formSchema>;
-
   const onSubmit = async (values: HealthHistoryFields) => {
-    // handleProgress("next");
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/users`, {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(values),
-    // });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/nutrition`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nutrition: values,
+          externalId: user?.id,
+        }),
+      }
+    );
+    if (!response.ok) {
+      setError("Une erreur est survenur. Veuillez réessayer.");
+      return;
+    }
+    router.refresh();
     router.push("/onboarding/lifestyle-habits");
   };
 
@@ -367,6 +374,7 @@ export default function FoodPreferences({ handleProgress }) {
             </FormItem>
           )}
         />
+        {error && <ErrorMessage description={error} />}
 
         <div className="w-full flex  justify-end gap-5">
           <Button
@@ -377,7 +385,11 @@ export default function FoodPreferences({ handleProgress }) {
           >
             Revenir
           </Button>
-          <Button type="submit" className="w-1/3">
+          <Button
+            type="submit"
+            className="w-1/3"
+            loading={form.formState.isSubmitting}
+          >
             {t("form.submission.submit")}
           </Button>
         </div>
