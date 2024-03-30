@@ -9,7 +9,7 @@ import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import AuthLayout from "../_components/AuthLayout";
+import AuthLayout from "../../_components/AuthLayout";
 import { Input } from "@/components/ui/input";
 import useTimeOutMessage from "@/hooks/useTimeOutMessage";
 import { ErrorMessage } from "@/components/ui/error-message";
