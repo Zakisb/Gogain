@@ -10,6 +10,18 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 interface AlertModalProps {
   title: string;
   description: string;
@@ -29,7 +41,7 @@ export const AlertModal = ({
   isOpen,
   onClose,
   onConfirm,
-  loading,
+  loading = false,
   closeText = "Cancel",
   confirmText = "Continue",
 }: AlertModalProps) => {
@@ -49,25 +61,23 @@ export const AlertModal = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center gap-x-2">
-          <span>Are you sure want to delete</span>
-          <span className="text-lg font-bold text-red-500">{name}</span>?
-        </div>
-        <div className="flex w-full items-center justify-end space-x-2 pt-6">
-          <Button variant="outline" onClick={onClose}>
-            {closeText}
-          </Button>
-          <Button variant="destructive" onClick={onConfirm}>
-            {confirmText}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+    <AlertDialog open={isOpen} onOpenChange={onChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <div className="flex w-full items-center justify-end space-x-2 pt-6">
+            <Button variant="outline" onClick={onClose}>
+              {closeText}
+            </Button>{" "}
+            <Button variant="destructive" onClick={onConfirm} loading={loading}>
+              {confirmText}
+            </Button>
+          </div>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };

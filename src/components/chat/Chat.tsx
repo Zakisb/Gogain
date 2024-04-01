@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Dot, ChevronDown } from "lucide-react";
 const Chat: FC = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const chatWindowVariants = {
     open: {
       opacity: 1,

@@ -1,22 +1,18 @@
 import { SectionHeading } from "../../_components/SectionHeading";
-import LicensesForm from "../_components/LicensesForm";
+import VideoForm from "../_components/VideoForm";
 import { Separator } from "@/components/ui/separator";
-import { LicenseType } from "@prisma/client";
 
 export default function Page() {
   return (
     <>
       <div className="flex items-center justify-between">
         <SectionHeading
-          title="Create license"
-          description="Create a new license"
+          title="Ajouter une vidéo"
+          description="Télécargez une vidéo pour l'ajouter à la bibliothèque d'exercices."
         />
       </div>
       <Separator />
-      <LicensesForm />
-      <LicensesForm />
-      <LicensesForm />
-      <LicensesForm />
+      <VideoForm />
     </>
   );
 }

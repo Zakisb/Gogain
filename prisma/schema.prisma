@@ -116,3 +116,20 @@ model Meal {
   foods     Json[]
 }
 
+model Video {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  category   String
+  duration    Int?
+  level      String
+  tags      String[]
+  createdAt   DateTime @default(now())
+  deleted        Boolean   @default(false)
+  videoExternalId    String
+  thumbnailUrl    String
+  posterUrl    String?
+  embedCode    String
+  videoSize    Int
+}
+

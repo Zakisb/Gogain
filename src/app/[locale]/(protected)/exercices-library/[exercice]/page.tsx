@@ -1,0 +1,30 @@
+import { SectionHeading } from "../../_components/SectionHeading";
+import VideoForm from "../_components/VideoForm";
+import { Separator } from "@/components/ui/separator";
+import { getVideo } from "@/services/VideoServices";
+
+export default async function Page({
+  params,
+}: {
+  params: { exercice: string };
+}) {
+  const video = await getVideo(params.exercice);
+
+  if (!video) return null;
+
+  return (
+    <>
+      <div className="flex items-center justify-between">
+        <SectionHeading
+          title="Modifier les données de la vidéo"
+          description="mettez à jour les informations de la vidéo."
+        />
+      </div>
+      <Separator />
+
+      <VideoForm initialData={video} type="edit" />
+      <VideoForm initialData={video} type="edit" />
+      <VideoForm initialData={video} type="edit" />
+    </>
+  );
+}

@@ -11,6 +11,15 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.sproutvideo.com",
+        port: "",
+      },
+    ],
+  },
   async redirects() {
     return [
       {

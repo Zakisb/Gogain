@@ -43,7 +43,12 @@ export default authMiddleware({
   // debug: true,
   ignoredRoutes: ["/:locale/create-account", "/api/webhooks(.*)"],
   // Ensure that locale-specific sign in pages are public
-  publicRoutes: ["/:locale", "/:locale/login", "/api/webhooks(.*)"],
+  publicRoutes: [
+    "/:locale",
+    "/:locale/login",
+    "/api/webhooks(.*)",
+    "/api/meal-plan",
+  ],
 });
 
 export const config = {
