@@ -23,8 +23,6 @@ export default async function Page({
       <Separator />
 
       <VideoForm initialData={video} type="edit" />
-      <VideoForm initialData={video} type="edit" />
-      <VideoForm initialData={video} type="edit" />
     </>
   );
 }

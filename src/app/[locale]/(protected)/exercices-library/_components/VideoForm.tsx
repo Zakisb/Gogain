@@ -203,7 +203,7 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
                 </FormItem>
               )}
             />
-            {/* {initialData ? (
+            {initialData ? (
               <VideoPlayer embedCode={initialData.embedCode} />
             ) : (
               <FormField
@@ -266,7 +266,7 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
                   </FormItem>
                 )}
               />
-            )} */}
+            )}
 
             <FormField
               control={form.control}
