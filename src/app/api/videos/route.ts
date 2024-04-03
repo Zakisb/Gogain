@@ -18,12 +18,11 @@ export async function POST(request: NextRequest) {
     );
 
     if (!uploadToSproutVideo.ok) {
-      const errorResponse = await uploadToSproutVideo.json();
-      console.error("Error response from Sprout Video API:", errorResponse);
       throw new Error(`HTTP error! status: ${uploadToSproutVideo.status}`);
     }
 
     const response = await uploadToSproutVideo.json();
+    console.log("Response from Sprout Video API:", response);
     // console.log(response);
     const video = await prisma.video.create({
       data: {
@@ -38,9 +37,10 @@ export async function POST(request: NextRequest) {
         category: formData.get("category") as string,
         level: formData.get("level") as string,
         tags: JSON.parse(formData.get("tags")),
+        state: response.state,
       },
     });
-    console.log(response);
+
     return NextResponse.json(response, { status: 201 });
   } catch (error) {
     console.error("Error uploading video:", error);

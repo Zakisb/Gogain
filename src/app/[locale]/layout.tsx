@@ -37,19 +37,12 @@ export default function RootLayout({
   return (
     <html lang={locale}>
       <body className={BeVietnamPro.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ClerkProvider>
-            <NextIntlClientProvider locale={locale} messages={messages}>
-              {children}
-              <Toaster position="top-right" />
-            </NextIntlClientProvider>
-          </ClerkProvider>
-        </ThemeProvider>
+        <ClerkProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+            <Toaster position="top-right" />
+          </NextIntlClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

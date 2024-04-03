@@ -91,9 +91,9 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
     resolver: yupResolver(formSchema),
     context: { type: "edit" },
     defaultValues: {
-      title: initialData?.title || "Epaule",
-      description: initialData?.description || "desc",
-      category: initialData?.category || "shoulder",
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      category: initialData?.category || "",
       level: initialData?.level || "beginner",
       tags: initialData?.tags || [],
       source_video: "",
@@ -109,50 +109,47 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
   };
 
   const onSubmit = async (values: VideoFormFields) => {
-    console.log("nopb");
-
     if (initialData) {
       await updateVideoAction(values);
       toast.info("Vidéo mise à jour avec succès.");
       return;
     }
-    console.log("got here");
-    // toast.info(
-    //   "Téléchargement de la vidéo en cours, veuillez ne pas quitter la page."
-    // );
-    // const formData = new FormData();
-    // console.log(values);
-    // formData.append("title", values.title);
-    // formData.append("description", values.description ?? "");
-    // formData.append("category", values.category);
-    // formData.append("level", values.level);
-    // formData.append("tags", JSON.stringify(values.tags));
-    // formData.append("source_video", values.source_video[0]);
 
-    // try {
-    //   const response = await fetch("/api/videos", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
+    toast.info(
+      "Téléchargement de la vidéo en cours, veuillez ne pas quitter la page."
+    );
+    const formData = new FormData();
 
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //     setError(
-    //       "Erreur lors du téléchargement de la vidéo. Veuillez réessayer."
-    //     );
-    //   }
+    formData.append("title", values.title);
+    formData.append("description", values.description ?? "");
+    formData.append("category", values.category);
+    formData.append("level", values.level);
+    formData.append("tags", JSON.stringify(values.tags));
+    formData.append("source_video", values.source_video[0]);
 
-    //   toast.success("Vidéo ajoutée avec succès");
+    try {
+      const response = await fetch("/api/videos", {
+        method: "POST",
+        body: formData,
+      });
 
-    //   return response;
-    // } catch (error) {
-    //   console.error("Error uploading video:", error);
-    //   throw error;
-    // }
+      if (!response.ok) {
+        setError(
+          "Erreur lors du téléchargement de la vidéo. Veuillez réessayer."
+        );
+      }
+
+      toast.success("Vidéo ajoutée avec succès");
+      form.reset();
+      return response;
+    } catch (error) {
+      console.error("Error uploading video:", error);
+      throw error;
+    }
   };
 
   return (
-    <div>
+    <div className="relative pb-28">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid-cols-1 gap-8 md:grid max-w-xl">
@@ -255,7 +252,7 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
                                 </p>
                               </div>
                               <p className="text-xs leading-5 text-gray-600">
-                                format mp4 jusqu'à 1GB
+                                format mp4 jusqu&apos;à 1GB
                               </p>
                             </div>
                           </div>
@@ -284,43 +281,24 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="yoga">Yoga</SelectItem>
-                      <SelectItem value="abs">Abdos</SelectItem>
-                      <SelectItem value="shoulder">Épaule</SelectItem>
-                      <SelectItem value="legs">Jambes</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="level"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Niveau</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="beginner">Débutant</SelectItem>
-                      <SelectItem value="intermediate">
-                        Intermédiaire
+                      <SelectItem value="shoulders">Épaules</SelectItem>
+                      <SelectItem value="cervical">Cervical</SelectItem>
+                      <SelectItem value="coudes">Coudes</SelectItem>
+                      <SelectItem value="dorsal">Dorsal</SelectItem>
+                      <SelectItem value="hanche">Hanche</SelectItem>
+                      <SelectItem value="lombar">lombaire</SelectItem>
+                      <SelectItem value="feet">Pieds</SelectItem>
+                      <SelectItem value="wrists">wrists</SelectItem>
+                      <SelectItem value="static_dynamique_stability">
+                        Stabilité statique et dynamique
                       </SelectItem>
-                      <SelectItem value="advanced">Avancé</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="tags"

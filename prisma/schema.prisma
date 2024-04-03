@@ -126,10 +126,11 @@ model Video {
   tags      String[]
   createdAt   DateTime @default(now())
   deleted        Boolean   @default(false)
-  videoExternalId    String
+  videoExternalId    String  @unique 
   thumbnailUrl    String
   posterUrl    String?
   embedCode    String
   videoSize    Int
+  state     String @default("inspecting")
 }
 

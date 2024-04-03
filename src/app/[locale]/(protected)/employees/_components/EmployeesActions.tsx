@@ -15,7 +15,7 @@ import {
 import EmployeesForm from "./EmployeesForm";
 import { apiGetLicenses } from "@/services/LicenseServices";
 
-export default async function EmployeesActions() {
+export default function EmployeesActions() {
   return (
     <div className="flex items-center justify-between">
       <SectionHeading
