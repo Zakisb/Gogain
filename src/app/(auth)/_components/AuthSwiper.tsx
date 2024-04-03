@@ -2,8 +2,6 @@
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import { useTranslations } from "next-intl";
-
 import sass1 from "/public/assets/images/hero/saas1.jpg";
 import sass2 from "/public/assets/images/hero/saas2.jpg";
 import sass3 from "/public/assets/images/hero/saas3.jpg";
@@ -14,7 +12,6 @@ import "swiper/css/pagination";
 import "@/styles/custom.css";
 
 const AuthSwiper = () => {
-  const t = useTranslations("AuthSwiper");
   return (
     <Swiper
       modules={[Autoplay, Pagination]}
@@ -41,10 +38,11 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              {t("slideOne.title")}
+              Élevez Votre Entraînement avec le Suivi de Performance Personnel
             </h5>
             <p className="text-sm/[1.6] text-gray-500 mb-4">
-              {t("slideOne.description")}
+              Prenez le contrôle de votre parcours de fitness avec nos
+              fonctionnalités avancées de suivi de performance.
             </p>
           </div>
         </div>
@@ -62,10 +60,11 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              {t("slideTwo.title")}
+              Entraînements Personnalisés pour Vos Objectifs Uniques
             </h5>
             <p className="text-sm/[1.6] text-gray-500">
-              {t("slideTwo.description")}
+              Découvrez la puissance de l&apos;entraînement personnalisé avec
+              des plans d&apos;entraînement modulables.
             </p>
           </div>
         </div>
@@ -83,10 +82,12 @@ const AuthSwiper = () => {
           </div>
           <div className="text-center my-6 pb-12">
             <h5 className="font-medium text-base/[1.6] text-gray-600 my-2.5">
-              {t("slideThree.title")}
+              Rejoignez une Communauté Engagée pour la Réussite
             </h5>
             <p className="text-sm/[1.6] text-gray-500">
-              {t("slideThree.description")}
+              Vous n&apos;êtes pas seul dans votre parcours de fitness.
+              Connectez-vous avec une communauté de soutien de formateurs et de
+              pairs qui partagent vos objectifs et défis.
             </p>
           </div>
         </div>

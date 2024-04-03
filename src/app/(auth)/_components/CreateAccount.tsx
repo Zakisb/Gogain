@@ -7,7 +7,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { UserPlus } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
 import AuthLayout from "../_components/AuthLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,17 +23,19 @@ import {
 import useAuth from "@/hooks/useAuth";
 
 export default function CreateAccount() {
-  const t = useTranslations("Login");
   const { register } = useAuth();
   const searchParams = useSearchParams();
   const resetToken = searchParams.get("access");
 
   const formSchema = yup.object({
-    password: yup.string().required("Password is required"),
+    password: yup.string().required("Le mot de passe est requis"),
     confirmPassword: yup
       .string()
-      .required("Confirm Password is required")
-      .oneOf([yup.ref("password"), ""], "Passwords must match"),
+      .required("Veuillez confirmer votre mot de passe")
+      .oneOf(
+        [yup.ref("password"), ""],
+        "Les mots de passes doivent être identiques"
+      ),
   });
 
   type CreateAccountFormFields = yup.InferType<typeof formSchema>;
@@ -54,8 +55,8 @@ export default function CreateAccount() {
 
   return (
     <AuthLayout
-      authTitle={t("title")}
-      helpText={t("description")}
+      authTitle="Soyez les bienvenus"
+      helpText="Veuillez vous connecter pour accéder à votre compte."
       displayShowcase={false}
       hasThirdPartyAuth
     >
@@ -100,9 +101,7 @@ export default function CreateAccount() {
 
             <div className="flex justify-center mb-6">
               <Button className="w-full" loading={form.formState.isSubmitting}>
-                <UserPlus className="h-4 w-4 me-2" />{" "}
-                {/* {t("form.submission.login")} */}
-                Create account
+                <UserPlus className="h-4 w-4 me-2" /> Créez votre compte
               </Button>
             </div>
           </form>

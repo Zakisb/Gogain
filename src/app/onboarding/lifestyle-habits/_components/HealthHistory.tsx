@@ -1,7 +1,6 @@
 "use client";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -51,7 +50,6 @@ export default function HealthHistory({
   handleProgress,
   data,
 }: LifestyleFormProps) {
-  const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
   const [error, setError] = useTimeOutMessage();
   const { user } = useUser();
@@ -119,8 +117,10 @@ export default function HealthHistory({
 
   return (
     <>
-      <h3>{t("title")}</h3>
-      <p className="text-gray-700">{t("description")}</p>
+      <h3>Antécédents et Santé Actuelle</h3>
+      <p className="text-gray-700">
+        Partagez vos antécédents médicaux pour un suivi personnalisé.
+      </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 gap-8 mt-12">
@@ -131,7 +131,7 @@ export default function HealthHistory({
                 name="surgery.done"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.fields.surgery.label")}</FormLabel>
+                    <FormLabel>Avez-vous déjà été opéré ?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => {
@@ -144,18 +144,13 @@ export default function HealthHistory({
                           <FormControl>
                             <RadioGroupItem value="true" />
                           </FormControl>
-                          <FormLabel className="font-normal">
-                            {t("form.fields.surgery.options.yes")}
-                          </FormLabel>
+                          <FormLabel className="font-normal">Oui</FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="false" />
                           </FormControl>
-                          <FormLabel className="font-normal">
-                            {" "}
-                            {t("form.fields.surgery.options.no")}
-                          </FormLabel>
+                          <FormLabel className="font-normal"> Non</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -172,9 +167,7 @@ export default function HealthHistory({
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={t(
-                            "form.fields.surgery.zone.placeholder"
-                          )}
+                          placeholder={"Veuillez mentionner la zone"}
                         />
                       </FormControl>
                       <FormMessage />
@@ -189,7 +182,9 @@ export default function HealthHistory({
                 name="injury.done"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.fields.injury.label")}</FormLabel>
+                    <FormLabel>
+                      Avez-vous déjà été blessé de manière significative?
+                    </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => {
@@ -225,7 +220,7 @@ export default function HealthHistory({
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder={t("form.fields.injury.zone.placeholder")}
+                          placeholder={"Veuillez mentionner la zone"}
                         />
                       </FormControl>
                       <FormMessage />
@@ -241,7 +236,7 @@ export default function HealthHistory({
                 name="isTakingMedication.taking"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.fields.medication.label")}</FormLabel>
+                    <FormLabel>Prenez-vous des médicaments ?</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => {
@@ -385,7 +380,7 @@ export default function HealthHistory({
               className="w-1/3"
               loading={form.formState.isSubmitting}
             >
-              {t("form.submission.submit")}
+              Suivant
             </Button>
           </div>
 

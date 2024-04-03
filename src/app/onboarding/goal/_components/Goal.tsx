@@ -2,7 +2,6 @@
 import Image from "next/image";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -45,14 +44,13 @@ interface UserFormProps {
 }
 
 export default function Goal({ initialData }: UserFormProps) {
-  const t = useTranslations("Onboarding.Goal");
   const [error, setError] = useTimeOutMessage();
 
   const router = useRouter();
 
   const formSchema = yup.object({
-    type: yup.string().required(t("form.fields.type.required")),
-    duration: yup.number().required(t("form.fields.duration.required")),
+    type: yup.string().required("L'objectif est requis"),
+    duration: yup.number().required("La durée est requise"),
   });
 
   const form = useForm({
@@ -91,12 +89,14 @@ export default function Goal({ initialData }: UserFormProps) {
     <div className="flex flex-col container max-w-[800px] mx-auto mt-14">
       <div className="mt-10 space-y-3">
         <div className="flex flex-row gap-x-8 items-center">
-          <h2>{t("title")}</h2>
+          <h2>Quel est votre objectif ?</h2>
           <span>
             <Image height={50} src={GoalSvg} alt="Goal" />
           </span>
         </div>
-        <p className="text-gray-700">{t("description")}</p>
+        <p className="text-gray-700">
+          Choisissez un objectif pour personnaliser votre programme.
+        </p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -106,7 +106,7 @@ export default function Goal({ initialData }: UserFormProps) {
               name="type"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.type.label")}</FormLabel>
+                  <FormLabel>Je voudrais...</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -118,10 +118,10 @@ export default function Goal({ initialData }: UserFormProps) {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="weightLoss">
-                        {t("form.fields.type.options.weightLoss")}
+                        Perdre du poids
                       </SelectItem>
                       <SelectItem value="muscleGain">
-                        {t("form.fields.type.options.muscleGain")}
+                        Prendre du muscle
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -135,7 +135,10 @@ export default function Goal({ initialData }: UserFormProps) {
               name="duration"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel> {t("form.fields.duration.label")} </FormLabel>
+                  <FormLabel>
+                    {" "}
+                    Je voudrais atteindre mon objectif en...{" "}
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value.toString()}
@@ -175,11 +178,9 @@ export default function Goal({ initialData }: UserFormProps) {
               className="w-1/3"
               loading={form.formState.isSubmitting}
             >
-              {t("form.submission.submit")}
+              Suivant
             </Button>
           </div>
-
-          <div></div>
         </form>
       </Form>
     </div>

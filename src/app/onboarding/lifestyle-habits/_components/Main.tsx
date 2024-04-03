@@ -1,6 +1,5 @@
 "use client";
 import { useState, useRef } from "react";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 
@@ -18,7 +17,6 @@ interface NutritionFormProps {
 export default function Main({ initialData }: NutritionFormProps) {
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(0);
-  const t = useTranslations("Onboarding.HealthHistory");
 
   const onNext = (value: string) => {
     if (value == "next") {

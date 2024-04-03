@@ -2,7 +2,6 @@
 import { useState, useImperativeHandle, forwardRef } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -46,7 +45,6 @@ export default function NutritionBasics({
 }: NutritionBasicsFormProps) {
   const [step, setStep] = useState(0);
   const { user } = useUser();
-  const t = useTranslations("Onboarding.HealthHistory");
   const router = useRouter();
   const [error, setError] = useTimeOutMessage();
 
@@ -115,18 +113,13 @@ export default function NutritionBasics({
                     <FormControl>
                       <RadioGroupItem value="true" />
                     </FormControl>
-                    <FormLabel className="font-normal">
-                      {t("form.fields.surgery.options.yes")}
-                    </FormLabel>
+                    <FormLabel className="font-normal">Oui</FormLabel>
                   </FormItem>
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
                       <RadioGroupItem value="false" />
                     </FormControl>
-                    <FormLabel className="font-normal">
-                      {" "}
-                      {t("form.fields.surgery.options.no")}
-                    </FormLabel>
+                    <FormLabel className="font-normal">Non</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -224,7 +217,7 @@ export default function NutritionBasics({
             className="w-1/3"
             loading={form.formState.isSubmitting}
           >
-            {t("form.submission.submit")}
+            Suivant
           </Button>
         </div>
       </form>

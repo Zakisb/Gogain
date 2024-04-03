@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Progress } from "@/components/ui/progress";
 import Main from "./_components/Main";

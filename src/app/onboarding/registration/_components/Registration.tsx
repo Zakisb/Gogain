@@ -1,5 +1,4 @@
 "use client";
-import { useTranslations } from "next-intl";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter, usePathname } from "next/navigation";
@@ -50,7 +49,6 @@ interface UserFormProps {
 }
 
 export default function Registration({ initialData }: UserFormProps) {
-  const t = useTranslations("Onboarding.Registration");
   const [error, setError] = useTimeOutMessage();
   const router = useRouter();
   const pathname = usePathname();
@@ -111,8 +109,10 @@ export default function Registration({ initialData }: UserFormProps) {
 
   return (
     <div className="flex flex-col container  max-w-[800px] mx-auto mt-16">
-      <h2>{t("title")}</h2>
-      <p className="text-gray-700">{t("description")}</p>
+      <h2>Inscription</h2>
+      <p className="text-gray-700">
+        Partagez vos infos pour un suivi personnalisé.
+      </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="flex gap-4 mt-12">
@@ -123,7 +123,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("form.fields.firstName.label")}
+                      Prénom
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -141,7 +141,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("form.fields.lastName.label")}{" "}
+                      Nom
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -162,7 +162,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel className="mb-1">
-                      {t("form.fields.birthDate.label")}{" "}
+                      Date de naissance
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <Popover>
@@ -177,7 +177,7 @@ export default function Registration({ initialData }: UserFormProps) {
                           >
                             {field.value ? (
                               format(field.value, "PPP", {
-                                locale: locales[locale],
+                                locale: locales["fr"],
                               })
                             ) : (
                               <span>
@@ -197,7 +197,7 @@ export default function Registration({ initialData }: UserFormProps) {
                           onSelect={field.onChange}
                           fromYear={1930}
                           toYear={new Date().getFullYear()}
-                          locale={locales[locale]}
+                          locale={locales["fr"]}
                         />
                       </PopoverContent>
                     </Popover>
@@ -298,7 +298,7 @@ export default function Registration({ initialData }: UserFormProps) {
               className="w-1/3"
               loading={form.formState.isSubmitting}
             >
-              {t("form.submission.submit")}
+              Suivant
             </Button>
           </div>
 

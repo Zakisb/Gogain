@@ -1,7 +1,6 @@
 "use client";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -64,7 +63,6 @@ export default function HealthHabits({
   handleProgress,
   data,
 }: LifestyleFormProps) {
-  const t = useTranslations("Onboarding.GeneralHabits");
   const router = useRouter();
   const [error, setError] = useTimeOutMessage();
   const { user } = useUser();
@@ -112,8 +110,10 @@ export default function HealthHabits({
 
   return (
     <>
-      <h2>{t("title")}</h2>
-      <p className="text-gray-700">{t("description")}</p>
+      <h2>Habitudes générales</h2>
+      <p className="text-gray-700">
+        Partagez vos habitudes pour un suivi personnalisé.
+      </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 gap-8 mt-12">
@@ -134,18 +134,10 @@ export default function HealthHabits({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0-5">
-                        {t("form.fields.sleepDuration.options.lessThan5")}
-                      </SelectItem>
-                      <SelectItem value="5-7">
-                        {t("form.fields.sleepDuration.options.between5And7")}
-                      </SelectItem>
-                      <SelectItem value="7-0">
-                        {t("form.fields.sleepDuration.options.between7And9")}
-                      </SelectItem>
-                      <SelectItem value="+9">
-                        {t("form.fields.sleepDuration.options.moreThan9")}
-                      </SelectItem>
+                      <SelectItem value="0-5">Moins de 5 heures</SelectItem>
+                      <SelectItem value="5-7">Entre 5 et 7 heures</SelectItem>
+                      <SelectItem value="7-0">Entre 7 et 9 heures</SelectItem>
+                      <SelectItem value="+9">Plus de 9 heures</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -230,7 +222,6 @@ export default function HealthHabits({
                     step={1}
                     min={0}
                     onChange={(value) => {
-                      console.log(value);
                       form.setValue("stressLevel_5_scale", value);
                     }}
                     styles={{
@@ -260,7 +251,7 @@ export default function HealthHabits({
               className="w-1/3"
               loading={form.formState.isSubmitting}
             >
-              {t("form.submission.submit")}
+              Suivant
             </Button>
           </div>
 

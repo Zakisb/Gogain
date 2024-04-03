@@ -1,7 +1,7 @@
 "use client";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useTranslations } from "next-intl";
+
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
@@ -51,17 +51,16 @@ export default function LifestyleHabits({
   handleProgress,
   data,
 }: LifestyleFormProps) {
-  const t = useTranslations("Onboarding.LifeStyleHabits");
   const router = useRouter();
   const [error, setError] = useTimeOutMessage();
   const { user } = useUser();
   const formSchema = yup.object({
-    sittingHours: yup.string().required(t("form.fields.sittingHours.required")),
-    screenTime: yup.string().required(t("form.fields.screenTime.required")),
+    sittingHours: yup.string().required("La durée est requise"),
+    screenTime: yup.string().required("La durée devant un écran est requise"),
     isSmoker: yup.boolean(),
     alcoholConsumption: yup
       .string()
-      .required(t("form.fields.alcohol.required")),
+      .required("La fréquence de consommation d'alcool est requise"),
   });
 
   const form = useForm({
@@ -100,8 +99,10 @@ export default function LifestyleHabits({
 
   return (
     <>
-      <h3>{t("title")}</h3>
-      <p className="text-gray-700">{t("description")}</p>
+      <h3>Habitudes de vie</h3>
+      <p className="text-gray-700">
+        Partagez vos habitudes quotidiennes pour un suivi personnalisé.
+      </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="grid grid-cols-1 gap-8 mt-12">
@@ -111,7 +112,9 @@ export default function LifestyleHabits({
               name="sittingHours"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.sittingHours.label")}</FormLabel>
+                  <FormLabel>
+                    Combien d’heure en moyenne êtes-vous assis par jour ?
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -122,18 +125,10 @@ export default function LifestyleHabits({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="1-2">
-                        {t("form.fields.sittingHours.options.lessThan4")}
-                      </SelectItem>
-                      <SelectItem value="3-4">
-                        {t("form.fields.sittingHours.options.between4And8")}
-                      </SelectItem>
-                      <SelectItem value="5-6">
-                        {t("form.fields.sittingHours.options.between8And12")}
-                      </SelectItem>
-                      <SelectItem value="7-8">
-                        {t("form.fields.sittingHours.options.moreThan12")}
-                      </SelectItem>
+                      <SelectItem value="0-4">Moins de 4 heures</SelectItem>
+                      <SelectItem value="4-8">Entre 4 et 8 heures</SelectItem>
+                      <SelectItem value="8-12">Entre 8 et 12 heures</SelectItem>
+                      <SelectItem value="+12">Plus de 12 heures</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -146,7 +141,9 @@ export default function LifestyleHabits({
               name="screenTime"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.screenTime.label")}</FormLabel>
+                  <FormLabel>
+                    Combien de temps passez-vous devant un écran par jour ?
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -157,18 +154,10 @@ export default function LifestyleHabits({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="0-2">
-                        {t("form.fields.screenTime.options.lessThan2")}
-                      </SelectItem>
-                      <SelectItem value="2-4">
-                        {t("form.fields.screenTime.options.between2And4")}
-                      </SelectItem>
-                      <SelectItem value="4-6">
-                        {t("form.fields.screenTime.options.between4And6")}
-                      </SelectItem>
-                      <SelectItem value="+6">
-                        {t("form.fields.screenTime.options.moreThan6")}
-                      </SelectItem>
+                      <SelectItem value="0-2">Moins de 2 heures</SelectItem>
+                      <SelectItem value="2-4">Entre 2 et 4 heures</SelectItem>
+                      <SelectItem value="4-6">Entre 4 et 6 heures</SelectItem>
+                      <SelectItem value="+6">Plus de 6 heures</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -181,7 +170,7 @@ export default function LifestyleHabits({
               name="isSmoker"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.smoking.label")}</FormLabel>
+                  <FormLabel>Êtes-vous fumeur ?</FormLabel>
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
@@ -192,18 +181,13 @@ export default function LifestyleHabits({
                         <FormControl>
                           <RadioGroupItem value="true" />
                         </FormControl>
-                        <FormLabel className="font-normal">
-                          {t("form.fields.smoking.options.yes")}
-                        </FormLabel>
+                        <FormLabel className="font-normal">Oui</FormLabel>
                       </FormItem>
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
                           <RadioGroupItem value="false" />
                         </FormControl>
-                        <FormLabel className="font-normal">
-                          {" "}
-                          {t("form.fields.smoking.options.no")}
-                        </FormLabel>
+                        <FormLabel className="font-normal"> Non</FormLabel>
                       </FormItem>
                     </RadioGroup>
                   </FormControl>
@@ -218,7 +202,10 @@ export default function LifestyleHabits({
               name="alcoholConsumption"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.alcohol.label")}</FormLabel>
+                  <FormLabel>
+                    Combien de fois buvez-vous de l&apos;alcool par semaine ?
+                    Combien de fois buvez-vous de l&apos;alcool par semaine ?
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -230,17 +217,15 @@ export default function LifestyleHabits({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="zero">Jamais</SelectItem>
-                      <SelectItem value="once">
-                        {t("form.fields.alcohol.options.onceAWeek")}
-                      </SelectItem>
+                      <SelectItem value="once">Une fois par semaine</SelectItem>
                       <SelectItem value="twice">
-                        {t("form.fields.alcohol.options.twiceAWeek")}
+                        Deux fois par semaine
                       </SelectItem>
                       <SelectItem value="three">
-                        {t("form.fields.alcohol.options.threeTimesAWeek")}
+                        Trois fois par semaine
                       </SelectItem>
                       <SelectItem value="four">
-                        {t("form.fields.alcohol.options.fourTimesAWeek")}
+                        Quatre fois par semaine
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -265,7 +250,7 @@ export default function LifestyleHabits({
               className="w-1/3"
               loading={form.formState.isSubmitting}
             >
-              {t("form.submission.submit")}
+              Suivant
             </Button>
           </div>
 

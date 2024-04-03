@@ -8,7 +8,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
-import { useTranslations } from "next-intl";
 import AuthLayout from "../../_components/AuthLayout";
 import { Input } from "@/components/ui/input";
 import useTimeOutMessage from "@/hooks/useTimeOutMessage";
@@ -35,17 +34,14 @@ export default function Login() {
 
   const { signOut } = useClerk();
   const router = useRouter();
-  const t = useTranslations("Login");
   const { login } = useAuth();
 
   const loginFormSchema = yup.object({
     email: yup
       .string()
-      .required(t("form.fields.email.required"))
-      .email(t("form.fields.email.invalid")),
-    password: yup
-      .string()
-      .min(1, { message: t("form.fields.password.required") }),
+      .required("L'adresse email est requise")
+      .email("Addresse mail invalide"),
+    password: yup.string().min(1, { message: "Le mot de passe est requis" }),
   });
 
   const form = useForm({
@@ -86,13 +82,12 @@ export default function Login() {
       else if (err.errors[0].code === "form_identifier_not_found")
         setError("Address email incorrecte ou inexistante");
     }
-    // matcher: ["/((?!api|_next|.*\\..*).*)"],
   };
 
   return (
     <AuthLayout
-      authTitle={t("title")}
-      helpText={t("description")}
+      authTitle="Soyez les bienvenus"
+      helpText="Veuillez vous connecter pour accéder à votre compte."
       displayShowcase
       hasThirdPartyAuth
     >
@@ -108,7 +103,7 @@ export default function Login() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.fields.email.label")}</FormLabel>
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -121,7 +116,7 @@ export default function Login() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("form.fields.password.label")}</FormLabel>
+                    <FormLabel>Mot de passe</FormLabel>
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>
@@ -138,8 +133,7 @@ export default function Login() {
                 className="w-full"
                 loading={form.formState.isSubmitting}
               >
-                <EnterIcon className="h-4 w-4 me-2" />{" "}
-                {t("form.submission.login")}
+                <EnterIcon className="h-4 w-4 me-2" /> S&apos;indentifer
               </Button>
             </div>
           </form>
