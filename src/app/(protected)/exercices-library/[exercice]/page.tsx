@@ -2,14 +2,13 @@ import { SectionHeading } from "../../_components/SectionHeading";
 import VideoForm from "../_components/VideoForm";
 import { Separator } from "@/components/ui/separator";
 import { getVideo } from "@/services/VideoServices";
-import { unstable_setRequestLocale } from "next-intl/server";
 
 export default async function Page({
   params,
 }: {
-  params: { exercice: string; locale: string };
+  params: { exercice: string };
 }) {
-  unstable_setRequestLocale(params.locale);
+  // unstable_setRequestLocale(params.locale);
 
   const video = await getVideo(params.exercice);
 

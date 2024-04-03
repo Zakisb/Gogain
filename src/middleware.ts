@@ -37,9 +37,9 @@ const intlMiddleware = async (request: NextRequest) => {
 };
 
 export default authMiddleware({
-  beforeAuth(request) {
-    return intlMiddleware(request);
-  },
+  // beforeAuth(request) {
+  //   return intlMiddleware(request);
+  // },
   // debug: true,
   ignoredRoutes: ["/:locale/create-account", "/api/webhooks(.*)"],
   // Ensure that locale-specific sign in pages are public
