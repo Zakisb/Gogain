@@ -1,3 +1,4 @@
+import { unstable_setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,9 +21,10 @@ import { Separator } from "@/components/ui/separator";
 export default async function VideoPage({
   params,
 }: {
-  params: { id: string };
+  params: { id: string; locale: string };
 }) {
   const video = await getVideo(params.id);
+  unstable_setRequestLocale(params.locale);
 
   if (!video) return null;
 

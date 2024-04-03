@@ -2,12 +2,17 @@ import Chat from "@/components/chat/Chat";
 import { Layout } from "@/components/layout";
 import ThemeProvider from "@/providers/ThemeProvider";
 import Providers from "@/providers/MessagesProvider";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 export default function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  unstable_setRequestLocale(params.locale);
+
   return (
     <Providers>
       <ThemeProvider

@@ -9,7 +9,7 @@ const Layout: FC<LayoutProps> = ({ children, video }) => {
   return (
     <>
       {children}
-      {video}
+      {/* {video} */}
     </>
   );
 };
