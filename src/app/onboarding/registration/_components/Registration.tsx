@@ -55,20 +55,20 @@ export default function Registration({ initialData }: UserFormProps) {
   const locale = pathname.split("/")[1] || "fr";
 
   const formSchema = yup.object({
-    firstName: yup.string().required(t("form.fields.firstName.required")),
-    lastName: yup.string().required(t("form.fields.lastName.required")),
-    birthDate: yup.date().required(t("form.fields.birthDate.required")),
+    firstName: yup.string().required("Le prénom est obligatoire"),
+    lastName: yup.string().required("Le nom est obligatoire"),
+    birthDate: yup.date().required("La date de naissance est requise"),
     gender: yup.string(),
     weight: yup
       .number()
-      .positive(t("form.fields.weight.positive"))
-      .typeError(t("form.fields.weight.invalid"))
-      .required(t("form.fields.weight.required")),
+      .positive("Le poids doit être un nombre positive")
+      .typeError("Veuillez saisir un poids valide")
+      .required("Votre poids est requis"),
     height: yup
       .number()
-      .positive(t("form.fields.height.positive"))
-      .typeError(t("form.fields.height.invalid"))
-      .required(t("form.fields.height.required")),
+      .positive("La taille doit être un nombre positive")
+      .typeError("Veuillez saisir une taille valide")
+      .required("Votre taille est requise"),
   });
 
   const form = useForm({
@@ -180,10 +180,7 @@ export default function Registration({ initialData }: UserFormProps) {
                                 locale: locales["fr"],
                               })
                             ) : (
-                              <span>
-                                {" "}
-                                {t("form.fields.birthDate.placeholder")}
-                              </span>
+                              <span> Date de naissance</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -214,7 +211,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem className="space-y-3">
                     <FormLabel>
-                      {t("form.fields.gender.label")}{" "}
+                      Sexe
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
@@ -227,19 +224,13 @@ export default function Registration({ initialData }: UserFormProps) {
                           <FormControl>
                             <RadioGroupItem value="male" />
                           </FormControl>
-                          <FormLabel className="font-normal">
-                            {" "}
-                            {t("form.fields.gender.options.male")}{" "}
-                          </FormLabel>
+                          <FormLabel className="font-normal"> Homme</FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="female" />
                           </FormControl>
-                          <FormLabel className="font-normal">
-                            {" "}
-                            {t("form.fields.gender.options.female")}{" "}
-                          </FormLabel>
+                          <FormLabel className="font-normal"> Femme</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -259,8 +250,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("form.fields.weight.label")} (kg){" "}
-                      <span className="text-red-500">*</span>
+                      Poids (kg) <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />
@@ -278,8 +268,7 @@ export default function Registration({ initialData }: UserFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("form.fields.height.label")} (cm){" "}
-                      <span className="text-red-500">*</span>
+                      Taille (cm) <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input type="number" {...field} />

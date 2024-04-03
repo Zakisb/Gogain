@@ -123,7 +123,9 @@ export default function HealthHabits({
               name="sleepHours"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t("form.fields.sleepDuration.label")}</FormLabel>
+                  <FormLabel>
+                    Combien d’heure en moyenne dormez-vous par nuit ?
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
