@@ -42,6 +42,7 @@
     "date-fns": "^3.3.1",
     "eventsource-parser": "^1.1.2",
     "framer": "^2.4.1",
+    "json5": "^2.2.3",
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.343.0",

@@ -288,7 +288,7 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
                       <SelectItem value="hanche">Hanche</SelectItem>
                       <SelectItem value="lombar">lombaire</SelectItem>
                       <SelectItem value="feet">Pieds</SelectItem>
-                      <SelectItem value="wrists">wrists</SelectItem>
+                      <SelectItem value="wrists">Poignets</SelectItem>
                       <SelectItem value="static_dynamique_stability">
                         Stabilité statique et dynamique
                       </SelectItem>

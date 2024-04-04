@@ -24,28 +24,28 @@ interface VideoCardProps {
 export default function VideoCard2({ video }: VideoCardProps) {
   return (
     <Card className="w-full max-w-sm rounded-xl overflow-hidden">
-      <div className="aspect-video overflow-hidden relative group">
-        {video.state === "inspecting" ? (
-          <>
-            <Image
-              src={PlaceholderImg}
-              alt={video.title}
-              className="rounded-md object-cover"
-            />
-          </>
-        ) : (
-          <>
-            <Image
-              alt="Video thumbnail"
-              className="aspect-video absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform"
-              height={169}
-              src={video.posterUrl}
-              width={300}
-            />
-            <div className="w-10 h-10 m-4 absolute inset-0 m-auto translate-x-2/4 group-hover:scale-0 transition-transform" />
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition duration-300"></div>
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-              <Link href={`/exercices-library/video/${video.id}`}>
+      <Link href={`/exercices-library/video/${video.id}`}>
+        <div className="aspect-video overflow-hidden relative group">
+          {video.state === "inspecting" ? (
+            <>
+              <Image
+                src={PlaceholderImg}
+                alt={video.title}
+                className="rounded-md object-cover"
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                alt="Video thumbnail"
+                className="aspect-video absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform"
+                height={169}
+                src={video.posterUrl}
+                width={300}
+              />
+              <div className="w-10 h-10 m-4 absolute inset-0 m-auto translate-x-2/4 group-hover:scale-0 transition-transform" />
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition duration-300"></div>
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
                 <svg
                   className="w-12 h-12 text-white"
                   fill="none"
@@ -66,11 +66,11 @@ export default function VideoCard2({ video }: VideoCardProps) {
                     d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-              </Link>
-            </div>
-          </>
-        )}
-      </div>
+              </div>
+            </>
+          )}
+        </div>
+      </Link>
       <CardContent className="p-4">
         <div className="flex flex-row justify-between">
           <CardTitle className="text-base  font-bold">
