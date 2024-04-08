@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const response = await uploadToSproutVideo.json();
     console.log("Response from Sprout Video API:", response);
     // console.log(response);
-    const video = await prisma.video.create({
+    const exercice = await prisma.exercice.create({
       data: {
         title: response.title,
         description: response.description,

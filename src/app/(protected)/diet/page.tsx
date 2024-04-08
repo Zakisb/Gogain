@@ -80,7 +80,7 @@ const meals = [
 
 export default function Page() {
   const { userId }: { userId: string | null } = auth();
-  console.log(userId);
+
   return (
     <div className="flex flex-1 overflow-hidden max-h-full h-full flex-row gap-8">
       <div className="w-[340px] shrink-0 h-full pb-36">

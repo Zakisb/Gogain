@@ -41,6 +41,8 @@ model User {
   deleted        Boolean   @default(false)
   dietPlans DietPlan[]
   isOnboarded Boolean @default(false)
+  trainingPrograms  TrainingProgram[]
+
 }
 
 
@@ -103,20 +105,20 @@ model DietPlan {
   description String?
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
-  meals       Meal[]
+  meals       Json[]
 }
 
-model Meal {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  calories    Int?
-  dietPlanId  Int
-  dietPlan    DietPlan @relation(fields: [dietPlanId], references: [id])
-  foods     Json[]
-}
+// model Meal {
+//   id          Int      @id @default(autoincrement())
+//   title       String
+//   description String?
+//   calories    Int?
+//   dietPlanId  Int
+//   dietPlan    DietPlan @relation(fields: [dietPlanId], references: [id])
+//   foods     Json[]
+// }
 
-model Video {
+model Exercice {
   id          Int      @id @default(autoincrement())
   title       String
   description String?
@@ -132,5 +134,30 @@ model Video {
   embedCode    String
   videoSize    Int
   state     String @default("inspecting")
+  trainingDays    TrainingDay[]
+}
+
+model TrainingProgram {
+  id          Int           @id @default(autoincrement())
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  days        TrainingDay[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model TrainingDay {
+  id                Int            @id @default(autoincrement())
+  day               Int
+  date             DateTime
+  title            String
+  trainingProgramId Int
+  trainingProgram   TrainingProgram @relation(fields: [trainingProgramId], references: [id])
+  exercises         Exercice[]
+  completed         Boolean        @default(false)
 }
 

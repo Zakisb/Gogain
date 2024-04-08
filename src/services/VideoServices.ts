@@ -33,7 +33,7 @@ export const getVideos = async ({
     };
   }
 
-  const videos = await prisma.video.findMany({
+  const videos = await prisma.exercice.findMany({
     where,
     skip: offset,
     take: limit,
@@ -65,14 +65,14 @@ export async function getTotalVideosCount({
     };
   }
 
-  const totalCount = await prisma.video.count({
+  const totalCount = await prisma.exercice.count({
     where,
   });
   return totalCount;
 }
 
 export const getVideo = async (id: string) => {
-  const video = await prisma.video.findFirst({
+  const video = await prisma.exercice.findFirst({
     where: {
       id: parseInt(id),
     },

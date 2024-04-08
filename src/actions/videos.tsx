@@ -2,12 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "@/prisma/client";
-import { type Video } from "@prisma/client";
+import { type Exercice } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 export async function deleteVideo(id: number) {
   try {
-    const video = await prisma.video.update({
+    const video = await prisma.exercice.update({
       where: {
         id,
       },
@@ -23,9 +23,9 @@ export async function deleteVideo(id: number) {
   }
 }
 
-export async function updateVideo(values: Video) {
+export async function updateVideo(values: Exercice) {
   try {
-    const video = await prisma.video.update({
+    const video = await prisma.exercice.update({
       where: { id: values.id },
       data: { ...values },
     });

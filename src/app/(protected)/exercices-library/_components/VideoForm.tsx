@@ -301,6 +301,32 @@ const VideoForm = ({ initialData, type = "new" }: VideoFormProps) => {
 
             <FormField
               control={form.control}
+              name="level"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Niveau</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Séléctionner la difficulté de l'exercice" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="beginner">Débutant</SelectItem>
+                      <SelectItem value="intermediate">Intermédiare</SelectItem>
+                      <SelectItem value="advanced">Avancé</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="tags"
               render={({ field }) => (
                 <FormItem>

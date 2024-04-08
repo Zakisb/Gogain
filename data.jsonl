@@ -1,0 +1,242 @@
+
+   [  {
+  "day": 4,
+  "meals": [
+    {
+      "name": "Petit déjeuner",
+      "totalCalories": 495,
+      "totalProtein": 43,
+      "totalCarbs": 49,
+      "totalFat": 19,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Steak haché 5%",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 20,
+          "carbs": 0.2,
+          "fat": 5
+        }
+      ]
+    },
+    {
+      "name": "Déjeuner",
+      "totalCalories": 621,
+      "totalProtein": 54,
+      "totalCarbs": 61,
+      "totalFat": 22,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Œufs",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 1.1,
+          "fat": 13
+        }
+      ]
+    },
+    {
+      "name": "Dîner",
+      "totalCalories": 457,
+      "totalProtein": 38,
+      "totalCarbs": 36,
+      "totalFat": 17,
+      "foods": [
+        {
+          "name": "Colin d'alaska",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 15.7,
+          "carbs": 0,
+          "fat": 0.7
+        },
+        {
+          "name": "Noix",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 10,
+          "carbs": 7,
+          "fat": 60
+        }
+      ]
+    }
+  ]
+},
+{
+  "day": 5,
+  "meals": [
+    {
+      "name": "Petit déjeuner",
+      "totalCalories": 464,
+      "totalProtein": 43,
+      "totalCarbs": 45,
+      "totalFat": 15,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Escalope de poulet",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 24.2,
+          "carbs": 0,
+          "fat": 1.6
+        }
+      ]
+    },
+    {
+      "name": "Déjeuner",
+      "totalCalories": 604,
+      "totalProtein": 53,
+      "totalCarbs": 60,
+      "totalFat": 20,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Œufs",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 1.1,
+          "fat": 13
+        }
+      ]
+    },
+    {
+      "name": "Dîner",
+      "totalCalories": 479,
+      "totalProtein": 40,
+      "totalCarbs": 35,
+      "totalFat": 19,
+      "foods": [
+        {
+          "name": "Colin d'alaska",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 15.7,
+          "carbs": 0,
+          "fat": 0.7
+        },
+        {
+          "name": "Avocat",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 2,
+          "carbs": 9,
+          "fat": 15
+        }
+      ]
+    }
+  ]
+},
+{
+  "day": 6,
+  "meals": [
+    {
+      "name": "Petit déjeuner",
+      "totalCalories": 495,
+      "totalProtein": 43,
+      "totalCarbs": 49,
+      "totalFat": 19,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Steak haché 5%",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 20,
+          "carbs": 0.2,
+          "fat": 5
+        }
+      ]
+    },
+    {
+      "name": "Déjeuner",
+      "totalCalories": 621,
+      "totalProtein": 54,
+      "totalCarbs": 61,
+      "totalFat": 22,
+      "foods": [
+        {
+          "name": "Pain au levain",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 97.2,
+          "fat": 0.8
+        },
+        {
+          "name": "Œufs",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 12.3,
+          "carbs": 1.1,
+          "fat": 13
+        }
+      ]
+    },
+    {
+      "name": "Dîner",
+      "totalCalories": 457,
+      "totalProtein": 38,
+      "totalCarbs": 36,
+      "totalFat": 17,
+      "foods": [
+        {
+          "name": "Colin d'alaska",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 15.7,
+          "carbs": 0,
+          "fat": 0.7
+        },
+        {
+          "name": "Noix",
+          "quantity": 100,
+          "unit": "g",
+          "protein": 10,
+          "carbs": 7,
+          "fat": 60
+        }
+      ]
+    }
+  ]
+}
+   ]

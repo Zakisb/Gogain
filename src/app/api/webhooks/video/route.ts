@@ -8,7 +8,7 @@ export async function POST(req: Request) {
   try {
     // Get the body
     const payload = await req.json();
-    const video = await prisma.video.findFirst({
+    const video = await prisma.exercice.findFirst({
       where: {
         videoExternalId: payload.id,
       },
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       return new Response("Video not found", { status: 404 });
     }
 
-    const updateVideo = await prisma.video.update({
+    const updateVideo = await prisma.exercice.update({
       where: {
         videoExternalId: payload.id,
       },

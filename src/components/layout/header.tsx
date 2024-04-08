@@ -31,19 +31,20 @@ export default async function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <Button
+            size="sm"
+            // onClick={() => {
+            //   void signIn();
+            // }}
+          >
+            <Calendar className="h-3.5 w-3.5 mr-1" />
+            Book training session
+          </Button>
           {user ? (
             <UserNav user={JSON.parse(JSON.stringify(user))} />
           ) : (
             //
-            <Button
-              size="sm"
-              // onClick={() => {
-              //   void signIn();
-              // }}
-            >
-              <Calendar className="h-3.5 w-3.5 mr-1" />
-              Book training session
-            </Button>
+            <></>
           )}
         </div>
       </nav>
