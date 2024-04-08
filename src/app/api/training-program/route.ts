@@ -28,8 +28,6 @@ export async function POST(request: NextRequest) {
 
   // Helper function to determine the training day title based on the day number
   function getTrainingDayTitle(day: number): string {
-    // Logic to determine the title based on the day number or other criteria
-    // Example:
     if (day % 3 === 1) {
       return "Lower Back Workout";
     } else if (day % 3 === 2) {
