@@ -52,10 +52,6 @@ export default async function Page() {
 
   return (
     <div>
-      {/* <SectionHeading
-        title="Programme d'entraînement"
-        description="Votre programme d'entraînement personnalisé"
-      /> */}
       <div className="grid grid-cols-2">
         <div>
           <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
