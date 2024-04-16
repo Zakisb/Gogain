@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   const exerciseIds = await prisma.exercice.findMany({
     select: { id: true },
   });
-  const userId = 17; // Replace with the actual user ID
+  const userId = 18; // Replace with the actual user ID
 
   function getRandomExercises(exerciseIds, minCount, maxCount) {
     const count =
@@ -29,11 +29,11 @@ export async function POST(request: NextRequest) {
   // Helper function to determine the training day title based on the day number
   function getTrainingDayTitle(day: number): string {
     if (day % 3 === 1) {
-      return "Lower Back Workout";
+      return "Entraînement du haut du corps";
     } else if (day % 3 === 2) {
-      return "Upper Body Strength";
+      return "Entraînement du bas du corps";
     } else {
-      return "Full Body Conditioning";
+      return "Conditionnement du corps entier";
     }
   }
 
@@ -56,7 +56,6 @@ export async function POST(request: NextRequest) {
             day,
             date: calculateTrainingDate(new Date(), dayOffset),
             title,
-
             exercises: {
               connect: getRandomExercises(exerciseIds, 4, 5),
             },

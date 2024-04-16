@@ -1,6 +1,7 @@
 import prisma from "@/prisma/client";
 import { VideoCategory, VideoLevel } from "@/constants/options.constant";
 import { type Prisma } from "@prisma/client";
+import { TrainingDayStatus } from "@prisma/client";
 
 interface GetTrainingProgramParams {
   userId: string;
@@ -30,6 +31,5 @@ export const getTrainingProgram = async ({
       },
     },
   });
-  console.log(trainingProgram);
   return trainingProgram;
 };

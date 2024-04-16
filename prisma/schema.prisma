@@ -158,6 +158,12 @@ model TrainingDay {
   trainingProgramId Int
   trainingProgram   TrainingProgram @relation(fields: [trainingProgramId], references: [id])
   exercises         Exercice[]
-  completed         Boolean        @default(false)
+  status            TrainingDayStatus    @default(UPCOMING)
 }
 
+enum TrainingDayStatus {
+  UPCOMING
+  SKIPPED
+  MISSED
+  COMPLETED
+}
