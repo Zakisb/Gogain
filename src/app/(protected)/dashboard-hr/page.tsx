@@ -52,7 +52,7 @@ export default async function Page() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-5">
               <CardTitle className="text-sm font-medium flex flex-row items-center gap-4">
-                <span>Nombre d'employés</span>
+                <span>Nombre d&apos;employés</span>
               </CardTitle>
               <UserRoundPlus className="text-sky-800 border  rounded-md p-1.5 h-8  w-8" />
             </CardHeader>
@@ -147,11 +147,11 @@ export default async function Page() {
           <Card className="lg:col-span-7">
             <CardHeader>
               <CardTitle className="text-lg">
-                Retours sur les Séances d'Entraînement{" "}
+                Retours sur les Séances d&apos;Entraînement{" "}
               </CardTitle>
               <CardDescription>
                 Analyse des impressions et suggestions des utilisateurs pour
-                optimiser nos programmes d'entraînement.{" "}
+                optimiser nos programmes d&apos;entraînement.{" "}
               </CardDescription>
             </CardHeader>
             <CardContent className="pl-2 mt-8 pb-12">

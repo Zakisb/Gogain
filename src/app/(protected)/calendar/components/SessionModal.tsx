@@ -357,7 +357,7 @@ export default function SessionModal({
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel className="mb-1">
-                        Jour d'entraînement
+                        Jour d&apos;entraînement
                         <span className="text-red-500">*</span>
                       </FormLabel>
                       <Popover>
@@ -375,7 +375,7 @@ export default function SessionModal({
                                   locale: locales["fr"],
                                 })
                               ) : (
-                                <span> Jour d'entraînement</span>
+                                <span> Jour d&apos;entraînement</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>

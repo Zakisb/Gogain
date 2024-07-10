@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,124 +7,196 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-
 model User {
-  id            Int           @id @default(autoincrement())
-  clerkUserId   String        @unique
-  firstName     String?
-  lastName      String?
-  password      String?
-  email         String        @unique
-  birthDate     DateTime?
-  imageUrl      String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt @default(now())
-  organizationId Int?
-  organization   Organization? @relation(fields: [organizationId], references: [id])
-  license          License?          @relation("IndividualLicense") 
-  deleted       Boolean       @default(false)
-  accounts      Account[]
+  id                          Int                          @id @default(autoincrement())
+  firstName                   String?
+  lastName                    String?
+  email                       String                       @unique
+  password                    String?
+  birthDate                   DateTime?
+  createdAt                   DateTime                     @default(now())
+  organizationId              Int?
+  deleted                     Boolean                      @default(false)
+  imageUrl                    String?
+  updatedAt                   DateTime                     @default(now()) @updatedAt
+  clerkUserId                 String                       @unique
+  isActive                    Boolean                      @default(false)
+  accounts                    Account[]
   coachingSessionParticipants CoachingSessionParticipant[]
-  isActive Boolean @default(false)
+  license                     License?                     @relation("IndividualLicense")
+  organization                Organization?                @relation(fields: [organizationId], references: [id])
 }
+
 model Account {
-  id                    Int                   @id @default(autoincrement())
-  userId                Int
-  user                  User                  @relation(fields: [userId], references: [id])
-  role                  Role                  @default(USER)
-  onboarded             Boolean               @default(false)
-  attributes            Json?
-  isMainAccount         Boolean               @default(false)
-  adminProfile          AdminProfile?
-  coachProfile          CoachProfile?
-  userProfile       UserProfile?
-  coachingSessions     CoachingSession[]  // Sessions associated with this account (coach sessions)
+  id               Int               @id @default(autoincrement())
+  userId           Int
+  role             Role              @default(USER)
+  onboarded        Boolean           @default(false)
+  attributes       Json?
+  isMainAccount    Boolean           @default(false)
+  user             User              @relation(fields: [userId], references: [id])
+  adminProfile     AdminProfile?
+  coachProfile     CoachProfile?
+  coachingSessions CoachingSession[]
+  userProfile      UserProfile?
+}
+
+model AdminProfile {
+  id        Int     @id @default(autoincrement())
+  accountId Int     @unique
+  account   Account @relation(fields: [accountId], references: [id])
+}
+
+model CoachProfile {
+  id        Int     @id @default(autoincrement())
+  accountId Int     @unique
+  account   Account @relation(fields: [accountId], references: [id])
+}
+
+model UserProfile {
+  id                           Int               @id @default(autoincrement())
+  accountId                    Int               @unique
+  height                       Float?
+  weight                       Float?
+  gender                       String?
+  goal                         Json?
+  generalLifestyleHealthHabits Json?
+  nutrition                    Json?
+  lifestyle                    Json?
+  dailyEnvironmentHabits       Json?
+  historyCurrentHealth         Json?
+  dietPlans                    DietPlan[]
+  trainingPrograms             TrainingProgram[]
+  account                      Account           @relation(fields: [accountId], references: [id])
+}
+
+model LicenseType {
+  id       Int             @id @default(autoincrement())
+  name     String
+  price    Float
+  deleted  Boolean         @default(false)
+  type     LicenseTypeEnum
+  licenses License[]
+}
+
+model License {
+  id             Int          @id @default(autoincrement())
+  organizationId Int
+  createdAt      DateTime     @default(now())
+  validUntil     DateTime
+  licenseKeyId   Int
+  deleted        Boolean      @default(false)
+  status         Status       @default(PENDING)
+  sessionNumber  Int
+  individualId   Int?         @unique
+  numberOfUsers  Int          @default(0)
+  individual     User?        @relation("IndividualLicense", fields: [individualId], references: [id])
+  licenseType    LicenseType  @relation(fields: [licenseKeyId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  @@index([organizationId])
+  @@index([individualId])
+}
+
+model Organization {
+  id                Int               @id @default(autoincrement())
+  name              String
+  deleted           Boolean           @default(false)
+  industry          String
+  createdAt         DateTime          @default(now())
+  mainOrg           Boolean           @default(false)
+  numberOfEmployees Int               @default(0)
+  coachingSessions  CoachingSession[]
+  licenses          License[]
+  users             User[]
+}
+
+model DietPlan {
+  id            Int          @id @default(autoincrement())
+  title         String
+  description   String?
+  meals         Json[]
+  userProfileId Int?
+  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+}
+
+model Exercice {
+  id              Int           @id @default(autoincrement())
+  title           String
+  description     String?
+  category        String
+  duration        Int?
+  level           String
+  tags            String[]
+  createdAt       DateTime      @default(now())
+  deleted         Boolean       @default(false)
+  videoExternalId String        @unique
+  thumbnailUrl    String
+  posterUrl       String?
+  embedCode       String
+  videoSize       Int
+  state           String        @default("inspecting")
+  trainingDays    TrainingDay[] @relation("ExerciceToTrainingDay")
+}
+
+model TrainingProgram {
+  id            Int           @id @default(autoincrement())
+  name          String
+  description   String?
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
+  userProfileId Int?
+  days          TrainingDay[]
+  userProfile   UserProfile?  @relation(fields: [userProfileId], references: [id])
+}
+
+model TrainingDay {
+  id                Int               @id @default(autoincrement())
+  day               Int
+  trainingProgramId Int
+  date              DateTime
+  title             String
+  status            TrainingDayStatus @default(UPCOMING)
+  trainingProgram   TrainingProgram   @relation(fields: [trainingProgramId], references: [id])
+  exercises         Exercice[]        @relation("ExerciceToTrainingDay")
+}
+
+model CoachingSession {
+  id             Int                          @id @default(autoincrement())
+  organizationId Int
+  day            String
+  time           DateTime
+  duration       Int
+  createdAt      DateTime                     @default(now())
+  sessionType    String
+  coachAccountId Int?
+  coachAccount   Account?                     @relation(fields: [coachAccountId], references: [id])
+  organization   Organization                 @relation(fields: [organizationId], references: [id])
+  participants   CoachingSessionParticipant[]
+}
+
+model CoachingSessionParticipant {
+  id                Int             @id @default(autoincrement())
+  coachingSessionId Int
+  userId            Int
+  joinedAt          DateTime        @default(now())
+  coachingSession   CoachingSession @relation(fields: [coachingSessionId], references: [id])
+  user              User            @relation(fields: [userId], references: [id])
 }
 
 enum Role {
   ADMIN
   COACH
   HR
-  USER  // Covers both individual users and employees
-}
-model AdminProfile {
-  id         Int      @id @default(autoincrement())
-  accountId  Int      @unique
-  account    Account  @relation(fields: [accountId], references: [id])
-  // Add admin-specific fields here
+  USER
 }
 
-model CoachProfile {
-  id         Int      @id @default(autoincrement())
-  accountId  Int      @unique
-  account    Account  @relation(fields: [accountId], references: [id])
-  // Add coach-specific fields here
-}
-
-
-model UserProfile {
-  id                    Int                   @id @default(autoincrement())
-  accountId             Int                   @unique
-  account               Account               @relation(fields: [accountId], references: [id])
-  height                Float?
-  weight                Float?
-  gender                String?
-  goal                  Json?
-  generalLifestyleHealthHabits Json?
-  nutrition             Json?
-  lifestyle             Json?
-  dailyEnvironmentHabits Json?
-  historyCurrentHealth  Json?
-  dietPlans             DietPlan[]
-  trainingPrograms      TrainingProgram[]
-}
-
-
-model LicenseType {
-  id              Int       @id @default(autoincrement())
-  name            String
-  licenses        License[]
-  price           Float
-  deleted         Boolean   @default(false)
-  type            LicenseTypeEnum  // Enum to differentiate between individual and org licenses
-}
 enum LicenseTypeEnum {
   INDIVIDUAL
   ORGANIZATION
 }
-
-model License {
-  id              Int           @id @default(autoincrement())
-  licenseKeyId    Int
-  licenseType     LicenseType   @relation(fields: [licenseKeyId], references: [id])
-  organizationId  Int
-  organization    Organization  @relation(fields: [organizationId], references: [id])
-  individual    User?       @relation("IndividualLicense", fields: [individualId], references: [id])
-  individualId  Int? @unique
-  createdAt       DateTime      @default(now())
-  validUntil      DateTime
-  deleted        Boolean   @default(false)
-  status      Status    @default(PENDING) 
-  sessionNumber Int
-  numberOfUsers   Int  @default(0)
-
-   @@index([organizationId])
-  @@index([individualId])
-}
-model Organization {
-  id        Int    @id @default(autoincrement())
-  name      String
-  licenses  License[]
-  users     User[]
-  deleted        Boolean   @default(false)
-  industry        String
-  createdAt       DateTime      @default(now())
-  coachingSessions     CoachingSession[]
-  mainOrg     Boolean        @default(false) // Field to flag the main organization
-  numberOfEmployees Int @default(0)
-}
-
-// Define the Status enum
 
 enum Status {
   ACTIVE
@@ -140,103 +206,9 @@ enum Status {
   EXPIRED
 }
 
-// Fitness related
-
-
-model DietPlan {
-  id                Int           @id @default(autoincrement())
-  title             String
-  description       String?
-  userProfileId Int?
-  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
-  meals             Json[]
-}
-
-
-// model Meal {
-//   id          Int      @id @default(autoincrement())
-//   title       String
-//   description String?
-//   calories    Int?
-//   dietPlanId  Int
-//   dietPlan    DietPlan @relation(fields: [dietPlanId], references: [id])
-//   foods     Json[]
-// }
-
-model Exercice {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  category   String
-  duration    Int?
-  level      String
-  tags      String[]
-  createdAt   DateTime @default(now())
-  deleted        Boolean   @default(false)
-  videoExternalId    String  @unique 
-  thumbnailUrl    String
-  posterUrl    String?
-  embedCode    String
-  videoSize    Int
-  state     String @default("inspecting")
-  trainingDays    TrainingDay[]
-}
-
-
-model TrainingProgram {
-  id                Int           @id @default(autoincrement())
-  name              String
-  description       String?
-  startDate         DateTime
-  endDate           DateTime
-  userProfileId Int?
-  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
-  days              TrainingDay[]
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt @default(now())
-}
-
-
-
-model TrainingDay {
-  id                Int            @id @default(autoincrement())
-  day               Int
-  date             DateTime
-  title            String
-  trainingProgramId Int
-  trainingProgram   TrainingProgram @relation(fields: [trainingProgramId], references: [id])
-  exercises         Exercice[]
-  status            TrainingDayStatus    @default(UPCOMING)
-}
-
 enum TrainingDayStatus {
   UPCOMING
   SKIPPED
   MISSED
   COMPLETED
-}
-
-
-
-model CoachingSession {
-  id             Int          @id @default(autoincrement())
-  organizationId Int          // Links to the Organization model
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  day            String       // Day of the week (e.g., "Monday")
-  time           DateTime     // Start time of the session
-  duration       Int          // Duration in minutes
-  createdAt      DateTime     @default(now())
-  participants   CoachingSessionParticipant[]
-  sessionType   String
-  coachAccountId       Int?
-  coachAccount   Account? @relation(fields: [coachAccountId], references: [id])
-}
-
-model CoachingSessionParticipant {
-  id         Int    @id @default(autoincrement())
-  coachingSessionId  Int    // Links to the Session model
-  coachingSession    CoachingSession @relation(fields: [coachingSessionId], references: [id])
-  userId     Int    // Links to the User model
-  user       User    @relation(fields: [userId], references: [id])
-  joinedAt   DateTime @default(now())
 }

@@ -200,7 +200,7 @@ const PurchaseLicenseForm = ({ initialData }: UserFormProps) => {
               name="numberOfUsers"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre d'utilisateur</FormLabel>
+                  <FormLabel>Nombre d&apos;utilisateur</FormLabel>
                   <FormControl>
                     <div className="relative flex items-center max-w-2xl ">
                       <Users className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />

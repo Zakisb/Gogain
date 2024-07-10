@@ -94,14 +94,14 @@ export default function CellActions({ data }: CellActionProps) {
                   </SheetTrigger>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Modifier l'organisation</p>
+                  <p>Modifier l&apos;organisation</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
 
             <SheetContent onCloseAutoFocus={(event) => event.preventDefault()}>
               <SheetHeader>
-                <SheetTitle>Modifier l'organisation</SheetTitle>
+                <SheetTitle>Modifier l&apos;organisation</SheetTitle>
                 <SheetDescription>
                   <OrganizationsForm initialData={data} type="update" />
                 </SheetDescription>
@@ -123,7 +123,7 @@ export default function CellActions({ data }: CellActionProps) {
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Supprimer l'organisation</p>
+                <p>Supprimer l&apos;organisation</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

@@ -271,7 +271,7 @@ const OrganizationsForm = ({
               name="industry"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Indusrie de l'entreprise</FormLabel>
+                  <FormLabel>Indusrie de l&apos;entreprise</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -299,7 +299,7 @@ const OrganizationsForm = ({
               name="numberOfEmployees"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nombre d'employés</FormLabel>
+                  <FormLabel>Nombre d&apos;employés</FormLabel>
                   <FormControl>
                     <div className="relative flex items-center max-w-2xl ">
                       <Users className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
@@ -370,7 +370,7 @@ const OrganizationsForm = ({
                   name="validUntil"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Durée de l'abonnement (mois)</FormLabel>
+                      <FormLabel>Durée de l&apos;abonnement (mois)</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value?.toString()}
@@ -426,7 +426,9 @@ const OrganizationsForm = ({
                   name="numberOfUsers"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Nombre d'utilisateur par licence</FormLabel>
+                      <FormLabel>
+                        Nombre d&apos;utilisateur par licence
+                      </FormLabel>
                       <FormControl>
                         <div className="relative flex items-center max-w-2xl ">
                           <Copyright className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
