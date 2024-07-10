@@ -6,6 +6,7 @@ import {
   Library,
   Dumbbell,
   Utensils,
+  Calendar,
 } from "lucide-react";
 import { type NavItem } from "@/types/nav-item";
 
@@ -17,7 +18,25 @@ export const NavItems: NavItem[] = [
     color: "text-sky-500",
   },
   {
-    title: "Organizations",
+    title: "Dashboard HR",
+    icon: LayoutDashboard,
+    href: "/dashboard-hr",
+    color: "text-sky-500",
+  },
+  {
+    title: "Dashboard - Employée",
+    icon: LayoutDashboard,
+    href: "/dashboard-employee",
+    color: "text-sky-500",
+  },
+  {
+    title: "Calendrier",
+    icon: Calendar,
+    href: "/calendar",
+    color: "text-indigo-500",
+  },
+  {
+    title: "Entreprises",
     icon: Building,
     href: "/organizations",
     color: "text-orange-500",
@@ -31,9 +50,16 @@ export const NavItems: NavItem[] = [
     isChidren: false,
   },
   {
-    title: "Employees",
+    title: "Employés",
     icon: Users,
     href: "/employees",
+    color: "text-red-500",
+    isChidren: false,
+  },
+  {
+    title: "Utilisateurs",
+    icon: Users,
+    href: "/users",
     color: "text-red-500",
     isChidren: false,
   },

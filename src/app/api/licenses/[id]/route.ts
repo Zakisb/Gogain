@@ -48,7 +48,6 @@ export async function DELETE(
       deleted: true,
     },
   });
-  console.log(updatedLicense);
 
-  return NextResponse.json({ id: "x" }, { status: 200 });
+  return NextResponse.json({ updatedLicense }, { status: 200 });
 }

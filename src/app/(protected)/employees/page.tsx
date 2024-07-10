@@ -35,16 +35,16 @@ const columns: ColumnDef<EmployeeColumn>[] = [
   //   },
   {
     accessorKey: "firstName",
-    header: "First Name",
+    header: "Prénom",
   },
   {
     accessorKey: "lastName",
     header: "Last Name",
   },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
+  // {
+  //   accessorKey: "gender",
+  //   header: "Gender",
+  // },
   {
     accessorKey: "createAt",
     header: "Create Time",

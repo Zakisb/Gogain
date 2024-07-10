@@ -86,23 +86,23 @@ export default function Registration({ initialData }: UserFormProps) {
   type LoginFormFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: LoginFormFields) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/registration`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...values,
-          externalId: initialData?.externalId,
-        }),
-      }
-    );
-    if (!response.ok) {
-      setError("Une erreur est survenur. Veuillez réessayer.");
-      return;
-    }
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_URL}/api/onboarding/registration`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       ...values,
+    //       clerkUserId: initialData?.clerkUserId,
+    //     }),
+    //   }
+    // );
+    // if (!response.ok) {
+    //   setError("Une erreur est survenur. Veuillez réessayer.");
+    //   return;
+    // }
     router.refresh();
     router.push("/onboarding/goal");
   };

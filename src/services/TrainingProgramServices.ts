@@ -12,15 +12,15 @@ export const getTrainingProgram = async ({
 }: GetTrainingProgramParams) => {
   const user = await prisma.user.findUnique({
     where: {
-      externalId: userId,
+      clerkUserId: userId,
     },
   });
   const trainingProgram = await prisma.trainingProgram.findFirst({
     where: {
-      userId: user?.id,
+      userProfileId: user?.id,
     },
     include: {
-      user: true,
+      userProfile: true,
       days: {
         orderBy: {
           day: "asc",

@@ -8,7 +8,9 @@ import { type LicensePurchasedColumn } from "@/lib/validators";
 import { type LicenseType } from "@prisma/client";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import CellActions from "./CellActions";
+import PurchaseCellActions from "./PurchaseCellActions";
+import { licenseStatusMapping } from "@/constants/status.constant";
+import { cn } from "@/lib/utils";
 
 interface TableProps<TData> {
   data: TData[];
@@ -41,24 +43,24 @@ const columns: ColumnDef<LicensePurchasedColumn>[] = [
   },
   {
     accessorKey: "organization.name",
-    header: "Organization",
+    header: "Entreprise",
   },
   {
     accessorKey: "licenseType.name",
-    header: "License purchased",
-  },
-  {
-    accessorKey: "licenseType.numberOfUsers",
-    header: "Number of users",
+    header: "License achetée",
   },
   {
     accessorKey: "licenseType.price",
-    header: "Price",
+    header: "Prix",
     cell: ({ row }) => <span>{row.original.licenseType.price} €</span>,
   },
   {
+    accessorKey: "numberOfUsers",
+    header: "Nombre d'utilisateurs",
+  },
+  {
     accessorKey: "validUntil",
-    header: "Valid until",
+    header: "Valide jusqu'au",
     cell: ({ row }) => (
       <span className="capitalize">
         {format(new Date(row.original.validUntil), "MMM d, yyyy", {
@@ -70,14 +72,33 @@ const columns: ColumnDef<LicensePurchasedColumn>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <span className="capitalize">{row.original.status}</span>
-    ),
+
+    cell: ({ row }) => {
+      const status = row.original.status;
+      return (
+        <span
+          className={cn(
+            "inline-flex border flex-row items-center gap-2 px-2  py-1 rounded-md",
+            licenseStatusMapping[status].border,
+            licenseStatusMapping[status].text,
+            licenseStatusMapping[status].bg
+          )}
+        >
+          <span
+            className={cn(
+              "capitalize  h-2.5 w-2.5 rounded-full",
+              `${licenseStatusMapping[status].dot}`
+            )}
+          ></span>
+          {licenseStatusMapping[row.original.status].label}
+        </span>
+      );
+    },
   },
   {
     id: "actions",
     enableSorting: false,
-    cell: ({ row }) => <CellActions data={row.original.licenseType} />,
+    cell: ({ row }) => <PurchaseCellActions data={row.original} />,
   },
 ];
 

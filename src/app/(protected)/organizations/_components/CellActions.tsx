@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { apiDeleteOrganization } from "@/services/OrganizationServices";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, ShoppingCart } from "lucide-react";
 import { AlertModal } from "@/components/shared/AlertModal";
 import { type OrganizationsColumn } from "@/lib/validators";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import OrganizationsForm from "./OrganizationsForm";
+import LicensePurchaseForm from "./LicensePurchaseForm";
 
 interface CellActionProps {
   data: OrganizationsColumn;
@@ -49,59 +50,89 @@ export default function CellActions({ data }: CellActionProps) {
 
   return (
     <div className="flex justify-center space-x-2">
-      <Sheet>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <SheetTrigger asChild>
+      {!data.mainOrg && (
+        <>
+          <Sheet>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-secondary"
+                    >
+                      <ShoppingCart className="h-4 w-4 text-foreground" />
+                    </Button>
+                  </SheetTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Acheter une licence</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <SheetContent onCloseAutoFocus={(event) => event.preventDefault()}>
+              <SheetHeader>
+                <SheetTitle>Acheter une licence</SheetTitle>
+              </SheetHeader>
+              <LicensePurchaseForm organizationId={data.id} />
+            </SheetContent>
+          </Sheet>
+          <Sheet>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SheetTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hover:bg-secondary"
+                    >
+                      <Pencil className="h-4 w-4 text-foreground" />
+                    </Button>
+                  </SheetTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Modifier l'organisation</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <SheetContent onCloseAutoFocus={(event) => event.preventDefault()}>
+              <SheetHeader>
+                <SheetTitle>Modifier l'organisation</SheetTitle>
+                <SheetDescription>
+                  <OrganizationsForm initialData={data} type="update" />
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
                   className="hover:bg-secondary"
+                  onClick={() => {
+                    setAlertModalOpen(true);
+                  }}
                 >
-                  <Pencil className="h-4 w-4 text-foreground" />
+                  <Trash2 className="h-4 w-4 text-foreground" />
                 </Button>
-              </SheetTrigger>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Edit license</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <SheetContent onCloseAutoFocus={(event) => event.preventDefault()}>
-          <SheetHeader>
-            <SheetTitle>Edit organization</SheetTitle>
-            <SheetDescription>
-              <OrganizationsForm initialData={data} type="update" />
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
-
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-secondary"
-              onClick={() => {
-                setAlertModalOpen(true);
-              }}
-            >
-              <Trash2 className="h-4 w-4 text-foreground" />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Delete license</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Supprimer l'organisation</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </>
+      )}
 
       <AlertModal
-        title="Are you sure?"
-        description="This action cannot be undone."
+        title="Vous êtes sur de vouloir supprimer cette organisation ?"
+        description="Cette action est irréversible."
         name={data.name}
         isOpen={alertModalOpen}
         onClose={() => setAlertModalOpen(false)}

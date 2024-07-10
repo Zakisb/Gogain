@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import CellActions from "./CellActions";
 import { Badge } from "@/components/ui/badge";
+import { industryOptions } from "@/constants/industries.constant";
 
 interface TableProps {
   organizations: Organization[];
@@ -46,20 +47,29 @@ const columns: ColumnDef<OrganizationsColumn>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Nom",
   },
   {
     accessorKey: "industry",
     header: "Industry",
-    cell: ({ row }) => (
-      <Badge variant="outline" className="capitalize">
-        {row.original.industry}
-      </Badge>
-    ),
+    cell: ({ row }) => {
+      const industry = industryOptions.find(
+        (i) => i.value === row.original.industry
+      );
+      return (
+        <Badge variant="outline" className="capitalize">
+          {industry?.label}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "numberOfEmployees",
+    header: "Nombre d'employés",
   },
   {
     accessorKey: "createdAt",
-    header: "Joined on",
+    header: "Rejoins le",
     cell: ({ row }) => (
       <span className="capitalize">
         {format(new Date(row.original.createdAt), "MMM d, yyyy", {

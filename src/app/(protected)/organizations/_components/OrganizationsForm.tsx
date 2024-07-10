@@ -2,7 +2,14 @@
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Users, Euro, FolderPenIcon, Mail, Factory } from "lucide-react";
+import {
+  Users,
+  Euro,
+  FolderPenIcon,
+  Mail,
+  Dumbbell,
+  Copyright,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Organization, type LicenseType } from "@prisma/client";
 import {
@@ -35,11 +42,21 @@ interface ExtendedOrganization extends Organization {
   hrEmail?: string;
   licenseTypeId?: string;
   validUntil?: string;
+  sessionNumber: number;
+  numberOfEmployees: number;
+  numberOfUsers: number;
 }
 interface OrganizationFormProps {
   initialData?: ExtendedOrganization | null | undefined;
   licenses?: LicenseType[];
   type?: "create" | "update";
+}
+
+interface UserFormProps {
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: "HR";
 }
 
 const OrganizationsForm = ({
@@ -50,30 +67,33 @@ const OrganizationsForm = ({
   const [isSubmitting, setSubmitting] = useState(false);
   // const [error, setError] = useState(null);
   const [error, setError] = useTimeOutMessage();
-  const submitButtonText = initialData ? "Update" : "Create";
+  const submitButtonText = initialData ? "Mettre à jour" : "Créer";
   const router = useRouter();
 
   const formSchema = yup.object({
     name: yup.string().required("Name is required"),
     hrEmail: yup.string().when("$type", ([type], schema) => {
       if (type === "create") {
-        return schema.email().required("HR Email is required");
+        return schema.email().required(`L'addresse mail du RH est requise`);
       }
       return schema;
     }),
-    licenseTypeId: yup.string().when("$type", ([type], schema) => {
-      if (type === "create") {
-        return schema.required("License id is required");
-      }
-      return schema;
-    }),
+    licenseTypeId: yup.string(),
     validUntil: yup.string().when("$type", ([type], schema) => {
       if (type === "create") {
         return schema.required("Subscription Duration is required");
       }
       return schema;
     }),
-    industry: yup.string().required("Industry is required"),
+    industry: yup.string().required(`L'industrie de l'entreprise est requise`),
+    numberOfEmployees: yup.number().required(`Le nombre d'employés est requis`),
+    sessionNumber: yup.number().when("$type", ([type], schema) => {
+      if (type === "create") {
+        return schema.required(`Le nombre de session coaching est requis`);
+      }
+      return schema;
+    }),
+    numberOfUsers: yup.number().required(`Le nombre d'utilisateurs est requis`),
   });
 
   type OrganizationFormFields = yup.InferType<typeof formSchema>;
@@ -82,22 +102,31 @@ const OrganizationsForm = ({
     resolver: yupResolver(formSchema),
     context: { type },
     defaultValues: initialData || {
-      name: "test",
+      name: "",
       hrEmail: "",
       licenseTypeId: "",
       industry: "automotive",
+      numberOfEmployees: 1,
       validUntil: "1",
+      sessionNumber: 1,
+      numberOfUsers: 1,
     },
   });
 
   const addOrganization = async (values: OrganizationFormFields) => {
     try {
+      const currentDate = new Date();
+      const validUntil = new Date(
+        currentDate.setMonth(
+          currentDate.getMonth() + parseInt(values.validUntil)
+        )
+      );
       const response = await fetch("/api/organizations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...values, validUntil: new Date() }),
+        body: JSON.stringify({ ...values, validUntil }),
       });
 
       if (!response.ok) {
@@ -138,15 +167,39 @@ const OrganizationsForm = ({
     }
   };
 
+  const addUser = async (values: UserFormProps) => {
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...values }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Something went wrong");
+      }
+
+      form.reset();
+
+      return response.json();
+    } catch (error) {
+      console.error("Error:", error);
+      throw error;
+    }
+  };
+
   const onSubmit = async (values: OrganizationFormFields) => {
     setSubmitting(true);
 
     if (initialData) {
       toast.promise(editOrganizations(values), {
-        loading: "Loading",
+        loading: "Chargement...",
         success: (data) => {
           router.refresh();
-          return `Success! Organization has been edited.`;
+          return `Succès! Organisation mise à jour.`;
         },
         error: (error) => {
           setError(error?.message);
@@ -157,11 +210,21 @@ const OrganizationsForm = ({
         },
       });
     } else {
-      toast.promise(addOrganization(values), {
-        loading: "Loading",
+      const promises = [
+        addOrganization(values),
+        addUser({
+          firstName: "",
+          lastName: "",
+          email: values.hrEmail || "",
+          role: "HR",
+        }),
+      ];
+
+      toast.promise(Promise.all(promises), {
+        loading: "Chargement...",
         success: (data) => {
           router.refresh();
-          return `Success! License has been created.`;
+          return `Succès! Organisation crée.`;
         },
         error: (error) => {
           setError(error?.message);
@@ -185,7 +248,7 @@ const OrganizationsForm = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Name
+                    Nom
                     <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
@@ -208,7 +271,7 @@ const OrganizationsForm = ({
               name="industry"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel> Organization&apos;s Industry</FormLabel>
+                  <FormLabel>Indusrie de l'entreprise</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -226,6 +289,29 @@ const OrganizationsForm = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="numberOfEmployees"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre d'employés</FormLabel>
+                  <FormControl>
+                    <div className="relative flex items-center max-w-2xl ">
+                      <Users className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+                      <Input
+                        {...field}
+                        placeholder="Nombre d'employés"
+                        type="number"
+                        className="pl-8"
+                        disabled={isSubmitting}
+                      />
+                    </div>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -260,7 +346,7 @@ const OrganizationsForm = ({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Assign a license" />
+                            <SelectValue placeholder="Assigner une license" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -284,7 +370,7 @@ const OrganizationsForm = ({
                   name="validUntil"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Subscription Duration (months)</FormLabel>
+                      <FormLabel>Durée de l'abonnement (mois)</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value?.toString()}
@@ -311,6 +397,52 @@ const OrganizationsForm = ({
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="sessionNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        Nombre de sessions coaching par semaine
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative flex items-center max-w-2xl ">
+                          <Dumbbell className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+                          <Input
+                            {...field}
+                            placeholder="Nombre de session"
+                            type="number"
+                            className="pl-8"
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="numberOfUsers"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nombre d'utilisateur par licence</FormLabel>
+                      <FormControl>
+                        <div className="relative flex items-center max-w-2xl ">
+                          <Copyright className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+                          <Input
+                            {...field}
+                            placeholder="Nombre d'utilisateur par licence"
+                            type="number"
+                            className="pl-8"
+                            disabled={isSubmitting}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </>
             )}
 
@@ -321,10 +453,7 @@ const OrganizationsForm = ({
 
           <div className="space-x-4">
             <Button loading={isSubmitting} className="ml-auto" type="submit">
-              {isSubmitting ? "Loading..." : submitButtonText}
-            </Button>
-            <Button className="ml-auto" type="submit">
-              Cancel
+              {isSubmitting ? "En course d'ajout..." : submitButtonText}
             </Button>
           </div>
         </form>

@@ -24,6 +24,7 @@ import {
 import useAuth from "@/hooks/useAuth";
 import { useClerk } from "@clerk/clerk-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getUsers } from "@/services/UserServices";
 
 export default function Login() {
   const { isLoaded, signIn, setActive } = useSignIn();
@@ -47,8 +48,8 @@ export default function Login() {
   const form = useForm({
     resolver: yupResolver(loginFormSchema),
     defaultValues: {
-      email: "asichaib@skyops.ai",
-      password: "asichaib",
+      email: "zakaria.obusiness@gmail.com",
+      password: "V}Mi^hvH",
     },
   });
 
@@ -60,6 +61,7 @@ export default function Login() {
     }
 
     try {
+      await signOut();
       const result = await signIn.create({
         identifier: values.email,
         password: values.password,
@@ -67,6 +69,8 @@ export default function Login() {
       console.log(result);
       if (result.status === "complete") {
         await setActive({ session: result.createdSessionId });
+        const user = await fetch("/api/users/me");
+
         if (redirectUrl) {
           router.push(redirectUrl);
         } else {
@@ -76,7 +80,8 @@ export default function Login() {
         setError("Une erreur s'est produite");
       }
     } catch (err: any) {
-      console.log(err.errors[0]);
+      console.log(err);
+      // console.log(err.errors[0]);
       if (err.errors[0].code === "form_password_incorrect")
         setError("Mot de passe incorrect");
       else if (err.errors[0].code === "form_identifier_not_found")

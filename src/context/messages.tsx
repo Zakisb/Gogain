@@ -8,6 +8,11 @@ const defaultValue = [
     text: "Bonjour, c'est hugo votre coach virtuel, comment puis-je vous aider aujourd'hui ?",
     isUserMessage: false,
   },
+  {
+    id: nanoid(),
+    text: "Bonjour, c'est hugo votre coach virtuel, comment puis-je vous aider aujourd'hui ?",
+    isUserMessage: false,
+  },
 ];
 export const MessagesContext = createContext<{
   messages: Message[];

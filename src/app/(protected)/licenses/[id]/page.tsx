@@ -26,8 +26,8 @@ export default async function Page({ params }: { params: { id: string } }) {
     <>
       <div className="flex items-center justify-between">
         <SectionHeading
-          title="Edit license"
-          description="edit an existing license"
+          title="Modifier la licence"
+          description="Modifier une licence existante"
         />
       </div>
       <Separator />

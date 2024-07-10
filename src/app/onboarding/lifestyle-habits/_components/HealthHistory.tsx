@@ -94,23 +94,23 @@ export default function HealthHistory({
   type HealthHistoryFields = yup.InferType<typeof formSchema>;
 
   const onSubmit = async (values: HealthHistoryFields) => {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL}/api/onboarding/lifestyle`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          lifestyle: values,
-          externalId: user?.id,
-        }),
-      }
-    );
-    if (!response.ok) {
-      setError("Une erreur est survenur. Veuillez réessayer.");
-      return;
-    }
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_URL}/api/onboarding/lifestyle`,
+    //   {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       lifestyle: values,
+    //       externalId: user?.id,
+    //     }),
+    //   }
+    // );
+    // if (!response.ok) {
+    //   setError("Une erreur est survenur. Veuillez réessayer.");
+    //   return;
+    // }
     router.refresh();
     router.push("/onboarding/congratulations");
   };

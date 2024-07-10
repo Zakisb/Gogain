@@ -10,7 +10,7 @@ export default async function Page() {
 
   const getUserData = await prisma.user.findUnique({
     where: {
-      externalId: user?.id,
+      clerkUserId: user?.id,
     },
   });
 

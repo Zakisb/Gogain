@@ -16,43 +16,87 @@ datasource db {
 
 model User {
   id            Int           @id @default(autoincrement())
-  externalId String   @unique 
+  clerkUserId   String        @unique
   firstName     String?
-  attributes   Json?
   lastName      String?
-  imageUrl        String?
-  email         String        @unique
   password      String?
+  email         String        @unique
   birthDate     DateTime?
-  height        Float?
-  weight        Float?
+  imageUrl      String?
   createdAt     DateTime      @default(now())
-  onboarded     Boolean       @default(false)
-  gender        String?
-  goal         Json?
-  generalLifestyleHealthHabits  Json?
-  nutrition  Json?
-  lifestyle  Json?
-  dailyEnvironmentHabits  Json?
-  historyCurrentHealth  Json?
-  role      Role    @default(EMPLOYEE)
-  organizationId                Int?          // Links to the Organization model
-  organization                  Organization? @relation(fields: [organizationId], references: [id])
-  deleted        Boolean   @default(false)
-  dietPlans DietPlan[]
-  isOnboarded Boolean @default(false)
-  trainingPrograms  TrainingProgram[]
+  updatedAt     DateTime      @updatedAt @default(now())
+  organizationId Int?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  license          License?          @relation("IndividualLicense") 
+  deleted       Boolean       @default(false)
+  accounts      Account[]
+  coachingSessionParticipants CoachingSessionParticipant[]
+  isActive Boolean @default(false)
+}
+model Account {
+  id                    Int                   @id @default(autoincrement())
+  userId                Int
+  user                  User                  @relation(fields: [userId], references: [id])
+  role                  Role                  @default(USER)
+  onboarded             Boolean               @default(false)
+  attributes            Json?
+  isMainAccount         Boolean               @default(false)
+  adminProfile          AdminProfile?
+  coachProfile          CoachProfile?
+  userProfile       UserProfile?
+  coachingSessions     CoachingSession[]  // Sessions associated with this account (coach sessions)
+}
 
+enum Role {
+  ADMIN
+  COACH
+  HR
+  USER  // Covers both individual users and employees
+}
+model AdminProfile {
+  id         Int      @id @default(autoincrement())
+  accountId  Int      @unique
+  account    Account  @relation(fields: [accountId], references: [id])
+  // Add admin-specific fields here
+}
+
+model CoachProfile {
+  id         Int      @id @default(autoincrement())
+  accountId  Int      @unique
+  account    Account  @relation(fields: [accountId], references: [id])
+  // Add coach-specific fields here
+}
+
+
+model UserProfile {
+  id                    Int                   @id @default(autoincrement())
+  accountId             Int                   @unique
+  account               Account               @relation(fields: [accountId], references: [id])
+  height                Float?
+  weight                Float?
+  gender                String?
+  goal                  Json?
+  generalLifestyleHealthHabits Json?
+  nutrition             Json?
+  lifestyle             Json?
+  dailyEnvironmentHabits Json?
+  historyCurrentHealth  Json?
+  dietPlans             DietPlan[]
+  trainingPrograms      TrainingProgram[]
 }
 
 
 model LicenseType {
   id              Int       @id @default(autoincrement())
   name            String
-  numberOfUsers   Int
   licenses        License[]
   price           Float
-  deleted        Boolean   @default(false)
+  deleted         Boolean   @default(false)
+  type            LicenseTypeEnum  // Enum to differentiate between individual and org licenses
+}
+enum LicenseTypeEnum {
+  INDIVIDUAL
+  ORGANIZATION
 }
 
 model License {
@@ -61,12 +105,18 @@ model License {
   licenseType     LicenseType   @relation(fields: [licenseKeyId], references: [id])
   organizationId  Int
   organization    Organization  @relation(fields: [organizationId], references: [id])
+  individual    User?       @relation("IndividualLicense", fields: [individualId], references: [id])
+  individualId  Int? @unique
   createdAt       DateTime      @default(now())
   validUntil      DateTime
   deleted        Boolean   @default(false)
   status      Status    @default(PENDING) 
-}
+  sessionNumber Int
+  numberOfUsers   Int  @default(0)
 
+   @@index([organizationId])
+  @@index([individualId])
+}
 model Organization {
   id        Int    @id @default(autoincrement())
   name      String
@@ -75,14 +125,9 @@ model Organization {
   deleted        Boolean   @default(false)
   industry        String
   createdAt       DateTime      @default(now())
-}
-
-
-// Define the Role enum
-enum Role {
-  ADMIN
-  HR_REPRESENTATIVE
-  EMPLOYEE
+  coachingSessions     CoachingSession[]
+  mainOrg     Boolean        @default(false) // Field to flag the main organization
+  numberOfEmployees Int @default(0)
 }
 
 // Define the Status enum
@@ -95,18 +140,18 @@ enum Status {
   EXPIRED
 }
 
-
 // Fitness related
 
 
 model DietPlan {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String?
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  meals       Json[]
+  id                Int           @id @default(autoincrement())
+  title             String
+  description       String?
+  userProfileId Int?
+  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  meals             Json[]
 }
+
 
 // model Meal {
 //   id          Int      @id @default(autoincrement())
@@ -137,18 +182,21 @@ model Exercice {
   trainingDays    TrainingDay[]
 }
 
+
 model TrainingProgram {
-  id          Int           @id @default(autoincrement())
-  name        String
-  description String?
-  startDate   DateTime
-  endDate     DateTime
-  userId      Int
-  user        User          @relation(fields: [userId], references: [id])
-  days        TrainingDay[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  id                Int           @id @default(autoincrement())
+  name              String
+  description       String?
+  startDate         DateTime
+  endDate           DateTime
+  userProfileId Int?
+  userProfile   UserProfile? @relation(fields: [userProfileId], references: [id])
+  days              TrainingDay[]
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt @default(now())
 }
+
+
 
 model TrainingDay {
   id                Int            @id @default(autoincrement())
@@ -166,4 +214,29 @@ enum TrainingDayStatus {
   SKIPPED
   MISSED
   COMPLETED
+}
+
+
+
+model CoachingSession {
+  id             Int          @id @default(autoincrement())
+  organizationId Int          // Links to the Organization model
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  day            String       // Day of the week (e.g., "Monday")
+  time           DateTime     // Start time of the session
+  duration       Int          // Duration in minutes
+  createdAt      DateTime     @default(now())
+  participants   CoachingSessionParticipant[]
+  sessionType   String
+  coachAccountId       Int?
+  coachAccount   Account? @relation(fields: [coachAccountId], references: [id])
+}
+
+model CoachingSessionParticipant {
+  id         Int    @id @default(autoincrement())
+  coachingSessionId  Int    // Links to the Session model
+  coachingSession    CoachingSession @relation(fields: [coachingSessionId], references: [id])
+  userId     Int    // Links to the User model
+  user       User    @relation(fields: [userId], references: [id])
+  joinedAt   DateTime @default(now())
 }

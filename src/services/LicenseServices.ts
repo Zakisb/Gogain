@@ -14,6 +14,27 @@ export const apiCreateLicense = async <U extends Record<string, unknown>>(
   return FetchService(endpoint, { method: "POST", body: data });
 };
 
+export const apiCreateLicensee = async (data: Record<string, unknown>) => {
+  try {
+    const response = await fetch("/api/licenses?", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorMessage = await response.json();
+      throw { status: response.status, message: errorMessage.message };
+    }
+
+    const res = await response.json();
+    return { success: true, data: res };
+  } catch (error) {
+    throw error; // Rethrow the error
+  }
+};
+
 export const apiGetLicenses = async <T, U extends Record<string, string>>(
   queryParams?: U
 ): Promise<ApiResponse<T>> => {

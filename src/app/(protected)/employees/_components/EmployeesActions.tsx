@@ -19,16 +19,16 @@ export default function EmployeesActions() {
   return (
     <div className="flex items-center justify-between">
       <SectionHeading
-        title="Employees"
-        description="Manage employees's accounts"
+        title="Employés"
+        description="Gestion des comptes des employés"
       />
       <Sheet>
         <SheetTrigger asChild>
-          {/* <Button>Add Employee</Button> */}
+          <Button>Ajouter un employé</Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle className="mb-5">Add an employee</SheetTitle>
+            <SheetTitle className="mb-5">Ajouter un employé</SheetTitle>
             <EmployeesForm />
           </SheetHeader>
         </SheetContent>

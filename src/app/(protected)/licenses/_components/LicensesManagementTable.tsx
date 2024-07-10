@@ -6,7 +6,7 @@ import { DataTable } from "@/components/ui/data-table/data-table";
 import { type ColumnDef } from "@tanstack/react-table";
 import { type LicenseColumn } from "@/lib/validators";
 import { type LicenseType } from "@prisma/client";
-import CellActions from "./CellActions";
+import ManagementCellActions from "./ManagementCellActions";
 
 interface TableProps<TData> {
   data: TData[];
@@ -39,20 +39,16 @@ const columns: ColumnDef<LicenseColumn>[] = [
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "Nom",
   },
   {
     accessorKey: "price",
-    header: "Price",
-  },
-  {
-    accessorKey: "numberOfUsers",
-    header: "Number of users",
+    header: "Prix",
   },
   {
     id: "actions",
     enableSorting: false,
-    cell: ({ row }) => <CellActions data={row.original} />,
+    cell: ({ row }) => <ManagementCellActions data={row.original} />,
   },
 ];
 

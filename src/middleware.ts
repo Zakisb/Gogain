@@ -41,11 +41,16 @@ export default authMiddleware({
   //   return intlMiddleware(request);
   // },
   // debug: true,
-  ignoredRoutes: ["/:locale/create-account", "/api/webhooks(.*)"],
+  ignoredRoutes: [
+    "/:locale/create-account",
+    "/api/webhooks(.*)",
+    "/exercises-library/:path*",
+  ],
   // Ensure that locale-specific sign in pages are public
   publicRoutes: [
     "/:locale",
     "/:locale/login",
+
     "/api/webhooks(.*)",
     "/api/meal-plan",
   ],

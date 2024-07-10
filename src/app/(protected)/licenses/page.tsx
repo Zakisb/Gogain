@@ -17,8 +17,8 @@ export default async function Page() {
       <LicensesTableActions />
       <Tabs defaultValue="purchased" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="purchased">Purchased</TabsTrigger>
-          <TabsTrigger value="management">Management</TabsTrigger>
+          <TabsTrigger value="purchased">Achetée(s)</TabsTrigger>
+          <TabsTrigger value="management">Gestion</TabsTrigger>
         </TabsList>
         <Separator />
         <TabsContent value="purchased" className="space-y-4">

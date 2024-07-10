@@ -19,7 +19,7 @@ interface CellActionProps {
   data: LicenseColumn;
 }
 
-export default function CellActions({ data }: CellActionProps) {
+export default function ManagementCellActions({ data }: CellActionProps) {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export default function CellActions({ data }: CellActionProps) {
       success: (data) => {
         setAlertModalOpen(false);
         router.refresh();
-        return `Success! License has been updated.`;
+        return `Succès! Licence supprimée avec succès.`;
       },
       error: (data) => {
         return "error";
@@ -55,7 +55,7 @@ export default function CellActions({ data }: CellActionProps) {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Edit license</p>
+            <p>Modifier la licence</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -75,7 +75,7 @@ export default function CellActions({ data }: CellActionProps) {
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Delete license</p>
+            <p>Supprimer la licence</p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

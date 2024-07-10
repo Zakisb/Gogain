@@ -29,16 +29,16 @@ export default async function OrganizationsActions() {
   return (
     <div className="flex items-center justify-between">
       <SectionHeading
-        title="Organizations"
-        description="Manage organizations"
+        title="Entreprises"
+        description="Gestion des Entreprises"
       />
       <Sheet>
         <SheetTrigger asChild>
-          <Button>Add Organization</Button>
+          <Button>Ajouter une entreprise</Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle className="mb-5">Add an organization</SheetTitle>
+            <SheetTitle className="mb-5">Ajouter une entreprise</SheetTitle>
             <OrganizationsForm licenses={licenses as LicenseType[]} />
           </SheetHeader>
         </SheetContent>

@@ -158,3 +158,9 @@
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
   border-radius: 0.25rem;
 }
+
+.apexcharts-employee-performance-yaxis-title {
+  margin-right: 20px;
+  color: red !important;
+  fill: red !important;
+}

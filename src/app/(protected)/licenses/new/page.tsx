@@ -8,14 +8,11 @@ export default function Page() {
     <>
       <div className="flex items-center justify-between">
         <SectionHeading
-          title="Create license"
-          description="Create a new license"
+          title="Créer une license"
+          description="Créer une nouvelle license"
         />
       </div>
       <Separator />
-      <LicensesForm />
-      <LicensesForm />
-      <LicensesForm />
       <LicensesForm />
     </>
   );

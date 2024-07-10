@@ -47,3 +47,34 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(error, { status: 400 });
   }
 }
+
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const where: any = {};
+  console.log(searchParams);
+  // Add conditions based on query parameters
+  if (searchParams.has("category") && searchParams.get("category") !== "tous") {
+    where.category = searchParams.get("category");
+  }
+  if (searchParams.has("level")) {
+    where.level = searchParams.get("level");
+  }
+  if (searchParams.has("tags")) {
+    where.tags = {
+      has: searchParams.get("tags"),
+    };
+  }
+
+  // Add more conditions as needed
+
+  const videos = await prisma.exercice.findMany({
+    where,
+    orderBy: {
+      title: "asc", // Sort by title in ascending order
+    },
+  });
+
+  // console.log(videos);
+
+  return NextResponse.json(videos);
+}
