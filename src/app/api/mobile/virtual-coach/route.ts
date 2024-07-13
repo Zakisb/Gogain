@@ -17,6 +17,7 @@ const groq = new Groq({
 
 export async function POST(req: Request) {
   try {
+    console.log("xx");
     const formData = await req.formData();
     const messages = [];
     let index = 0;

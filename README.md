@@ -1,3 +1,24 @@
+# Fitness Companion Web App
+
+A comprehensive B2B/B2C fitness application designed to help users achieve their health and fitness goals through personalized workouts, nutrition plans, and AI-powered coaching.
+
+## Features
+
+- **Personalized Onboarding**: Tailored user experience based on individual fitness goals and preferences.
+- **Home Dashboard**: Overview of daily progress, upcoming workouts, and nutritional information.
+- **Exercise Library**: Extensive collection of exercises with video demonstrations and search functionality.
+- **AI Virtual Coach**: Intelligent assistant providing personalized tips and answering fitness-related questions.
+- **Workout and Nutrition Planner**: Calendar-based view of workout routines and meal plans.
+- **Coach Booking**: Ability to schedule sessions with fitness professionals.
+- **Profile Management**: User account and settings control.
+
+## Tech Stack
+
+- Frontend: React, Next.js
+- Backend: Next.js
+- AI Integration: OpenAI GPT, Llama 3
+- Database: PostgreSQL, Prisma
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
